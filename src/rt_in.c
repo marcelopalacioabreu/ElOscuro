@@ -95,8 +95,6 @@ int LastLetter = 0;
 char LetterQueue[MAXLETTERS];
 ModemMessage MSG;
 
-
-#if USE_SDL
 static SDL_Joystick* sdl_joysticks[MaxJoys];
 static int sdl_mouse_delta_x = 0;
 static int sdl_mouse_delta_y = 0;
@@ -108,8 +106,6 @@ static int sdl_mouse_grabbed = 0;
 //static unsigned int scancodes[SDLK_LAST];
 extern bool sdl_fullscreen;
 static HashTable *scancodes;
-#endif
-
 
 //   'q','w','e','r','t','y','u','i','o','p','[',']','\\', 0 ,'a','s',
 
@@ -161,8 +157,6 @@ int (far *function_ptr)();
 
 static char *ParmStrings[] = {"nojoys","nomouse","spaceball","cyberman","assassin",NULL};
 
-
-#if USE_SDL
 #define sdldebug printf
 
 static int sdl_mouse_button_filter(SDL_Event const *event)
@@ -359,8 +353,6 @@ static void sdl_handle_events(void)
     while (SDL_PollEvent(&event))
         root_sdl_event_filter(&event);
 } /* sdl_handle_events */
-#endif
-
 
 //******************************************************************************
 //
@@ -369,12 +361,7 @@ static void sdl_handle_events(void)
 //******************************************************************************
 void IN_PumpEvents(void)
 {
-#if USE_SDL
    sdl_handle_events();
-
-#else
-#error please define for your platform.
-#endif
 }
 
 
@@ -390,15 +377,10 @@ void INL_GetMouseDelta(int *x,int *y)
 {
    IN_PumpEvents();
 
-#if USE_SDL
    *x = sdl_mouse_delta_x;
    *y = sdl_mouse_delta_y;
 
    sdl_mouse_delta_x = sdl_mouse_delta_y = 0;
-
-#else
-   #error please define for your platform.
-#endif
 }
 
 
@@ -420,12 +402,7 @@ word IN_GetMouseButtons
 
    IN_PumpEvents();
 
-#if USE_SDL
    buttons = sdl_mouse_button_mask;
-
-#else
-#  error please define for your platform.
-#endif
 
 // Used by menu routines that need to wait for a button release.
 // Sometimes the mouse driver misses an interrupt, so you can't wait for
@@ -567,13 +544,8 @@ word INL_GetJoyButtons (word joy)
 {
    word  result = 0;
 
-#if USE_SDL
    if (joy < sdl_total_sticks)
        result = sdl_stick_button_state[joy];
-
-#else
-#error please define for your platform.
-#endif
 
    return result;
 }
@@ -589,13 +561,8 @@ bool INL_StartMouse (void)
 
    bool retval = false;
 
-#if USE_SDL
    /* no-op. */
    retval = true;
-
-#else
-#error please define your platform.
-#endif
 
    return (retval);
 }
@@ -665,7 +632,6 @@ bool INL_StartJoy (word joy)
 {
    word x,y;
 
-#if USE_SDL
    if (!SDL_WasInit(SDL_INIT_JOYSTICK))
    {
        SDL_Init(SDL_INIT_JOYSTICK);
@@ -685,7 +651,6 @@ bool INL_StartJoy (word joy)
 
    if (joy >= sdl_total_sticks) return (false);
    sdl_joysticks[joy] = SDL_JoystickOpen (joy);
-#endif
 
    IN_GetJoyAbs (joy, &x, &y);
 
@@ -1163,11 +1128,7 @@ byte IN_JoyButtons (void)
 {
    unsigned joybits = 0;
 
-#if USE_SDL
    joybits = sdl_sticks_joybits;
-#else
-#error define your platform.
-#endif
 
    return (byte) joybits;
 }

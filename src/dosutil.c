@@ -234,8 +234,6 @@ void crash_print (int sig)
 	printf ("OH NO OH NO ROTT CRASHED!\n");
 	printf ("Here is where:\n");
 	print_stack (1);
-#if defined(USE_SDL)
 	SDL_Quit ();
-#endif
 	exit (1);
 }

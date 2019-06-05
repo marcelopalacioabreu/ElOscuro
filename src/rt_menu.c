@@ -4763,7 +4763,6 @@ void ReadAnyControl (ControlInfo *ci)
       int mousey,
           mousex;
 
-#if USE_SDL
       INL_GetMouseDelta(&mousex, &mousey);
       if (mousex >= SENSITIVE)
       {
@@ -4786,9 +4785,6 @@ void ReadAnyControl (ControlInfo *ci)
          ci->dir = dir_North;
          mouseactive = 1;
       }
-#else
-#error please define your platform.  /* or maybe just nuke the DOS section? */
-#endif
 
       buttons = IN_GetMouseButtons();
       if ( buttons )

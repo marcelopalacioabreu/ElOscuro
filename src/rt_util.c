@@ -394,9 +394,7 @@ void Error (char *error, ...)
    ShutDown();	// DDOI - moved this so that it doesn't try to access player
    		// which is freed by this function.
 
-   #if USE_SDL
    SDL_Quit();
-   #endif
 
    exit (1);
 }

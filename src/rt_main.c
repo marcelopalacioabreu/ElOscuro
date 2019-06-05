@@ -2397,7 +2397,6 @@ void PollKeyboard
             }
       #endif
       }
-#ifdef USE_SDL
       /* SDL doesn't send proper release events for these */
       if (Keystate[sc_CapsLock])
       {
@@ -2411,7 +2410,6 @@ void PollKeyboard
          if (Keystate[0x45] == 3)
             Keystate[0x45] = 0;
       }
-#endif
    waminot();
    }
 
