@@ -940,18 +940,6 @@ EnableScreenStretch();//bna++
         while(control.button0)
            ReadAnyControl (&control);
         }
-     if (Keyboard[sc_CapsLock] && Keyboard[sc_C])
-        {
-        inhmenu=true;
-        SaveScreen (true);
-        inhmenu=false;
-        }
-     if (Keyboard[sc_CapsLock] && Keyboard[sc_X])
-        {
-        inhmenu=true;
-        SaveScreen (false);
-        inhmenu=false;
-        }
      if (Keyboard[sc_Comma])
         {
         if (mapcolor>0)

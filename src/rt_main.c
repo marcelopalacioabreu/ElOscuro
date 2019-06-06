@@ -37,7 +37,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "watcom.h"
 #include "scriplib.h"
 #include "rt_main.h"
-#include "_rt_main.h"
 #include "rt_com.h"
 #include "rt_util.h"
 #include "z_zone.h"
@@ -69,6 +68,15 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "music.h"
 #include "audiolib/fx_man.h"
+
+void DrawRottTitle (void);
+void GameLoop (void);
+void PlayLoop (void);
+void PollKeyboard (void);
+void FixColorMap (void);
+
+#define QUITTIMEINTERVAL ((35*6)-5)
+bool CheckForQuickLoad (void);
 
 volatile int    oldtime;
 volatile int    gametime;
@@ -102,11 +110,6 @@ bool quiet = false;
 
 bool DebugOk = false;
 
-#if SAVE_SCREEN
-static char savename[13] = "ROTT0000.LBM";
-static int totalbytes;
-static byte *bptr;
-#endif
 static bool turbo;
 
 static bool NoWait = true;
@@ -2390,12 +2393,6 @@ void PollKeyboard
             }
          }
 
-      #if SAVE_SCREEN
-         else if ( Keyboard[ sc_Alt] && Keyboard[ sc_C ] )
-            {
-            SaveScreen( false );
-            }
-      #endif
       }
       /* SDL doesn't send proper release events for these */
       if (Keystate[sc_CapsLock])
@@ -2412,378 +2409,6 @@ void PollKeyboard
       }
    waminot();
    }
-
-#if SAVE_SCREEN
-
-
-short   BigShort (short l)
-{
-   byte    b1,b2;
-
-   b1 = l&255;
-   b2 = (l>>8)&255;
-
-   return (b1<<8) + b2;
-}
-
-long    BigLong (long l)
-{
-   byte    b1,b2,b3,b4;
-
-   b1 = l&255;
-   b2 = (l>>8)&255;
-   b3 = (l>>16)&255;
-   b4 = (l>>24)&255;
-
-   return ((long)b1<<24) + ((long)b2<<16) + ((long)b3<<8) + b4;
-}
-
-/*
-==============
-=
-= WriteLBMfile
-=
-==============
-*/
-
-void WriteLBMfile (char *filename, byte *data, int width, int height)
-{
-   byte    *lbm, *lbmptr;
-   long    *formlength, *bmhdlength, *cmaplength, *bodylength;
-   long    length;
-   bmhd_t  basebmhd;
-   int     handle;
-   int     i;
-
-   lbm = lbmptr = (byte *) SafeMalloc ((g_swidth*g_sheight)+4000);
-
-//
-// start FORM
-//
-   *lbmptr++ = 'F';
-   *lbmptr++ = 'O';
-   *lbmptr++ = 'R';
-   *lbmptr++ = 'M';
-
-   formlength = (long*)lbmptr;
-   lbmptr+=4;                      // leave space for length
-
-   *lbmptr++ = 'P';
-   *lbmptr++ = 'B';
-   *lbmptr++ = 'M';
-   *lbmptr++ = ' ';
-
-//
-// write BMHD
-//
-   *lbmptr++ = 'B';
-   *lbmptr++ = 'M';
-   *lbmptr++ = 'H';
-   *lbmptr++ = 'D';
-
-   bmhdlength = (long *)lbmptr;
-   lbmptr+=4;                      // leave space for length
-
-   memset (&basebmhd,0,sizeof(basebmhd));
-   basebmhd.w = BigShort(width);
-   basebmhd.h = BigShort(height);
-   basebmhd.nPlanes = BigShort(8);
-   basebmhd.xAspect = BigShort(5);
-   basebmhd.yAspect = BigShort(6);
-   basebmhd.pageWidth = BigShort(width);
-   basebmhd.pageHeight = BigShort(height);
-
-   memcpy (lbmptr,&basebmhd,sizeof(basebmhd));
-   lbmptr += sizeof(basebmhd);
-
-   length = lbmptr-(byte *)bmhdlength-4;
-   *bmhdlength = BigLong(length);
-   if (length&1)
-      *lbmptr++ = 0;          // pad chunk to even offset
-
-//
-// write CMAP
-//
-   *lbmptr++ = 'C';
-   *lbmptr++ = 'M';
-   *lbmptr++ = 'A';
-   *lbmptr++ = 'P';
-
-   cmaplength = (long *)lbmptr;
-   lbmptr+=4;                      // leave space for length
-
-   for (i = 0; i < 0x300; i++)
-      *lbmptr++ = (*(origpal+i))<<2;
-
-// memcpy (lbmptr,&origpal[0],768);
-// lbmptr += 768;
-
-   length = lbmptr-(byte *)cmaplength-4;
-   *cmaplength = BigLong(length);
-   if (length&1)
-      *lbmptr++ = 0;          // pad chunk to even offset
-
-//
-// write BODY
-//
-   *lbmptr++ = 'B';
-   *lbmptr++ = 'O';
-   *lbmptr++ = 'D';
-   *lbmptr++ = 'Y';
-
-   bodylength = (long *)lbmptr;
-   lbmptr+=4;                      // leave space for length
-
-   memcpy (lbmptr,data,width*height);
-   lbmptr += width*height;
-
-   length = lbmptr-(byte *)bodylength-4;
-   *bodylength = BigLong(length);
-   if (length&1)
-      *lbmptr++ = 0;          // pad chunk to even offset
-
-//
-// done
-//
-   length = lbmptr-(byte *)formlength-4;
-   *formlength = BigLong(length);
-   if (length&1)
-      *lbmptr++ = 0;          // pad chunk to even offset
-
-//
-// write output file
-//
-   handle = SafeOpenWrite (filename);
-
-   SafeWrite (handle, lbm, lbmptr-lbm);
-
-   close (handle);
-   SafeFree(lbm);
-}
-
-
-//****************************************************************************
-//
-// GetFileName ()
-//
-//****************************************************************************
-
-void GetFileName (bool saveLBM)
-{
-	int i;
-	
-	for (i = 0; i < 9999; i++) {
-		char filename[128];
-		
-		if (saveLBM) {
-	   		sprintf(savename, "rott%04d.lbm", i);
-	   	} else {
-	   		sprintf(savename, "rott%04d.pcx", i);
-	   	}
-
-		GetPathFromEnvironment( filename, ApogeePath, savename );
-		
-		if (access(filename, F_OK) != 0) {
-			return;
-		}
-	}
-}
-
-//****************************************************************************
-//
-// SaveScreen ()
-//
-//****************************************************************************
-
-bool inhmenu;
-
-void SaveScreen (bool saveLBM)
-{
-   byte *buffer;
-   byte * screen;
-   bool oldHUD;
-   char filename[ 128 ];
-
-   oldHUD=HUD;
-   HUD=false;
-   doublestep=0;
-   if (inhmenu==false)
-      screen = (byte *) bufferofs;
-   else
-      screen = (byte *) displayofs;
-
-   if (inhmenu==false)
-      ThreeDRefresh ();
-   doublestep = 2 - DetailLevel;
-
-   //buffer = (byte *) SafeMalloc (65000);
-   buffer = (byte *) SafeMalloc ((g_sheight*g_swidth)+4000);
-
-   GetFileName (saveLBM);
-   GetPathFromEnvironment( filename, ApogeePath, savename );
-   //   
-	memcpy(buffer,screen , g_swidth*g_sheight);//bna	
-   //bna--VL_CopyPlanarPageToMemory(screen,buffer);
-
-   if (saveLBM)
-   {
-      WriteLBMfile (filename, buffer, g_swidth, g_sheight);
-      while (Keyboard[sc_Alt] && Keyboard[sc_V])
-           IN_UpdateKeyboard ();
-   }
-   else
-   {
-      WritePCX (filename, buffer);
-      while (Keyboard[sc_Alt] && Keyboard[sc_C])
-           IN_UpdateKeyboard ();
-   }
-
-   SafeFree(buffer);
-   HUD=oldHUD;
-}
-
-//****************************************************************************
-//
-// WritePCX ()
-//
-//****************************************************************************
-
-void WritePCX (char * file, byte * source)
-{
-   PCX_HEADER pcxHDR;
-   byte *tempbuffer;
-   byte pal[0x300];
-   int pcxhandle;
-   int i, j, y;
-   unsigned char c;
-   unsigned char buffer1[GAP_SIZE];
-
-   pcxhandle = SafeOpenWrite (file);
-
-      /* --- init the header that we'll write.
-       *    Note: since DPaint never reads & writes at the same time,
-       *    it is okay to share the same read & write structure,
-       *    unlike in CONVERT.EXE.
-       */
-
-   memset (&pcxHDR, 0, sizeof(PCX_HEADER));
-
-   pcxHDR.manufacturer  = 10;
-   pcxHDR.version       = 5;
-   pcxHDR.encoding      = 1;
-
-   pcxHDR.bitsperpixel  = 8;           //bpp;
-   pcxHDR.xmin          = pcxHDR.ymin = 0;
-   pcxHDR.xmax          = g_swidth - 1;
-   pcxHDR.ymax          = g_sheight - 1;
-   pcxHDR.hres          = g_swidth;         //N_COLUMNS;
-   pcxHDR.vres          = g_sheight;         //N_LINES;
-
-  // bytesperline doesn't take into account multiple planes.
-  // Output in same format as bitmap (planar vs packed).
-  //
-   pcxHDR.bytesperline  = g_swidth;         //bitmap->width;
-
-   pcxHDR.nplanes       = 1;           //bitmap->planes;
-   pcxHDR.reserved      = 0;
-
-  // First 16 colors of our palette info.
-   for (i = 0, j = 0; i < 16; ++i, j += 3) {
-      pcxHDR.colormap[i][0] = (unsigned char)(origpal[j]);
-      pcxHDR.colormap[i][1] = (unsigned char)(origpal[j]+2);
-      pcxHDR.colormap[i][2] = (unsigned char)(origpal[j]+3);
-   }
-
-  //
-  // Write the 128-byte header
-  //
-   SafeWrite(pcxhandle,&pcxHDR, sizeof (PCX_HEADER));
-
-   memset (buffer1, 0, GAP_SIZE);
-
-   SafeWrite (pcxhandle, &buffer1, GAP_SIZE);
-
-   tempbuffer = (byte *) SafeMalloc ((g_sheight*g_swidth)+4000);
-   bptr = tempbuffer;
-   totalbytes = 0;
-
-  //
-  // Write to a bit-packed file.
-  //
-	for (y = 0;  y < g_sheight;  ++y) 		// for each line in band
-		if (PutBytes (((unsigned char *) (source+(y*g_swidth))),
-						  pcxHDR.bytesperline))
-         Error ("Error writing PCX bit-packed line!\n");
-
-   SafeWrite (pcxhandle, tempbuffer, totalbytes);
-
-  //
-  // Write out PCX palette
-  //
-   c = 0x0C;
-
-   for (i = 0; i < 0x300; i++)
-      pal[i] = (*(origpal+i))<<2;
-
-   SafeWrite (pcxhandle, &c, 1);
-   SafeWrite (pcxhandle, &pal[0], 768);
-
-   close (pcxhandle);
-   SafeFree (tempbuffer);
-}
-
-
-//****************************************************************************
-//
-// PutBytes ()
-//
-// Write bytes to a file, handling packing as it goes.
-// Returns :  0 == SUCCESS
-//            1 == FAIL.
-//
-//****************************************************************************
-
-int PutBytes (unsigned char *ptr, unsigned int bytes)
-{
-	unsigned int startbyte, count;
-	char b;
-
-	while (bytes > 0) {
-	  // check for a repeating byte value
-		startbyte = *ptr;
-		*ptr++ = 0;
-		--bytes;
-		count = 1;
-		while (*ptr == startbyte && bytes > 0 && count < 63)
-		{
-			*ptr = 0;
-			++ptr;
-			--bytes;
-			++count;
-		}
-	  // If we can pack the sequence, or if we have to add a
-	  //	byte before it because the top 2 bits of the value
-	  //	are 1's, write a packed sequence of 2 bytes.
-	  //	Otherwise, just write the byte value.
-	  //
-		if (count > 1  ||  (startbyte & 0xc0) == 0xc0)
-		{
-			b = 0xc0 | count;
-
-			*bptr++ = b;
-			totalbytes++;
-		}
-		b = startbyte;
-
-		*bptr++ = b;
-		totalbytes++;
-	}
-	return (0);
-}
-
-
-#endif
-
 
 //****************************************************************************
 //

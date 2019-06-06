@@ -2298,26 +2298,6 @@ int HandleMenu (CP_iteminfo *item_i, CP_itemtype *items, void (*routine)(int w))
          }
       }
 
-
-#if SAVE_SCREEN
-      if (Keyboard[sc_CapsLock] && Keyboard[sc_C])
-      {
-         inhmenu=true;
-         SaveScreen (true);
-         inhmenu=false;
-      }
-      else
-         if (Keyboard[sc_CapsLock] && Keyboard[sc_X])
-         {
-            inhmenu=true;
-            SaveScreen (false);
-            inhmenu=false;
-         }
-         else
-            if (Keyboard[sc_CapsLock] && Keyboard[sc_Q])
-               Error ("Insta-Menu Quit!\n");
-#endif
-
    } while (!exit);
 
 
