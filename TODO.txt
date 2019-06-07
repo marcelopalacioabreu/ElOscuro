@@ -56,7 +56,7 @@ DONE fli_type.h
 DONE develop.h // Double check and make sure the remaining defines are necesary
 DONE _rt_main.h
 DONE watcom.h
-task_man.h
+DONE task_man.h // Double check and make sure it can be simplified
 DONE rt_msg.h //Need to rename functions and global variables
 cin_def.h
 w_wad.h

@@ -1,5 +1,7 @@
 /*
 Copyright (C) 1994-1995 Apogee Software, Ltd.
+Copyright (C) 2002-2015 icculus.org, GNU/Linux port
+Copyright (C) 2018-2019 Marc-Alexandre Espiaut
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -28,42 +30,39 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
    (c) Copyright 1994 James R. Dose.  All Rights Reserved.
 **********************************************************************/
+#pragma once
 
-#ifndef __TASK_MAN_H
-#define __TASK_MAN_H
+#include <stdint.h>
 
 enum TASK_ERRORS
-   {
-   TASK_Warning = -2,
-   TASK_Error = -1,
-   TASK_Ok = 0
-   };
+{
+  TASK_Warning = -2,
+  TASK_Error = -1,
+  TASK_Ok = 0
+};
 
 typedef struct task
 {
-    struct   task *next;
-    struct   task *prev;
-    void          ( *TaskService )( struct task * );
-    void          *data;
-    long          rate;
-    volatile long count;
-    int           priority;
-    int           active;
+  struct task *next;
+  struct task *prev;
+  void (*TaskService) (struct task *);
+  void *data;
+  int64_t rate;
+  volatile int64_t count;
+  int32_t priority;
+  int32_t active;
 } task;
 
 // TS_InInterrupt is TRUE during a taskman interrupt.
 // Use this if you have code that may be used both outside
 // and within interrupts.
 
-extern volatile int TS_InInterrupt;
+extern volatile int32_t TS_InInterrupt;
 
-void    TS_Shutdown( void );
-task    *TS_ScheduleTask( void ( *Function )( task * ), int rate,
-                          int priority, void *data );
-int     TS_Terminate( task *ptr );
-void    TS_Dispatch( void );
-void    TS_SetTaskRate( task *Task, int rate );
-void    TS_UnlockMemory( void );
-int     TS_LockMemory( void );
-
-#endif
+void TS_Shutdown (void);
+task *TS_ScheduleTask (void (*Function) (task *), int32_t, int32_t, void*);
+int TS_Terminate (task*);
+void TS_Dispatch (void);
+void TS_SetTaskRate (task*, int32_t);
+void TS_UnlockMemory (void);
+int TS_LockMemory (void);
