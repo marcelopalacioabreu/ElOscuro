@@ -19,6 +19,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 // W_wad.c
 
+#include <stdint.h>
 #include <stdio.h>
 #include <string.h>
 #include <fcntl.h>
@@ -55,23 +56,23 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 typedef struct
 {
   char name[8];
-  int handle;
-  int position;
-  int size;
-  int byteswapped;
+  int32_t handle;
+  int32_t position;
+  int32_t size;
+  int32_t byteswapped;
 } lumpinfo_t;
 
 typedef struct
 {
   char identification[4];  // should be IWAD
-  int numlumps;
-  int infotableofs;
+  int32_t numlumps;
+  int32_t infotableofs;
 } wadinfo_t;
 
 typedef struct
 {
-  int filepos;
-  int size;
+  int32_t filepos;
+  int32_t size;
   char name[8];
 } filelump_t;
 
@@ -79,7 +80,7 @@ typedef struct
 // GLOBALS
 //=============
 
-int             numlumps;
+int32_t             numlumps;
 void            **lumpcache;
 
 //=============
@@ -112,9 +113,9 @@ void W_AddFile (char *_filename)
 {
         wadinfo_t               header;
         lumpinfo_t              *lump_p;
-        unsigned                i;
-        int                     handle, length;
-        int                     startlump;
+        uint32_t                i;
+        int32_t                     handle, length;
+        int32_t                     startlump;
         filelump_t              *fileinfo, singleinfo;
 
         char filename[MAX_PATH];
@@ -183,7 +184,7 @@ void W_AddFile (char *_filename)
 //           Error("W_AddFile: Could not realloc %ld bytes",numlumps*sizeof(lumpinfo_t));
         lump_p = &lumpinfo[startlump];
 
-        for (i=startlump ; i<(unsigned int)numlumps ; i++,lump_p++, fileinfo++)
+        for (i=startlump ; i<(int32_t)numlumps ; i++,lump_p++, fileinfo++)
         {
                 fileinfo->filepos = IntelLong(LONG(fileinfo->filepos));
                 fileinfo->size = IntelLong(LONG(fileinfo->size));
@@ -206,7 +207,7 @@ void W_AddFile (char *_filename)
 
 void W_CheckWADIntegrity ( void )
 {
-   int crc;
+   int32_t crc;
 
 // CRC disabled because it's not very useful these days
 }
@@ -254,7 +255,7 @@ void W_InitMultipleFiles (char **filenames)
            Error("W_InitFiles: lumpcache malloc failed size=%d\n",numlumps<<2);
 
         if (!quiet)
-           printf("W_Wad: Wad Manager Started NUMLUMPS=%ld\n",(long int)numlumps);
+           printf("W_Wad: Wad Manager Started NUMLUMPS=%ld\n",(int64_t)numlumps);
            W_CheckWADIntegrity ();
 }
 
@@ -290,7 +291,7 @@ void W_InitFile (char *filename)
 ====================
 */
 
-int     W_NumLumps (void)
+int32_t     W_NumLumps (void)
 {
         return numlumps;
 }
@@ -307,10 +308,10 @@ int     W_NumLumps (void)
 ====================
 */
 
-int     W_CheckNumForName (char *name)
+int32_t     W_CheckNumForName (char *name)
 {
         char    name8[9];
-        int             v1,v2;
+        int32_t             v1,v2;
         lumpinfo_t      *lump_p;
         lumpinfo_t      *endlump;
 
@@ -320,8 +321,8 @@ int     W_CheckNumForName (char *name)
         name8[8] = 0;                   // in case the name was a fill 8 chars
         strupr (name8);                 // case insensitive
 
-        v1 = *(int *)name8;
-        v2 = *(int *)&name8[4];
+        v1 = *(int32_t *)name8;
+        v2 = *(int32_t *)&name8[4];
 
 
 // scan backwards so patch lump files take precedence
@@ -331,7 +332,7 @@ int     W_CheckNumForName (char *name)
 
         while (lump_p != endlump)
            {
-           if ( *(int *)lump_p->name == v1 && *(int *)&lump_p->name[4] == v2)
+           if ( *(int32_t *)lump_p->name == v1 && *(int32_t *)&lump_p->name[4] == v2)
               return lump_p - lumpinfo;
            lump_p++;
            }
@@ -351,9 +352,9 @@ int     W_CheckNumForName (char *name)
 ====================
 */
 
-int     W_GetNumForName (char *name)
+int32_t     W_GetNumForName (char *name)
 {
-        int     i;
+        int32_t     i;
 
         i = W_CheckNumForName (name);
         if (i != -1)
@@ -374,7 +375,7 @@ int     W_GetNumForName (char *name)
 ====================
 */
 
-int W_LumpLength (int lump)
+int32_t W_LumpLength (int32_t lump)
 {
         if (lump >= numlumps)
                 Error ("W_LumpLength: %i >= numlumps",lump);
@@ -389,7 +390,7 @@ int W_LumpLength (int lump)
 ====================
 */
 
-char *  W_GetNameForNum (int i)
+char *  W_GetNameForNum (int32_t i)
 {
 
         if (i>=numlumps)
@@ -406,11 +407,11 @@ char *  W_GetNameForNum (int i)
 =
 ====================
 */
-int readinglump;
-byte * lumpdest;
-void W_ReadLump (int lump, void *dest)
+int32_t readinglump;
+uint8_t * lumpdest;
+void W_ReadLump (int32_t lump, void *dest)
 {
-        int                     c;
+        int32_t                     c;
         lumpinfo_t      *l;
 
         readinglump=lump;
@@ -438,9 +439,9 @@ void W_ReadLump (int lump, void *dest)
 ====================
 */
 
-void W_WriteLump (int lump, void *src)
+void W_WriteLump (int32_t lump, void *src)
 {
-   int        c;
+   int32_t        c;
    lumpinfo_t *l;
 
    if (lump >= numlumps)
@@ -463,9 +464,9 @@ void W_WriteLump (int lump, void *src)
 =
 ====================
 */
-void    *W_CacheLumpNum (int lump, int tag, converter_t converter, int numrec)
+void    *W_CacheLumpNum (int32_t lump, int32_t tag, converter_t converter, int32_t numrec)
 {
-        if (lump >= (int)numlumps)
+        if (lump >= (int32_t)numlumps)
                 Error ("W_CacheLumpNum: %i >= numlumps",lump);
 
         else if (lump < 0)
@@ -496,7 +497,7 @@ void    *W_CacheLumpNum (int lump, int tag, converter_t converter, int numrec)
 ====================
 */
 
-void    *W_CacheLumpName (char *name, int tag, converter_t converter, int numrec)
+void    *W_CacheLumpName (char *name, int32_t tag, converter_t converter, int32_t numrec)
 {
         return W_CacheLumpNum (W_GetNumForName(name), tag, converter, numrec);
 }

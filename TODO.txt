@@ -59,7 +59,7 @@ DONE watcom.h
 DONE task_man.h // Double check and make sure it can be simplified
 DONE rt_msg.h //Need to rename functions and global variables
 DONE cin_def.h
-w_wad.h
+DONE w_wad.h
 DONE byteordr.c // OK
 _rt_ted.h
 rt_build.h

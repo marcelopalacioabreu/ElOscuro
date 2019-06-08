@@ -26,7 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 typedef struct
 {
-  int8_t name[10];
+  char name[10];
   int32_t duration;
   int32_t frame;
   int32_t frametime;
@@ -42,7 +42,7 @@ typedef struct
 
 typedef struct
 {
-  int8_t name[10];
+  char name[10];
   int32_t duration;
   int32_t backdropwidth;
   int32_t currentoffset;
@@ -54,12 +54,12 @@ typedef struct
 
 typedef struct
 {
-  int8_t name[10];
+  char name[10];
 } paletteevent;
 
 typedef struct
 {
-  int8_t name[10];
+  char name[10];
   bool loop;
   bool usefile;
 } flicevent;
