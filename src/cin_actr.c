@@ -23,6 +23,16 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "modexlib.h"
 #include "rt_util.h"
 
+#define MAXCINEMATICACTORS 30
+
+typedef struct actortype
+{
+  enum_eventtype effecttype;
+  void* effect;
+  struct actortype* next;
+  struct actortype* prev;
+} actortype;
+
 actortype * firstcinematicactor;
 actortype * lastcinematicactor;
 

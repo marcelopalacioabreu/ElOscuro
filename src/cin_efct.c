@@ -18,6 +18,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
+#include <stdbool.h>
+#include <stdint.h>
+
 #include "rt_def.h"
 #include "cin_def.h"
 #include "cin_main.h"
@@ -32,6 +35,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "rt_in.h"
 
 #include "modexlib.h"
+#include "cin_efct.h"
 
 static int cin_sprtopoffset;
 static int cin_invscale;
