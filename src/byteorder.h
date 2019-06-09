@@ -27,13 +27,13 @@ typedef void (*converter_t) (void*, int32_t);
 
 #define DECLARE_CONVERTER(type) void cvt_##type(void* lmp, int32_t num);
 
-DECLARE_CONVERTER (cfont_t);
-DECLARE_CONVERTER (font_t);
-DECLARE_CONVERTER (lbm_t);
-DECLARE_CONVERTER (lpic_t);
-DECLARE_CONVERTER (patch_t);
-DECLARE_CONVERTER (pic_t);
-DECLARE_CONVERTER (transpatch_t);
+DECLARE_CONVERTER (cfont_t)
+DECLARE_CONVERTER (font_t)
+DECLARE_CONVERTER (lbm_t)
+DECLARE_CONVERTER (lpic_t)
+DECLARE_CONVERTER (patch_t)
+DECLARE_CONVERTER (pic_t)
+DECLARE_CONVERTER (transpatch_t)
 
 converter_t cvt_for_type (int32_t);
 
