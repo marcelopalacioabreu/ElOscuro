@@ -764,7 +764,6 @@ void DrawUnScaledSprite (int x, int y, int shapenum, int shade)
    byte * b;
    int    startfrac;
    int    startx;
-	int    plane;
         
    whereami=36;
    shadingtable=colormap+(shade<<8);
