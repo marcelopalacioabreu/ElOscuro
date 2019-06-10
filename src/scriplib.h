@@ -27,17 +27,17 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define	MAXTOKEN  128
 
 extern bool     endofscript;
-extern int8_t   name[MAXTOKEN * 2];
-extern int8_t*  script_p;
-extern int8_t*  scriptbuffer;
-extern int8_t*  scriptend_p;
+extern char   name[MAXTOKEN * 2];
+extern char*  script_p;
+extern char*  scriptbuffer;
+extern char*  scriptend_p;
 extern int32_t  scriptline;
-extern int8_t   token[MAXTOKEN];
+extern char   token[MAXTOKEN];
 extern bool     tokenready; // only true if UnGetToken was just called
 
 void GetToken (bool);
 void GetTokenEOL (bool);
-void LoadScriptFile (int8_t*);
+void LoadScriptFile (char*);
 bool TokenAvailable (void);
 void UnGetToken (void);
 
