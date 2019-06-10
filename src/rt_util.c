@@ -366,7 +366,7 @@ void Error (char *error, ...)
          sptr = script_p;
       }
 
-      UL_printf (token);
+      printf("%s\n",token);
       px++;                //SPACE
       GetToken (true);
    }
@@ -1399,23 +1399,6 @@ VL_GetPalette (byte * palette)
 
       palette += 3;
     }
-}
-
-/*
-=================
-=
-= UL_printf
-=
-=================
-*/
-
-void UL_printf (byte *str)
-{
-#ifdef ANSIESC
-   printf ("\x1b[%d;%dH%s",py,px,str);
-#else
-   printf ("%s ",str);	// Hackish but works - DDOI
-#endif
 }
 
 /*

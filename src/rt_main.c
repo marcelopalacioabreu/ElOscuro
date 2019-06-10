@@ -412,7 +412,7 @@ void DrawRottTitle ( void )
          px=(80-strlen(title))>>1;
          py=0;
 
-         UL_printf(title);
+         printf("%s\n", title);
 
          memset (title,0,sizeof(title));
 
@@ -436,7 +436,7 @@ void DrawRottTitle ( void )
          px=(80-strlen(title))>>1;
          py=1;
 
-         UL_printf(title);
+         printf("%s\n", title);
 #ifndef ANSIESC
 	 printf ("\n");
 #endif
