@@ -19,6 +19,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 // Z_zone.c
 
+#include <error.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -170,7 +171,7 @@ void Z_Init (int size, int min)
    maxsize=((int)(Z_AvailHeap())-size-levelzonesize);
    if (maxsize<min)
       {
-      UL_DisplayMemoryError (min-maxsize);
+        error(1, 0, "Error: Memory needed: %d", min - maxsize);
       }
    if (maxsize>MAXMEMORYSIZE)
       maxsize=(MAXMEMORYSIZE-levelzonesize);

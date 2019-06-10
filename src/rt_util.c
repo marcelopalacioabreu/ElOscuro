@@ -1404,21 +1404,6 @@ VL_GetPalette (byte * palette)
 /*
 =================
 =
-= UL_DisplayMemoryError ()
-=
-=================
-*/
-
-void UL_DisplayMemoryError ( int memneeded )
-{
-	STUB_FUNCTION;
-   exit (0);
-}
-
-
-/*
-=================
-=
 = UL_printf
 =
 =================
