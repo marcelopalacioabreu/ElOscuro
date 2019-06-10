@@ -690,7 +690,6 @@ void ScaleWeapon (int xoff, int y, int shapenum)
 	byte * b;
 	int    startfrac;
 	int    startx;
-   int    plane;
 
    whereami=35;
    SetPlayerLightLevel();
