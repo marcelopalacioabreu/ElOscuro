@@ -611,7 +611,6 @@ void ScaleSolidShape (visobj_t * sprite)
    int      x1,x2;
    int      tx;
    int      size;
-   int      plane;
 	byte * b;
    int    startfrac;
    int    startx;
