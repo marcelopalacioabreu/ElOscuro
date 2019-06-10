@@ -204,10 +204,6 @@ extern ROTTCHARS  characters[5];
 extern williamdidthis FREE;
 extern statetype s_player;
 extern williamdidthis WEAPONS[MAXWEAPONS];
-extern bool cybermanenabled;
-extern bool spaceballenabled;
-extern bool SpaceBallPresent;
-extern bool CybermanPresent;
 extern bool mouseenabled;
 extern bool joystickenabled;
 extern bool joypadenabled;
@@ -246,7 +242,6 @@ void     PollKeyboardButtons (void);
 void     PollMouseButtons (void);
 void     PollJoystickButtons (void);
 void     PollKeyboardMove (void);
-void     PollCyberman (void);
 void     PollMouseMove (void);
 void     PollJoystickMove (void);
 void     PollControls (void);
@@ -290,8 +285,6 @@ extern void SaveWeapons(objtype*);
 
 extern int whichpath;
 extern statobj_t *BulletHoles[MAXBULLETS];
-
-extern bool vrenabled;
 
 void SetupBulletHoleLink (int num, statobj_t * item);
 

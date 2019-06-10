@@ -453,9 +453,8 @@ void DrawRottTitle ( void )
 void CheckCommandLineParameters( void )
 {
    char *PStrings[] = {"TEDLEVEL","NOWAIT","NOSOUND","NOW",
-                       "TRANSPORT","DOPEFISH","SCREENSHOTS",
-                       "MONO","MAPSTATS","TILESTATS","VER","net",
-                       "PAUSE","SOUNDSETUP","WARP","IS8250","ENABLEVR",
+                       "TRANSPORT","DOPEFISH","MONO","MAPSTATS","TILESTATS","VER","net",
+                       "PAUSE","SOUNDSETUP","WARP","IS8250",
                        "TIMELIMIT","MAXTIMELIMIT","NOECHO","DEMOEXIT","QUIET",NULL};
    int i,n;
 
@@ -471,7 +470,6 @@ void CheckCommandLineParameters( void )
    MAPSTATS=false;
    TILESTATS=false;
    IS8250 = false;
-   vrenabled = false;
    demoexit = false;
 
    modemgame=false;
@@ -509,18 +507,13 @@ void CheckCommandLineParameters( void )
       printf ("   FILE       - used to load Extern WAD files\n");
       printf ("              - next parameter is WAD filename\n");
 #endif
-      printf ("   SPACEBALL  - Enable check for Spaceball.\n");
       printf ("   NOJOYS     - Disable check for joystick.\n");
       printf ("   NOMOUSE    - Disable check for mouse.\n");
-      printf ("   CYBERMAN   - Enable check for Cyberman.\n");
-      printf ("   ASSASSIN   - Enable check for Wingman Assassin.\n");
       printf ("   VER        - Version number.\n");
       printf ("   MAPSTATS   - Dump Map statistics to ERROR.\n");
       printf ("   TILESTATS  - Dump Tile statistics to ERROR.\n");
       printf ("   MONO       - Enable mono-monitor support.\n");
-      printf ("   SCREENSHOTS- Clean screen capture for shots.\n");
       printf ("   PAUSE      - Pauses startup screen information.\n");
-      printf ("   ENABLEVR   - Enable VR helmet input devices\n");
       printf ("   NOECHO     - Turn off sound reverb\n");
       printf ("   DEMOEXIT   - Exit program when demo is terminated\n");
       printf ("   WARP       - Warp to specific ROTT level\n");
@@ -607,18 +600,15 @@ void CheckCommandLineParameters( void )
          dopefish=true;
          break;
        case 6:
-         SCREENSHOTS = true;
-         break;
-       case 7:
          MONOPRESENT = true;
          break;
-       case 8:
+       case 7:
          MAPSTATS = true;
          break;
-       case 9:
+       case 8:
          TILESTATS = true;
          break;
-       case 10:
+       case 9:
          SetTextMode ();
          printf ("Rise of the Triad  (c) 1995 Apogee Software\n");
          if (gamestate.Product == ROTT_SHAREWARE)
@@ -640,7 +630,7 @@ void CheckCommandLineParameters( void )
          printf ("Version %d.%d\n", ROTTMAJORVERSION,ROTTMINORVERSION);
          exit (0);
          break;
-       case 11:
+       case 10:
          InitROTTNET();
 		   numplayers = rottcom->numplayers;
          if (numplayers>MAXPLAYERS)
@@ -660,23 +650,18 @@ void CheckCommandLineParameters( void )
                printf("MODEM GAME\n");
             }
          break;
-       case 12:
+       case 11:
          infopause=true;
          break;
-       case 13:
+       case 12:
           break;
-       case 14:
+       case 13:
           startlevel = (ParseNum(_argv[i + 1])-1);
           break;
-       case 15:
+       case 14:
           IS8250 = true;
           break;
-       case 16:
-          vrenabled = true;
-          if (!quiet)
-             printf("Virtual Reality Mode enabled\n");
-          break;
-       case 17:
+       case 15:
           timelimitenabled = true;
           timelimit = ParseNum(_argv[i + 1]);
           if (!quiet)
@@ -684,17 +669,17 @@ void CheckCommandLineParameters( void )
           timelimit *= VBLCOUNTER;
           break;
 
-       case 18:
+       case 16:
           maxtimelimit = ParseNum(_argv[i + 1]);
           maxtimelimit *= VBLCOUNTER;
           break;
-       case 19:
+       case 17:
           noecho = true;
           break;
-       case 20:
+       case 18:
           demoexit = true;
           break;
-       case 21:
+       case 19:
           quiet = true;
           break;
       }

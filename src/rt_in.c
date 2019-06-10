@@ -24,13 +24,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <SDL2/SDL.h>
 
 #include "rt_main.h"
-#include "rt_spbal.h"
 #include "rt_def.h"
 #include "rt_in.h"
-//#include "_rt_in.h"
 #include "isr.h"
 #include "rt_util.h"
-#include "rt_swift.h"
 #include "rt_vh_a.h"
 #include "rt_cfg.h"
 #include "rt_msg.h"
@@ -70,9 +67,6 @@ int IgnoreMouse = 0;
 
 // configuration variables
 //
-bool  SpaceBallPresent;
-bool  CybermanPresent;
-bool  AssassinPresent;
 bool  MousePresent;
 bool  JoysPresent[MaxJoys];
 bool  JoyPadPresent     = 0;
@@ -155,7 +149,7 @@ static   Direction   DirTable[] =      // Quick lookup for total direction
 
 int (far *function_ptr)();
 
-static char *ParmStrings[] = {"nojoys","nomouse","spaceball","cyberman","assassin",NULL};
+static char *ParmStrings[] = {"nojoys","nomouse",NULL};
 
 #define sdldebug printf
 
@@ -884,11 +878,6 @@ void IN_Shutdown (void)
    for (i = 0;i < MaxJoys;i++)
       INL_ShutJoy(i);
 
-   if (CybermanPresent || AssassinPresent)
-      SWIFT_Terminate ();
-
-   CloseSpaceBall ();
-
    IN_Started = false;
 }
 
@@ -1022,11 +1011,6 @@ void IN_StartAck (void)
    buttons = IN_JoyButtons () << 4;
 
    buttons |= IN_GetMouseButtons();
-
-	if (SpaceBallPresent && spaceballenabled)
-		{
-      buttons |= GetSpaceBallButtons ();
-      }
 
    for (i=0;i<8;i++,buttons>>=1)
       if (buttons&1)

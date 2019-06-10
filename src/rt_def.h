@@ -279,12 +279,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 //***************************************************************************
 
 //
-// device type codes, returned in deviceType field (SWIFT_StaticData)
-//
-#define SWIFT_DEV_NONE		0
-#define SWIFT_DEV_CYBERMAN	1
-
-//
 // Dynamic device data
 //
 #define SDD_EXTERNAL_POWER_CONNECTED	1
