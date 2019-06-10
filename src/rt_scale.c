@@ -540,7 +540,6 @@ void ScaleTransparentShape (visobj_t * sprite)
    byte * b;
    int    startfrac;
    int    startx;
-   int    plane;
 
    whereami=33;
    shape=W_CacheLumpNum(sprite->shapenum,PU_CACHE, cvt_transpatch_t, 1);
