@@ -851,7 +851,6 @@ void DrawPositionedScaledSprite (int x, int y, int shapenum, int height, int typ
 	byte * b;
 	int    startfrac;
 	int    startx;
-	int    plane;
 	int    size;
 
    whereami=38;
