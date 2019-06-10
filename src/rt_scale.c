@@ -1178,7 +1178,6 @@ void R_DrawClippedColumn (byte * buf)
 void R_DrawSolidColumn (int color, byte * buf)
 {
 	int count;
-	int frac, fracstep;
 	byte *dest;
 
 	count = dc_yh - dc_yl + 1;
