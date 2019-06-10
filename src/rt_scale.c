@@ -389,7 +389,6 @@ void ScaleShape (visobj_t * sprite)
    int      x1,x2;
    int      tx;
    int      size;
-   int      plane;
 
    whereami=32;
    shape=W_CacheLumpNum(sprite->shapenum,PU_CACHE, cvt_patch_t, 1);
