@@ -61,8 +61,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define WeightG  5
 #define WeightB  2
 
-int    egacolor[16];
-byte   *  origpal;
+int32_t    egacolor[16];
+uint8_t   *  origpal;
 FILE   *  errout;
 FILE   *  debugout;
 FILE   *  mapdebugout;
@@ -71,7 +71,7 @@ static bool SoftErrorStarted=false;
 static bool DebugStarted=false;
 static bool MapDebugStarted=false;
 
-static unsigned char egargb[48]={ 0x00,0x00,0x00,
+static uint8_t egargb[48]={ 0x00,0x00,0x00,
 									 0x00,0x00,0xab,
                             0x00,0xab,0x00,
                             0x00,0xab,0xab,
@@ -88,7 +88,7 @@ static unsigned char egargb[48]={ 0x00,0x00,0x00,
                             0xff,0xff,0x57,
 									 0xff,0xff,0xff};
 
-extern const byte * ROTT_ERR;
+extern const uint8_t * ROTT_ERR;
 
 #define SWAP(a,b) \
    {              \
@@ -103,9 +103,9 @@ extern const byte * ROTT_ERR;
 //
 //******************************************************************************
 
-int FindDistance(int ix, int iy)
+int32_t FindDistance(int32_t ix, int32_t iy)
 {
-  int   t;
+  int32_t   t;
 
   ix= abs(ix);        /* absolute values */
   iy= abs(iy);
@@ -125,9 +125,9 @@ int FindDistance(int ix, int iy)
 //
 //******************************************************************************
 
-int Find_3D_Distance(int ix, int iy, int iz)
+int32_t Find_3D_Distance(int32_t ix, int32_t iy, int32_t iz)
    {
-   int   t;
+   int32_t   t;
 
    ix= abs(ix);           /* absolute values */
    iy= abs(iy);
@@ -150,10 +150,10 @@ int Find_3D_Distance(int ix, int iy, int iz)
 //
 //******************************************************************************
 
-int atan2_appx(int dx, int dy)
-{int absdx, absdy;
- fixed angle;
- fixed ratio;
+int32_t atan2_appx(int32_t dx, int32_t dy)
+{int32_t absdx, absdy;
+ int32_t angle;
+ int32_t ratio;
 
 
  if (!(dx||dy))
@@ -194,7 +194,7 @@ int atan2_appx(int dx, int dy)
 	 }
   }
 
- return (((int)FixedMul(angle,ANGLESDIV8))&(FINEANGLES-1));
+ return (((int32_t)FixedMul(angle,ANGLESDIV8))&(FINEANGLES-1));
 }
 
 
@@ -204,9 +204,9 @@ int atan2_appx(int dx, int dy)
 // StringsNotEqual
 //
 //******************************************************************************
-bool StringsNotEqual (char * s1, char * s2, int length)
+bool StringsNotEqual (char * s1, char * s2, int32_t length)
 {
-   int i;
+   int32_t i;
 
    for (i=0;i<length;i++)
       if (s1[i]!=s2[i])
@@ -218,8 +218,8 @@ bool StringsNotEqual (char * s1, char * s2, int length)
 
 void markgetch( void )
 {
-   int done;
-   int i;
+   int32_t done;
+   int32_t i;
 
    done=0;
    while (done==0)
@@ -243,35 +243,35 @@ void markgetch( void )
 
 void FindEGAColors ( void )
 {
-   int i;
+   int32_t i;
 
 	for (i=0;i<16;i++)
-		egacolor[i]=BestColor((int)egargb[i*3],(int)egargb[i*3+1],(int)egargb[i*3+2],origpal);
+		egacolor[i]=BestColor((int32_t)egargb[i*3],(int32_t)egargb[i*3+1],(int32_t)egargb[i*3+2],origpal);
 }
 
 //===========================================================================
 
 
-byte BestColor (int r, int g, int b, byte *palette)
+uint8_t BestColor (int32_t r, int32_t g, int32_t b, uint8_t *palette)
 {
-	int	i;
-	long	dr, dg, db;
-	long	bestdistortion, distortion;
-	int	bestcolor;
-	byte	*pal;
+	int32_t	i;
+	int32_t	dr, dg, db;
+	int32_t	bestdistortion, distortion;
+	int32_t	bestcolor;
+	uint8_t	*pal;
 
 //
 // let any color go to 0 as a last resort
 //
-   bestdistortion = ( (long)WeightR*r*r + (long)WeightG*g*g + (long)WeightB*b*b )*2;
+   bestdistortion = ( WeightR*r*r + WeightG*g*g + WeightB*b*b )*2;
 	bestcolor = 0;
 
 	pal = &palette[0];
 	for (i=0 ; i<= 255 ; i++,pal+=3)
 	{
-		dr = r - (int)pal[0];
-		dg = g - (int)pal[1];
-		db = b - (int)pal[2];
+		dr = r - (int32_t)pal[0];
+		dg = g - (int32_t)pal[1];
+		db = b - (int32_t)pal[2];
       distortion = WeightR*dr*dr + WeightG*dg*dg + WeightB*db*db;
 		if (distortion < bestdistortion)
 		{
@@ -291,7 +291,7 @@ void ClearGraphicsScreen( void )
 VL_ClearVideo(0);
 }
 
-void ClearBuffer( char * buf, int size )
+void ClearBuffer( char * buf, int32_t size )
 {
         memset(buf,0,size);
 }
@@ -318,15 +318,10 @@ void Error (char *error, ...)
 {
    char msgbuf[300];
 	va_list	argptr;
-   char i;
-   int size;
+   int32_t size;
    char * sptr;
-   char buf[30];
-   int handle;
-   int x,y;
-   int level;
-   static int inerror = 0;
-   char filename[ 128 ];
+   int32_t level;
+   static int32_t inerror = 0;
 
 
    inerror++;
@@ -378,18 +373,18 @@ void Error (char *error, ...)
 
    if (player!=NULL)
       {
-      printf ("Player X     = %lx\n", (long int)player->x);
-      printf ("Player Y     = %lx\n", (long int)player->y);
-      printf ("Player Angle = %lx\n\n", (long int)player->angle);
+      printf ("Player X     = %d\n", player->x);
+      printf ("Player Y     = %d\n", player->y);
+      printf ("Player Angle = %d\n\n", player->angle);
       }
-   printf ("Episode      = %ld\n", (long int)gamestate.episode);
+   printf ("Episode      = %d\n", gamestate.episode);
 
    if (gamestate.episode > 1)
       level = (gamestate.mapon+1) - ((gamestate.episode-1) << 3);
    else
       level = gamestate.mapon+1;
 
-   printf ("Area         = %ld\n", (long int)level);
+   printf ("Area         = %d\n", level);
 
    ShutDown();	// DDOI - moved this so that it doesn't try to access player
    		// which is freed by this function.
@@ -542,9 +537,9 @@ void ShutdownSoftError ( void )
 =================
 */
 
-int CheckParm (char *check)
+int32_t CheckParm (char *check)
 {
-	int		i;
+	int32_t		i;
 	char	*parm;
 
 	for (i = 1;i<_argc;i++)
@@ -566,9 +561,9 @@ int CheckParm (char *check)
 
 
 
-int SafeOpenAppend (char *_filename)
+int32_t SafeOpenAppend (char *_filename)
 {
-	int	handle;
+	int32_t	handle;
     char filename[MAX_PATH];
     strncpy(filename, _filename, sizeof (filename));
     filename[sizeof (filename) - 1] = '\0';
@@ -583,9 +578,9 @@ int SafeOpenAppend (char *_filename)
 	return handle;
 }
 
-int SafeOpenWrite (char *_filename)
+int32_t SafeOpenWrite (char *_filename)
 {
-	int	handle;
+	int32_t	handle;
     char filename[MAX_PATH];
     strncpy(filename, _filename, sizeof (filename));
     filename[sizeof (filename) - 1] = '\0';
@@ -600,9 +595,9 @@ int SafeOpenWrite (char *_filename)
 	return handle;
 }
 
-int SafeOpenRead (char *_filename)
+int32_t SafeOpenRead (char *_filename)
 {
-	int	handle;
+	int32_t	handle;
     char filename[MAX_PATH];
     strncpy(filename, _filename, sizeof (filename));
     filename[sizeof (filename) - 1] = '\0';
@@ -617,45 +612,45 @@ int SafeOpenRead (char *_filename)
 }
 
 
-void SafeRead (int handle, void *buffer, long count)
+void SafeRead (int32_t handle, void *buffer, int32_t count)
 {
-	unsigned	iocount;
+	uint32_t	iocount;
 
 	while (count)
 	{
 		iocount = count > 0x8000 ? 0x8000 : count;
-		if (read (handle,buffer,iocount) != (int)iocount)
-			Error ("File read failure reading %ld bytes",count);
-		buffer = (void *)( (byte *)buffer + iocount );
+		if (read (handle,buffer,iocount) != (int32_t)iocount)
+			Error ("File read failure reading %d bytes",count);
+		buffer = (void *)( (uint8_t *)buffer + iocount );
 		count -= iocount;
 	}
 }
 
 
-void SafeWrite (int handle, void *buffer, long count)
+void SafeWrite (int32_t handle, void *buffer, int32_t count)
 {
-	unsigned	iocount;
+	uint32_t	iocount;
 
 	while (count)
 	{
 		iocount = count > 0x8000 ? 0x8000 : count;
-		if (write (handle,buffer,iocount) != (int)iocount)
-			Error ("File write failure writing %ld bytes",count);
-		buffer = (void *)( (byte *)buffer + iocount );
+		if (write (handle,buffer,iocount) != (int32_t)iocount)
+			Error ("File write failure writing %d bytes",count);
+		buffer = (void *)( (uint8_t *)buffer + iocount );
 		count -= iocount;
 	}
 }
 
-void SafeWriteString (int handle, char * buffer)
+void SafeWriteString (int32_t handle, char * buffer)
 {
-	unsigned	iocount;
+	uint32_t	iocount;
 
    iocount=strlen(buffer);
-	if (write (handle,buffer,iocount) != (int)iocount)
+	if (write (handle,buffer,iocount) != (int32_t)iocount)
 			Error ("File write string failure writing %s\n",buffer);
 }
 
-void *SafeMalloc (long size)
+void *SafeMalloc (int32_t size)
 {
 	void *ptr;
 
@@ -664,12 +659,12 @@ void *SafeMalloc (long size)
 	ptr = Z_Malloc (size,PU_STATIC,NULL);
 
 	if (!ptr)
-      Error ("SafeMalloc failure for %lu bytes",size);
+      Error ("SafeMalloc failure for %d bytes",size);
 
 	return ptr;
 }
 
-void *SafeLevelMalloc (long size)
+void *SafeLevelMalloc (int32_t size)
 {
 	void *ptr;
 
@@ -678,7 +673,7 @@ void *SafeLevelMalloc (long size)
    ptr = Z_LevelMalloc (size,PU_STATIC,NULL);
 
 	if (!ptr)
-      Error ("SafeLevelMalloc failure for %lu bytes",size);
+      Error ("SafeLevelMalloc failure for %d bytes",size);
 
 	return ptr;
 }
@@ -699,10 +694,10 @@ void SafeFree (void * ptr)
 ==============
 */
 
-long	LoadFile (char *filename, void **bufferptr)
+int32_t	LoadFile (char *filename, void **bufferptr)
 {
-	int		handle;
-	long	length;
+	int32_t		handle;
+	int32_t	length;
 
 	handle = SafeOpenRead (filename);
 	length = filelength (handle);
@@ -721,9 +716,9 @@ long	LoadFile (char *filename, void **bufferptr)
 ==============
 */
 
-void	SaveFile (char *filename, void *buffer, long count)
+void	SaveFile (char *filename, void *buffer, int32_t count)
 {
-	int		handle;
+	int32_t		handle;
 
 	handle = SafeOpenWrite (filename);
 	SafeWrite (handle, buffer, count);
@@ -808,9 +803,9 @@ void FixFilePath(char *filename)
 
 
 #if PLATFORM_WIN32
-int _dos_findfirst(char *filename, int x, struct find_t *f)
+int32_t _dos_findfirst(char *filename, struct find_t *f)
 {
-    long rc = _findfirst(filename, &f->data);
+    int32_t rc = _findfirst(filename, &f->data);
     f->handle = rc;
     if (rc != -1)
     {
@@ -821,9 +816,9 @@ int _dos_findfirst(char *filename, int x, struct find_t *f)
     return(1);
 }
 
-int _dos_findnext(struct find_t *f)
+int32_t _dos_findnext(struct find_t *f)
 {
-    int rc = 0;
+    int32_t rc = 0;
     if (f->handle == -1)
         return(1);   /* invalid handle. */
 
@@ -841,7 +836,7 @@ int _dos_findnext(struct find_t *f)
 }
 
 #elif PLATFORM_UNIX 
-int _dos_findfirst(char *filename, int x, struct find_t *f)
+int32_t _dos_findfirst(char *filename, struct find_t *f)
 {
     char *ptr;
 
@@ -868,7 +863,7 @@ int _dos_findfirst(char *filename, int x, struct find_t *f)
 }
 
 
-static int check_pattern_nocase(const char *x, const char *y)
+static int32_t check_pattern_nocase(const char *x, const char *y)
 {
     if ((x == NULL) || (y == NULL))
         return(0);  /* not a match. */
@@ -886,7 +881,7 @@ static int check_pattern_nocase(const char *x, const char *y)
 
         else
         {
-            if (toupper((int) *x) != toupper((int) *y))
+            if (toupper((int32_t) *x) != toupper((int32_t) *y))
                 return(0);  /* not a match. */
         }
 
@@ -897,7 +892,7 @@ static int check_pattern_nocase(const char *x, const char *y)
     return(*x == *y);  /* it's a match (both should be EOS). */
 }
 
-int _dos_findnext(struct find_t *f)
+int32_t _dos_findnext(struct find_t *f)
 {
     struct dirent *dent;
 
@@ -999,7 +994,7 @@ void DefaultPath (char *path, char *basepath)
 void ExtractFileBase (char *path, char *dest)
 {
 	char	*src;
-	int		length;
+	int32_t		length;
 
 	src = path + strlen(path) - 1;
 
@@ -1031,10 +1026,10 @@ void ExtractFileBase (char *path, char *dest)
 ==============
 */
 
-long ParseHex (char *hex)
+int32_t ParseHex (char *hex)
 {
 	char	*str;
-	long	num;
+	int32_t	num;
 
 	num = 0;
 	str = hex;
@@ -1057,7 +1052,7 @@ long ParseHex (char *hex)
 }
 
 
-long ParseNum (char *str)
+int32_t ParseNum (char *str)
 {
 	if (str[0] == '$')
 		return ParseHex (str+1);
@@ -1068,20 +1063,20 @@ long ParseNum (char *str)
 
 
 #if (BYTE_ORDER == LITTLE_ENDIAN)
-#define KeepShort IntelShort
-#define SwapShort MotoShort
-#define KeepLong IntelLong
-#define SwapLong MotoLong
+#define KeepInt16_T IntelShort
+#define SwapInt16_T MotoShort
+#define KeepInt32_T IntelLong
+#define SwapInt32_T MotoLong
 #else
-#define KeepShort MotoShort
-#define SwapShort IntelShort
-#define KeepLong MotoLong
-#define SwapLong IntelLong
+#define KeepInt16_T MotoShort
+#define SwapInt16_T IntelShort
+#define KeepInt32_T MotoLong
+#define SwapInt32_T IntelLong
 #endif
 
-short	SwapShort (short l)
+int16_t	SwapInt16_T (int16_t l)
 {
-	byte	b1,b2;
+	uint8_t	b1,b2;
 
 	b1 = l&255;
 	b2 = (l>>8)&255;
@@ -1089,25 +1084,25 @@ short	SwapShort (short l)
 	return (b1<<8) + b2;
 }
 
-short	KeepShort (short l)
+int16_t	KeepInt16_T (int16_t l)
 {
 	return l;
 }
 
 
-int	SwapLong (int l)
+int32_t	SwapInt32_T (int32_t l)
 {
-	byte	b1,b2,b3,b4;
+	uint8_t	b1,b2,b3,b4;
 
 	b1 = l&255;
 	b2 = (l>>8)&255;
 	b3 = (l>>16)&255;
 	b4 = (l>>24)&255;
 
-	return ((int)b1<<24) + ((int)b2<<16) + ((int)b3<<8) + b4;
+	return ((int32_t)b1<<24) + ((int32_t)b2<<16) + ((int32_t)b3<<8) + (int32_t)b4;
 }
 
-int	KeepLong (int l)
+int32_t	KeepInt32_T (int32_t l)
 {
 	return l;
 }
@@ -1118,17 +1113,17 @@ int	KeepLong (int l)
 #undef SwapShort
 #undef SwapLong
 
-void SwapIntelLong(int *l)
+void SwapIntelLong(int32_t *l)
 {
     *l = IntelLong(*l);
 }
 
-void SwapIntelShort(short *s)
+void SwapIntelShort(int16_t *s)
 {
     *s = IntelShort(*s);
 }
 
-void SwapIntelLongArray(int *l, int num)
+void SwapIntelLongArray(int32_t *l, int32_t num)
 {
     while (num--) {
         SwapIntelLong(l);
@@ -1136,7 +1131,7 @@ void SwapIntelLongArray(int *l, int num)
     }
 }
 
-void SwapIntelShortArray(short *s, int num)
+void SwapIntelShortArray(int16_t *s, int32_t num)
 {
     while (num--) {
         SwapIntelShort(s);
@@ -1163,7 +1158,7 @@ void SwapIntelShortArray(short *s, int num)
 */
 
 void
-GetaPalette (byte * palette)
+GetaPalette (uint8_t * palette)
 {
   SDL_Palette *pal = sdl_surface->format->palette;
 
@@ -1188,7 +1183,7 @@ GetaPalette (byte * palette)
 */
 
 void
-SetaPalette (byte * pal)
+SetaPalette (uint8_t * pal)
 {
   SDL_Color cmap[256];
 
@@ -1217,7 +1212,7 @@ GetPalette (char *palette)
     }
 }
 
-void SetPalette ( char * pal )
+void SetPalette ( uint8_t * pal )
 {
    VL_SetPalette (pal);
 }
@@ -1232,12 +1227,12 @@ void SetPalette ( char * pal )
 //
 //******************************************************************************
 
-int US_CheckParm (char *parm, char **strings)
+int32_t US_CheckParm (char *parm, char **strings)
 {
    char  cp,cs,
          *p,*s;
-   int      i;
-   int      length;
+   int32_t      i;
+   int32_t      length;
 
    length=strlen(parm);
    while ( (!isalpha(*parm)) && (length>0)) // Skip non-alphas
@@ -1284,7 +1279,7 @@ int US_CheckParm (char *parm, char **strings)
 */
 
 void
-VL_FillPalette (int red, int green, int blue)
+VL_FillPalette (int32_t red, int32_t green, int32_t blue)
 {
   SDL_Color cmap[256];
 
@@ -1298,38 +1293,6 @@ VL_FillPalette (int red, int green, int blue)
   SDL_SetPaletteColors (sdl_surface->format->palette, cmap, 0, 256);
 }
 
-//===========================================================================
-
-/*
-=================
-=
-= VL_SetColor
-=
-=================
-*/
-
-void VL_SetColor  (int color, int red, int green, int blue)
-{
-	STUB_FUNCTION;
-}
-
-//===========================================================================
-
-/*
-=================
-=
-= VL_GetColor
-=
-=================
-*/
-
-void VL_GetColor  (int color, int *red, int *green, int *blue)
-{
-	STUB_FUNCTION;
-}
-
-//===========================================================================
-
 /*
 =================
 =
@@ -1338,9 +1301,9 @@ void VL_GetColor  (int color, int *red, int *green, int *blue)
 =================
 */
 
-void VL_NormalizePalette (byte *palette)
+void VL_NormalizePalette (uint8_t *palette)
 {
-   int   i;
+   int32_t   i;
 
    for (i = 0; i < 768; i++)
       *(palette+i)=(*(palette+i))>>2;
@@ -1359,7 +1322,7 @@ void VL_NormalizePalette (byte *palette)
 */
 
 void
-VL_SetPalette (byte * palette)
+VL_SetPalette (uint8_t * palette)
 {
   SDL_Color cmap[256];
 
@@ -1387,7 +1350,7 @@ VL_SetPalette (byte * palette)
 */
 
 void
-VL_GetPalette (byte * palette)
+VL_GetPalette (uint8_t * palette)
 {
   SDL_Palette *pal = sdl_surface->format->palette;
 
@@ -1401,40 +1364,15 @@ VL_GetPalette (byte * palette)
     }
 }
 
-/*
-=================
-=
-= UL_ColorBox
-=
-=================
-*/
-
-void UL_ColorBox (int x, int y, int w, int h, int color)
-{
-#if defined (ANSIESC)
-   int i,j;
-
-
-   for (j=0;j<h;j++)
-      {
-      for (i=0;i<w;i++)
-         {
-         printf ("\x1b[%d;%dH",y+j,x+i);
-         put_dos2ansi(color);
-         }
-      }
-#endif
-}
-
 //******************************************************************************
 //
 // SideOfLine
 //
 //******************************************************************************
 
-int SideOfLine(int x1, int y1, int x2, int y2, int x3, int y3)
+int32_t SideOfLine(int32_t x1, int32_t y1, int32_t x2, int32_t y2, int32_t x3, int32_t y3)
 {
-   int a1,b1,c1;
+   int32_t a1,b1,c1;
 
    /* Compute a1, b1, c1, where line joining points 1 and 2
     * is "a1 x  +  b1 y  +  c1  =  0".
@@ -1455,16 +1393,16 @@ int SideOfLine(int x1, int y1, int x2, int y2, int x3, int y3)
 //
 //******************************************************************************
 
-typedef int (*PFI)();           /* pointer to a function returning int  */
-typedef void (*PFV)();           /* pointer to a function returning int  */
+typedef int32_t (*PFI)();           /* pointer to a function returning int32_t  */
+typedef void (*PFV)();           /* pointer to a function returning int32_t  */
 static PFI Comp;                        /* pointer to comparison routine                */
 static PFV Switch;                        /* pointer to comparison routine                */
-static int Width;                       /* width of an object in bytes                  */
+static int32_t Width;                       /* width of an object in bytes                  */
 static char *Base;                      /* pointer to element [-1] of array             */
 
 
-static void newsift_down(L,U) int L,U;
-{  int c;
+static void newsift_down(L,U) int32_t L,U;
+{  int32_t c;
 
    while(1)
       {c=L+L;
@@ -1476,9 +1414,9 @@ static void newsift_down(L,U) int L,U;
       }
 }
 
-void hsort(char * base, int nel, int width, int (*compare)(), void (*switcher)())
+void hsort(char * base, int32_t nel, int32_t width, int32_t (*compare)(), void (*switcher)())
 {
-static int i,n,stop;
+static int32_t i,n,stop;
         /*      Perform a heap sort on an array starting at base.  The array is
                 nel elements large and width is the size of a single element in
                 bytes.  Compare is a pointer to a comparison routine which will
@@ -1526,7 +1464,7 @@ char * UL_GetPath (char * path, char *dir)
 {
    bool done      = 0;
    char *dr          = dir;
-   int cnt           = 0;
+   int32_t cnt           = 0;
 
    if (*path == SLASHES)
       path++;
@@ -1579,32 +1517,6 @@ bool UL_ChangeDirectory (char *path)
 	
 	return true;
 }
-
-
-
-//******************************************************************************
-//
-// UL_ChangeDrive ()
-//
-// Purpose
-//    To change drives.
-//
-// Parms
-//    drive - The drive to change to.
-//
-// Returns
-//    TRUE  - If drive change successful.
-//    FALSE - If drive change unsuccessful.
-//
-//******************************************************************************
-
-bool UL_ChangeDrive (char *drive)
-{
-	STUB_FUNCTION;
-	
-	return false;
-}
-
 
 /*
 =============

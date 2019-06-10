@@ -1440,7 +1440,7 @@ void ScanForSavedGames ()
    chdir (ApogeePath);
 #endif
 
-   if (!_dos_findfirst (filename, 0, &f))
+   if (!_dos_findfirst (filename, &f))
       do
       {
          strcpy(str,&f.name[7]);

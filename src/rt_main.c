@@ -440,8 +440,6 @@ void DrawRottTitle ( void )
 #ifndef ANSIESC
 	 printf ("\n");
 #endif
-
-         UL_ColorBox (0, 0, 80, 2, 0x1e);
       }
    else
       {
