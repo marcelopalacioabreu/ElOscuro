@@ -1062,7 +1062,6 @@ void DrawNormalSprite (int x, int y, int shapenum)
    int cnt;
    byte *shape;
    patch_t *p;
-   int plane;
    byte * b;
    int startx;
 
