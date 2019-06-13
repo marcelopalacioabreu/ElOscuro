@@ -271,26 +271,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define  ANGLEBITS      16
 #define  ANGLEFRACMAX   (FINEANGLES<<ANGLEBITS)
 
-
-//***************************************************************************
-//
-//    SWIFT Constants
-//
-//***************************************************************************
-
-//
-// Dynamic device data
-//
-#define SDD_EXTERNAL_POWER_CONNECTED	1
-#define SDD_EXTERNAL_POWER_TOO_HIGH	   2
-
-#define AX(r) ((r).x.eax)
-#define BX(r) ((r).x.ebx)
-#define CX(r) ((r).x.ecx)
-#define DX(r) ((r).x.edx)
-#define SI(r) ((r).x.esi)
-#define DI(r) ((r).x.edi)
-
 //***************************************************************************
 //
 //    Global Types
