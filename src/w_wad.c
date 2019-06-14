@@ -113,7 +113,6 @@ void W_AddFile (char *_filename)
 {
         wadinfo_t               header;
         lumpinfo_t              *lump_p;
-        uint32_t                i;
         int32_t                     handle, length;
         int32_t                     startlump;
         filelump_t              *fileinfo, singleinfo;
@@ -184,7 +183,7 @@ void W_AddFile (char *_filename)
 //           Error("W_AddFile: Could not realloc %ld bytes",numlumps*sizeof(lumpinfo_t));
         lump_p = &lumpinfo[startlump];
 
-        for (i=startlump ; i<(int32_t)numlumps ; i++,lump_p++, fileinfo++)
+        for (uint32_t i=startlump ; i<(uint32_t)numlumps ; i++,lump_p++, fileinfo++)
         {
                 fileinfo->filepos = IntelLong(LONG(fileinfo->filepos));
                 fileinfo->size = IntelLong(LONG(fileinfo->size));
@@ -194,25 +193,6 @@ void W_AddFile (char *_filename)
                 strncpy (lump_p->name, fileinfo->name, 8);
         }
 }
-
-
-
-/*
-====================
-=
-= W_CheckWADIntegrity
-=
-====================
-*/
-
-void W_CheckWADIntegrity ( void )
-{
-   int32_t crc;
-
-// CRC disabled because it's not very useful these days
-}
-
-
 
 /*
 ====================
@@ -256,7 +236,6 @@ void W_InitMultipleFiles (char **filenames)
 
         if (!quiet)
            printf("W_Wad: Wad Manager Started NUMLUMPS=%ld\n",(int64_t)numlumps);
-           W_CheckWADIntegrity ();
 }
 
 
