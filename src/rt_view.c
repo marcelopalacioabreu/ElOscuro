@@ -458,7 +458,6 @@ void SetupScreen ( bool flip )
    if (flip==true)
       {
       ThreeDRefresh();
-      VL_CopyDisplayToHidden();
       }
 }
 

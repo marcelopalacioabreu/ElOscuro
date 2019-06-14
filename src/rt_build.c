@@ -558,7 +558,6 @@ void PositionMenuBuf( int angle, int distance, bool drawbackground )
       titleshadedir=-titleshadedir;
    if (BackgroundDrawn==false)
       {
-      VL_CopyDisplayToHidden();
       BackgroundDrawn=true;
       }
 }

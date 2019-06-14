@@ -205,10 +205,10 @@ void VL_SetVGAPlaneMode ( void )
 	g_xcenter = g_swidth / 2;
 	g_ycenter = (g_sheight / 2)+10 ;//+10 = move aim down a bit
 
-	iG_buf_center = bufferofs + (screensize/2);//(g_ycenter*g_swidth);//+g_xcenter;
+	iG_buf_center = (char*)(bufferofs + (screensize/2));//(g_ycenter*g_swidth);//+g_xcenter;
 
-	bufofsTopLimit =  bufferofs + screensize - g_swidth;
-	bufofsBottomLimit = bufferofs + g_swidth;
+	bufofsTopLimit =  (char*)(bufferofs + screensize - g_swidth);
+	bufofsBottomLimit = (char*)(bufferofs + g_swidth);
 
     // start stretched
     EnableScreenStretch();
@@ -237,29 +237,6 @@ void VL_CopyPlanarPage ( byte * src, byte * dest )
 void VL_CopyPlanarPageToMemory ( byte * src, byte * dest )
 {
       memcpy(dest,src,screensize);
-}
-
-/*
-=======================
-=
-= VL_CopyBufferToAll
-=
-=======================
-*/
-void VL_CopyBufferToAll ( byte *buffer )
-{
-}
-
-/*
-=======================
-=
-= VL_CopyDisplayToHidden
-=
-=======================
-*/
-void VL_CopyDisplayToHidden ( void )
-{
-   VL_CopyBufferToAll ( displayofs );
 }
 
 /*
@@ -380,8 +357,6 @@ void XFlipPage ( void )
 
 void EnableScreenStretch(void)
 {
-   int i,offset;
-   
    if (g_swidth <= 320 || StretchScreen) return;
    
    if (unstretch_sdl_surface == NULL)
@@ -450,7 +425,7 @@ void DrawCenterAim ()
 					iG_playerTilt = -(2048 - iG_playerTilt);
 			  }
 			  if (g_swidth == 640){ x = iG_playerTilt;iG_playerTilt=x/2; }
-			  iG_buf_center = bufferofs + ((g_ycenter-iG_playerTilt)*g_swidth);//+g_xcenter;
+			  iG_buf_center = (char*)(bufferofs + ((g_ycenter-iG_playerTilt)*g_swidth));//+g_xcenter;
 
 			  for (x=g_xcenter-10;x<=g_xcenter-4;x++){
 				  if ((iG_buf_center+x < bufofsTopLimit)&&(iG_buf_center+x > bufofsBottomLimit)){
