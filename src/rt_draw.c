@@ -2040,7 +2040,6 @@ void WallRefresh (void)
    whereami=16;
    firstcoloffset=(firstcoloffset+(tics<<8))&65535;
 
-   dtime=GetFastTics();
    if (missobj)
       {
       viewangle=missobj->angle;
@@ -2141,7 +2140,6 @@ void WallRefresh (void)
    UpdateClientControls();
    DrawWalls();
    UpdateClientControls();
-   walltime=GetFastTics()-dtime;
 
 }
 
@@ -3036,16 +3034,12 @@ void RotateBuffer (int startangle, int endangle, int startscale, int endscale, i
 
    //save off fastcounter
 
-   savetics=GetFastTics();
 
    StartupRotateBuffer (0);
 
    ScaleAndRotateBuffer (startangle, endangle, startscale, endscale, time);
 
    ShutdownRotateBuffer ();
-
-   // restore fast counter
-   SetFastTics(savetics);
 }
 
 static void DrawMaskedRotRow(int32_t count, uint8_t* dest, uint8_t* src)

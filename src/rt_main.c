@@ -1618,8 +1618,6 @@ void UpdateGameObjects ( void )
       waminot();
       }
 
-	atime=GetFastTics();
-
    UpdateClientControls ();
 
    if (demoplayback == false)
@@ -1694,7 +1692,6 @@ void UpdateGameObjects ( void )
       if (GamePaused==true)
          break;
 		}
-   actortime=GetFastTics()-atime;
 
    UpdateClientControls ();
 
@@ -1798,7 +1795,6 @@ fromloadedgame:
    drawtime  = 0;
    actortime = 0;
 	tics      = 0;
-	SetFastTics(0);
 
    if ( fizzlein == false )
       {
@@ -1832,8 +1828,6 @@ fromloadedgame:
          {
          PauseLoop();
 
-         atime = GetFastTics();
-
          if ( RefreshPause )
             {
             ThreeDRefresh();
@@ -1848,14 +1842,10 @@ fromloadedgame:
          if (controlupdatestarted == 1)
             UpdateGameObjects();
 
-         atime = GetFastTics();
-
          ThreeDRefresh();
          }
 
       SyncToServer();
-
-		drawtime = GetFastTics() - atime;
 
       // Don't allow player to quit if entering message
       canquit = !MSG.messageon;
