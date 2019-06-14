@@ -594,7 +594,7 @@ void MU_StopSong ( void );
 // MU_SetVolume
 //
 //***************************************************************************
-#define MU_SetVolume(x) MUSIC_SetVolume(x)
+#define MU_SetVolume(x) MUSIC_SetVolume()
 
 //***************************************************************************
 //

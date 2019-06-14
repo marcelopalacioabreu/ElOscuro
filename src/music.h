@@ -63,10 +63,10 @@ typedef struct
 #define MUSIC_PlayOnce ( !MUSIC_LoopSong )
 
 char *MUSIC_ErrorString( int ErrorNumber );
-int   MUSIC_Init( int SoundCard, int Address );
+int   MUSIC_Init(void);
 int   MUSIC_Shutdown( void );
 void  MUSIC_SetMaxFMMidiChannel( int channel );
-void  MUSIC_SetVolume( int volume );
+void  MUSIC_SetVolume(void);
 void  MUSIC_SetMidiChannelVolume( int channel, int volume );
 void  MUSIC_ResetMidiChannelVolumes( void );
 int   MUSIC_GetVolume( void );
@@ -75,22 +75,22 @@ int   MUSIC_SongPlaying( void );
 void  MUSIC_Continue( void );
 void  MUSIC_Pause( void );
 int   MUSIC_StopSong( void );
-int   MUSIC_PlaySong( unsigned char *song, int loopflag );
+int   MUSIC_PlaySong( unsigned char *song );
 
 // ROTT Special - SBF
-int   MUSIC_PlaySongROTT(unsigned char *song, int size, int loopflag);
+int   MUSIC_PlaySongROTT( unsigned char *song, int size );
 
 void  MUSIC_SetContext( int context );
 int   MUSIC_GetContext( void );
-void  MUSIC_SetSongTick( unsigned long PositionInTicks );
-void  MUSIC_SetSongTime( unsigned long milliseconds );
-void  MUSIC_SetSongPosition( int measure, int beat, int tick );
-void  MUSIC_GetSongPosition( songposition *pos );
-void  MUSIC_GetSongLength( songposition *pos );
-int   MUSIC_FadeVolume( int tovolume, int milliseconds );
+void  MUSIC_SetSongTick(void);
+void  MUSIC_SetSongTime(void);
+void  MUSIC_SetSongPosition(void);
+void  MUSIC_GetSongPosition(void);
+void  MUSIC_GetSongLength(void);
+int   MUSIC_FadeVolume(void);
 int   MUSIC_FadeActive( void );
 void  MUSIC_StopFade( void );
-void  MUSIC_RerouteMidiChannel( int channel, int cdecl ( *function )( int event, int c1, int c2 ) );
-void  MUSIC_RegisterTimbreBank( unsigned char *timbres );
+void  MUSIC_RerouteMidiChannel(void);
+void  MUSIC_RegisterTimbreBank(void);
 
 #endif

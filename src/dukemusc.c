@@ -52,16 +52,7 @@ int MUSIC_ErrorCode = MUSIC_Ok;
 
 static char warningMessage[80];
 static char errorMessage[80];
-static int fx_initialized = 0;
-static int numChannels = MIX_CHANNELS;
-static void (*callback)(unsigned long);
-static int reverseStereo = 0;
-static int reverbDelay = 256;
-static int reverbLevel = 0;
-static int fastReverb = 0;
 static FILE *debug_file = NULL;
-static int initialized_debugging = 0;
-static int mixerIsStereo = 1;
 
 // This gets called all over the place for information and debugging messages.
 //  If the user set the DUKESND_DEBUG environment variable, the messages
@@ -82,49 +73,6 @@ static void musdebug(const char *fmt, ...)
         fflush(debug_file);
     } // if
 } // musdebug
-
-static void init_debugging(void)
-{
-    const char *envr;
-
-    if (initialized_debugging)
-        return;
-
-    envr = getenv(DUKESND_DEBUG);
-    if (envr != NULL)
-    {
-        if (strcmp(envr, "-") == 0)
-            debug_file = stdout;
-        else
-            debug_file = fopen(envr, "w");
-
-        if (debug_file == NULL)
-            fprintf(stderr, "DUKESND: -WARNING- Could not open debug file!\n");
-        else
-            setbuf(debug_file, NULL);
-    } // if
-
-    initialized_debugging = 1;
-} // init_debugging
-
-static void setWarningMessage(const char *msg)
-{
-    strncpy(warningMessage, msg, sizeof (warningMessage));
-    // strncpy() doesn't add the null char if there isn't room...
-    warningMessage[sizeof (warningMessage) - 1] = '\0';
-    musdebug("Warning message set to [%s].", warningMessage);
-} // setErrorMessage
-
-
-static void setErrorMessage(const char *msg)
-{
-    strncpy(errorMessage, msg, sizeof (errorMessage));
-    // strncpy() doesn't add the null char if there isn't room...
-    errorMessage[sizeof (errorMessage) - 1] = '\0';
-    musdebug("Error message set to [%s].", errorMessage);
-} // setErrorMessage
-
-// The music functions...
 
 char *MUSIC_ErrorString(int ErrorNumber)
 {
@@ -172,13 +120,11 @@ char *MUSIC_ErrorString(int ErrorNumber)
 } // MUSIC_ErrorString
 
 
-static int music_initialized = 0;
 static int music_context = 0;
 static int music_loopflag = MUSIC_PlayOnce;
 static char *music_songdata = NULL;
-static Mix_Music *music_musicchunk = NULL;
 
-int MUSIC_Init(int SoundCard, int Address)
+int MUSIC_Init(void)
 {
   // libADLMIDI
   //SDL_AudioSpec spec;
@@ -256,7 +202,7 @@ void MUSIC_SetMaxFMMidiChannel(int channel)
 } // MUSIC_SetMaxFMMidiChannel
 
 
-void MUSIC_SetVolume(int volume)
+void MUSIC_SetVolume(void)
 {
   //Mix_VolumeMusic(volume >> 1);  // convert 0-255 to 0-128.
 } // MUSIC_SetVolume
@@ -359,13 +305,13 @@ int MUSIC_StopSong(void)
 } // MUSIC_StopSong
 
 
-int MUSIC_PlaySong(unsigned char *song, int loopflag)
+int MUSIC_PlaySong(unsigned char *song)
 {
     //SDL_RWops *rw;
 
     MUSIC_StopSong();
 
-    music_songdata = song;
+    music_songdata = (char*)song;
 
     // !!! FIXME: This could be a problem...SDL/SDL_mixer wants a RWops, which
     // !!! FIXME:  is an i/o abstraction. Since we already have the MIDI data
@@ -390,9 +336,9 @@ musdebug("Need to use PlaySongROTT.  :(");
 extern char ApogeePath[256];
 
 // ROTT Special - SBF
-int MUSIC_PlaySongROTT(unsigned char *song, int size, int loopflag)
+int MUSIC_PlaySongROTT(unsigned char *song, int size)
 {
-  int8_t music_path[MAX_PATH];
+  char music_path[MAX_PATH];
   int32_t handle;
   int adl_ret;
 
@@ -444,6 +390,7 @@ int MUSIC_PlaySongROTT(unsigned char *song, int size, int loopflag)
 
     return(MUSIC_Ok);
   */
+  return(MUSIC_Ok);
 } // MUSIC_PlaySongROTT
 
 void MUSIC_SetContext(int context)
@@ -459,37 +406,37 @@ int MUSIC_GetContext(void)
 } // MUSIC_GetContext
 
 
-void MUSIC_SetSongTick(unsigned long PositionInTicks)
+void MUSIC_SetSongTick(void)
 {
     musdebug("STUB ... MUSIC_SetSongTick().\n");
 } // MUSIC_SetSongTick
 
 
-void MUSIC_SetSongTime(unsigned long milliseconds)
+void MUSIC_SetSongTime(void)
 {
     musdebug("STUB ... MUSIC_SetSongTime().\n");
 }// MUSIC_SetSongTime
 
 
-void MUSIC_SetSongPosition(int measure, int beat, int tick)
+void MUSIC_SetSongPosition(void)
 {
     musdebug("STUB ... MUSIC_SetSongPosition().\n");
 } // MUSIC_SetSongPosition
 
 
-void MUSIC_GetSongPosition(songposition *pos)
+void MUSIC_GetSongPosition(void)
 {
     musdebug("STUB ... MUSIC_GetSongPosition().\n");
 } // MUSIC_GetSongPosition
 
 
-void MUSIC_GetSongLength(songposition *pos)
+void MUSIC_GetSongLength(void)
 {
     musdebug("STUB ... MUSIC_GetSongLength().\n");
 } // MUSIC_GetSongLength
 
 
-int MUSIC_FadeVolume(int tovolume, int milliseconds)
+int MUSIC_FadeVolume(void)
 {
   //Mix_FadeOutMusic(milliseconds);
     return(MUSIC_Ok);
@@ -509,13 +456,13 @@ void MUSIC_StopFade(void)
 } // MUSIC_StopFade
 
 
-void MUSIC_RerouteMidiChannel(int channel, int cdecl (*function)( int event, int c1, int c2 ))
+void MUSIC_RerouteMidiChannel(void)
 {
     musdebug("STUB ... MUSIC_RerouteMidiChannel().\n");
 } // MUSIC_RerouteMidiChannel
 
 
-void MUSIC_RegisterTimbreBank(unsigned char *timbres)
+void MUSIC_RegisterTimbreBank(void)
 {
     musdebug("STUB ... MUSIC_RegisterTimbreBank().\n");
 } // MUSIC_RegisterTimbreBank

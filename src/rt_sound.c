@@ -69,14 +69,16 @@ int fxnums[ 11 ] = {
    };
 
 int MUSIC_GetPosition( void ) {
+  //TODO remove
    songposition pos;
 
-   MUSIC_GetSongPosition( &pos );
+   MUSIC_GetSongPosition();
    return pos.milliseconds;
 }
 
 void MUSIC_SetPosition( int time ) {
-   MUSIC_SetSongTime( ( unsigned long )time );
+  //TODO remove
+  MUSIC_SetSongTime();
 }
 
 
@@ -939,7 +941,7 @@ int MU_Startup ( bool bombonerror )
       return (0);
 
    /* Not DOS, no address config needed */
-   status=MUSIC_Init( card, 0 );
+   status=MUSIC_Init();
 
    if (status != MUSIC_Ok) {
       if (bombonerror)
@@ -1022,10 +1024,7 @@ void MU_PlaySong ( int num )
 
    currentsong=W_CacheLumpNum(lump,PU_STATIC, 0, 1);
 
-   if (rottsongs[num].loopflag == loop_yes)
-      MUSIC_PlaySongROTT(currentsong,size,MUSIC_LoopSong);
-   else
-      MUSIC_PlaySongROTT(currentsong,size,MUSIC_PlayOnce);
+   MUSIC_PlaySongROTT(currentsong,size); //TODO check about the loop flags
 
    MU_SetVolume (MUvolume);
 }
@@ -1093,12 +1092,13 @@ void MU_FadeToSong ( int num, int time )
 
 void MU_FadeIn ( int num, int time )
 {
+  //TODO Check use of this function
    if (MU_Started==false)
       return;
 
-   MUSIC_SetVolume(0);
+   MUSIC_SetVolume();
    MU_PlaySong ( num );
-   MUSIC_FadeVolume (MUvolume, time);
+   MUSIC_FadeVolume ();
 }
 
 //***************************************************************************
@@ -1115,7 +1115,7 @@ void MU_FadeOut ( int time )
       {
       return;
       }
-   MUSIC_FadeVolume(0,time);
+   MUSIC_FadeVolume();
 }
 
 
