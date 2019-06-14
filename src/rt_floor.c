@@ -138,7 +138,6 @@ void DrawFullSky( void )
 
    byte * src;
    int dest;
-   int plane;
    int ang;
    int angle;
    int ofs;
@@ -497,14 +496,12 @@ static void DrawRow(int32_t count, uint8_t* dest, uint8_t* src)
 
 void DrawHLine (int xleft, int xright, int yp)
 {
-   int plane;
    byte * buf;
    byte * dest;
    int startxfrac;
    int startyfrac;
    int height;
 //   int length;
-   int ofs;
 
    if (yp==centery)
       return;
