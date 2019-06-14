@@ -24,4 +24,4 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 void DrawCinematicActors (void);
 void ShutdownCinematicActors (void);
 void StartupCinematicActors (void);
-
+void UpdateCinematicActors (void);

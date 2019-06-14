@@ -36,6 +36,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "cin_evnt.h"
 #include "cin_efct.h"
 
+#include "isr.h"
+#include "rt_in.h"
+
 bool cinematicdone;
 static int cinematictime;
 static int cinematictics;
@@ -204,7 +207,7 @@ void GetCinematicTics ( void )
 }
 
 
-void PlayMovie ( int8_t * name, bool uselumpy )
+void PlayMovie ( char * name, bool uselumpy )
 {
    int i;
 

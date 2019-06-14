@@ -22,11 +22,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #pragma once
 
 #include <stdbool.h>
-#include <stdint.h>
 
 extern bool cinematicdone;
 
 void GetCinematicTics (void);
-void GrabMovieScript (int8_t const*, bool);
-void PlayMovie (int8_t*, bool);
+void PlayMovie (char*, bool);
 
