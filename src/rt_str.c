@@ -56,8 +56,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define SINGLE_FRAME -1
 #define DOUBLE_FRAME -2
 
-void (*USL_MeasureString) (const int8_t*, int32_t*, int32_t*, font_t*) = (void (*)(const int8_t*, int32_t*, int32_t*, font_t*)) VW_MeasurePropString;
-void (*USL_DrawString) (const int8_t*) = VWB_DrawPropString;
+void (*USL_MeasureString) (const char*, int32_t*, int32_t*, font_t*) = (void (*)(const char*, int32_t*, int32_t*, font_t*)) VW_MeasurePropString;
+void (*USL_DrawString) (const char*) = VWB_DrawPropString;
 
 
 //******************************************************************************
@@ -218,7 +218,7 @@ void VW_DrawPropString (const char *string)
 //
 //******************************************************************************
 
-void VWB_DrawPropString  (const int8_t *string)
+void VWB_DrawPropString  (const char *string)
 {
    int x;
    x = px;
@@ -345,7 +345,7 @@ void VW_MeasureIntensityPropString (const char *string, int *width, int *height)
 //
 //******************************************************************************
 
-void VW_MeasurePropString (const int8_t *string, int32_t *width, int32_t *height)
+void VW_MeasurePropString (const char *string, int32_t *width, int32_t *height)
 {
    VWL_MeasureString (string, width, height, CurrentFont);
 }
