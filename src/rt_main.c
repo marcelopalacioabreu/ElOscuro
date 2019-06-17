@@ -1535,7 +1535,8 @@ void QuitGame ( void )
    byte *txtscn;
    int k;
 
-   MU_FadeOut(200);
+   //MU_FadeOut();//Should be a fadeout of 200
+   MU_StopSong(); //Simple fix
    while (MU_FadeActive())
       {
       int time=GetTicCount();

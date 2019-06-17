@@ -5095,7 +5095,7 @@ void DoEndCinematic ( void )
 
    viewwidth = 320;//MAXSCREENWIDTH;
    viewheight = 200;//MAXSCREENHEIGHT;
-   MU_FadeOut ( 1000 );
+   MU_FadeOut (); // Should be a fadeout of 1000
    MU_StopSong ();
 
    ShowFinalDoor();

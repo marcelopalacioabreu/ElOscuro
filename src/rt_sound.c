@@ -70,13 +70,14 @@ int fxnums[ 11 ] = {
 
 int MUSIC_GetPosition( void ) {
   //TODO remove
-   songposition pos;
+   //songposition pos;
 
    MUSIC_GetSongPosition();
-   return pos.milliseconds;
+   //return pos.milliseconds;
+   return 0;
 }
 
-void MUSIC_SetPosition( int time ) {
+void MUSIC_SetPosition(void) {
   //TODO remove
   MUSIC_SetSongTime();
 }
@@ -144,7 +145,9 @@ int SD_SetupFXCard ( int * numvoices, int * numbits, int * numchannels)
 
    card = fxnums[ FXMode ];
    if (card==-1) // Check if it is off
+   {
       return (0);
+   }
       status=FX_SetupCard( card, &device );
       if ( status == FX_Ok )
          {
@@ -313,12 +316,12 @@ int SD_PlayIt ( int sndnum, int angle, int distance, int pitch )
 
    if ( *snd == 'C' )
       {
-      voice = FX_PlayVOC3D( snd, pitch, angle, distance,
+      voice = FX_PlayVOC3D( (char*)snd, pitch, angle, distance,
          sounds[sndnum].priority, (unsigned long) sndnum );
       }
    else
       {
-      voice = FX_PlayWAV3D( snd, pitch, angle, distance,
+      voice = FX_PlayWAV3D( (char*)snd, pitch, angle, distance,
          sounds[sndnum].priority, (unsigned long) sndnum );
       }
 
@@ -1066,14 +1069,15 @@ int MU_GetSongNumber ( void )
 //
 //***************************************************************************
 
-void MU_FadeToSong ( int num, int time )
+void MU_FadeToSong ( int num )
 {
    int t;
 
    if (MU_Started==false)
       return;
 
-   MU_FadeOut(time>>1);
+   //MU_FadeOut(time>>1);
+   MU_StopSong();
 
    while (MU_FadeActive())
       {
@@ -1081,7 +1085,7 @@ void MU_FadeToSong ( int num, int time )
       while (GetTicCount()==t) {}
       }
 
-   MU_FadeIn (num,time>>1);
+   MU_FadeIn (num);
 }
 
 //***************************************************************************
@@ -1090,7 +1094,7 @@ void MU_FadeToSong ( int num, int time )
 //
 //***************************************************************************
 
-void MU_FadeIn ( int num, int time )
+void MU_FadeIn ( int num )
 {
   //TODO Check use of this function
    if (MU_Started==false)
@@ -1107,7 +1111,7 @@ void MU_FadeIn ( int num, int time )
 //
 //***************************************************************************
 
-void MU_FadeOut ( int time )
+void MU_FadeOut ( void )
 {
    if (MU_Started==false)
       return;
@@ -1179,7 +1183,7 @@ void MU_RestoreSongPosition ( void )
       return;
    PositionStored=false;
 
-   MUSIC_SetPosition(storedposition);
+   MUSIC_SetPosition();
 }
 
 //***************************************************************************
@@ -1233,11 +1237,11 @@ int MU_GetSongPosition ( void )
 //
 //***************************************************************************
 
-void MU_SetSongPosition ( int position )
+void MU_SetSongPosition ( void )
 {
    if (MU_Started==false)
       return;
-   MUSIC_SetPosition(position);
+   MUSIC_SetPosition();
 }
 
 //***************************************************************************
@@ -1358,7 +1362,7 @@ void MU_LoadMusic (byte * buf, int size)
    ptr+=vsize;
    if (differentsong==true)
       {
-      MU_SetSongPosition(i);
+      MU_SetSongPosition();//i);
       }
 
    vsize=sizeof(i);

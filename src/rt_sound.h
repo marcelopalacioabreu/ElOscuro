@@ -630,21 +630,21 @@ void MU_StopSong ( void );
 // MU_FadeIn
 //
 //***************************************************************************
-void MU_FadeIn ( int num, int time );
+void MU_FadeIn ( int num );
 
 //***************************************************************************
 //
 // MU_FadeOut
 //
 //***************************************************************************
-void MU_FadeOut ( int time );
+void MU_FadeOut ( void );
 
 //***************************************************************************
 //
 // MU_FadeToSong
 //
 //***************************************************************************
-void MU_FadeToSong ( int num, int time );
+void MU_FadeToSong ( int num );
 
 //***************************************************************************
 //
@@ -671,7 +671,7 @@ void MU_RestoreSongPosition ( void );
 
 int MU_GetSongPosition ( void );
 
-void MU_SetSongPosition ( int position );
+void MU_SetSongPosition ( void );
 
 int MU_GetSongNumber ( void );
 
