@@ -82,19 +82,6 @@ int zonememorystarted=0;
 static memzone_t       *mainzone;
 static memzone_t       *levelzone;
 static int levelzonesize=LEVELZONESIZE;
-static struct meminfo
-   {
-   unsigned LargestBlockAvail;
-   unsigned MaxUnlockedPage;
-   unsigned LargestLockablePage;
-   unsigned LinAddrSpace;
-   unsigned NumFreePagesAvail;
-   unsigned NumPhysicalPagesFree;
-   unsigned TotalPhysicalPages;
-   unsigned FreeLinAddrSpace;
-   unsigned SizeOfPageFile;
-   unsigned Reserved[3];
-   } MemInfo;
 
 /*
 ========================
@@ -514,7 +501,7 @@ void Z_DumpHeap (int lowtag, int hightag)
         int             totalsize;
 
         SoftError("MAIN ZONE\n");
-        SoftError("zone size: %i  location: %p\n",mainzone->size,mainzone);
+        SoftError("zone size: %i  location: %p\n",mainzone->size,(void*)mainzone);
         SoftError("tag range: %i to %i\n",lowtag, hightag);
 
         totalsize=0;
@@ -524,7 +511,7 @@ void Z_DumpHeap (int lowtag, int hightag)
                 if (block->tag >= lowtag && block->tag <= hightag)
                         {
                         SoftError("block:%p    size:%7i    user:%p    tag:%3i\n",
-                        block, block->size, block->user, block->tag);
+                        (void*)block, block->size, block->user[0], block->tag);
                         totalsize+=block->size;
                         }
 
@@ -544,7 +531,7 @@ void Z_DumpHeap (int lowtag, int hightag)
         SoftError("Total Size of blocks = %d\n",totalsize);
 
         SoftError("LEVEL ZONE\n");
-        SoftError("zone size: %i  location: %p\n",levelzone->size,levelzone);
+        SoftError("zone size: %i  location: %p\n",levelzone->size,(void*)levelzone);
         SoftError("tag range: %i to %i\n",lowtag, hightag);
 
         totalsize=0;
@@ -554,7 +541,7 @@ void Z_DumpHeap (int lowtag, int hightag)
                 if (block->tag >= lowtag && block->tag <= hightag)
                         {
                         SoftError("block:%p    size:%7i    user:%p    tag:%3i\n",
-                        block, block->size, block->user, block->tag);
+                        (void*)block, block->size, block->user[0], block->tag);
                         totalsize+=block->size;
                         }
 
