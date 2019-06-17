@@ -152,7 +152,6 @@ void FixMapSeen( void )
 void DrawMap_Wall (int x, int y, int tile)
 {
    byte * buf;
-   int p;
    byte * b;
    byte * source;
    byte * s;
@@ -201,7 +200,6 @@ void DrawMap_AnimatedWall (int x, int y, int tile)
 void DrawMap_SkyTile (int x, int y)
 {
    byte * buf;
-   int p;
    byte * b;
    byte * s;
    int i;
