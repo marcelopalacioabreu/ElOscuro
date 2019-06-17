@@ -69,7 +69,7 @@ static int32_t     MsgPos = 0;
 
 bool MessagesEnabled = true;
 
-int32_t StringLength (int8_t* string)
+int32_t StringLength (char* string)
 {
 	int32_t length=0;
 
@@ -324,7 +324,7 @@ int32_t GetFreeMessage
 void SetMessage
    (
    int32_t   num,
-   int8_t* text,
+   char* text,
    int32_t   flags
    )
 
@@ -395,7 +395,7 @@ void SetMessage
 */
 int32_t AddMessage
    (
-   int8_t* text,
+   char* text,
    int32_t flags
    )
 
@@ -577,7 +577,7 @@ void RestoreMessageBackground
          if ( EraseMessage[ i ] )
             {
             UpdateMessageBackground--;
-            EraseMessage[ i ]--;
+            EraseMessage[ i ] = false;
             if ( viewsize < 15 )
                {
                shape =  ( pic_t * )W_CacheLumpName( "backtile", PU_CACHE, cvt_pic_t, 1 );//w=32 h=8
@@ -643,7 +643,7 @@ void DrawMessages
 void UpdateModemMessage
    (
    int32_t num,
-   int8_t c
+   char c
    )
 
    {
@@ -714,7 +714,7 @@ void DrawPlayerSelectionMenu
    {
    int32_t i;
    int32_t p;
-   int8_t str[ 20 ];
+   char str[ 20 ];
 
    p = 1;
    MsgPos = 1;

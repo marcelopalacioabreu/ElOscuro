@@ -52,13 +52,13 @@ typedef struct msgt
   uint8_t active;
   uint8_t flags;
   int32_t tictime;
-  int8_t* text;
+  char* text;
 } messagetype;
 
 extern messagetype Messages[MAXMSGS];
 extern bool MessagesEnabled;
 
-int32_t AddMessage (int8_t*, int32_t);
+int32_t AddMessage (char*, int32_t);
 void DeleteMessage (int32_t);
 void DeletePriorityMessage (int32_t);
 void DrawMessages (void);
@@ -67,5 +67,5 @@ void InitializeMessages (void);
 void ModemMessageDeleteChar (int32_t);
 void ResetMessageTime (void);
 void RestoreMessageBackground (void);
-int32_t StringLength (int8_t*);
-void UpdateModemMessage (int32_t, int8_t);
+int32_t StringLength (char*);
+void UpdateModemMessage (int32_t, char);
