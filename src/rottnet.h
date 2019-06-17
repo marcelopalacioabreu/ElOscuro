@@ -59,7 +59,7 @@ typedef struct
    short   remoteridicule; // 0 = remote ridicule is off 1= rr is on
 
 // packet data to be sent
-	char	data[MAXPACKETSIZE];
+	char	data[MAXPACKETSIZE]; //shouldn't this be uint8_t?
 } rottcom_t;
 
 #define  MODEM_GAME   0

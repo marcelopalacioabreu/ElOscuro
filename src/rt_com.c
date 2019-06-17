@@ -85,8 +85,6 @@ void SetTransitTime( int client, int time );
 
 #ifdef PLATFORM_UNIX
 
-static int sock = -1;
-
 static void ReadUDPPacket()
 {
 	rottcom->remotenode = -1;
@@ -109,7 +107,6 @@ static void WriteUDPPacket()
 void InitROTTNET (void)
 {
 	int netarg;
-	long netaddress;
 
 	if (ComStarted==true)
 		return;
@@ -242,7 +239,7 @@ bool ReadPacket (void)
    if (rottcom->remotenode!=-1)
       {
       // calculate crc on packet
-      crc=calculate_crc (&rottcom->data[0], rottcom->datalength-sizeof(word));
+      crc=calculate_crc ((uint8_t*)&rottcom->data[0], rottcom->datalength-sizeof(word)); //FIXME
 
       // get crc inside packet
       sentcrc=*((word *)(&rottcom->data[rottcom->datalength-sizeof(word)]));
