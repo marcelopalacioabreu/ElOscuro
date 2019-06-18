@@ -1248,37 +1248,51 @@ void SpawnStatic (int tilex, int tiley, int mtype, int zoffset)
 	 zoffset=-1;
 
  if (temp)
-  {  memset(temp,0,sizeof(*temp));
-	  temp->shapenum = stats[mtype].picnum;
-	  temp->whichstat = statcount ++;
-	  temp->tilex = tilex;
-	  temp->tiley = tiley;
-	  temp->x = ((long)tilex << TILESHIFT) + 0x8000;
-	  temp->y = ((long)tiley << TILESHIFT) + 0x8000;
-	  temp->areanumber = MAPSPOT(tilex,tiley,0)-AREATILE;
-	  temp->linked_to = -1;
-	  if ((temp->areanumber<=0) || (temp->areanumber>NUMAREAS))
-		  Error ("Sprite at x=%d y=%d type=%d has an illegal areanumber\n",tilex,tiley,mtype);
+   {  memset(temp,0,sizeof(*temp));
+     temp->shapenum = stats[mtype].picnum;
+     temp->whichstat = statcount ++;
+     temp->tilex = tilex;
+     temp->tiley = tiley;
+     temp->x = ((long)tilex << TILESHIFT) + 0x8000;
+     temp->y = ((long)tiley << TILESHIFT) + 0x8000;
+     temp->areanumber = MAPSPOT(tilex,tiley,0)-AREATILE;
+     temp->linked_to = -1;
+     if ((temp->areanumber<=0) || (temp->areanumber>NUMAREAS))
+       {
+         Error ("Sprite at x=%d y=%d type=%d has an illegal areanumber\n",tilex,tiley,mtype);
+       }
      if ( mtype == stat_mine )
-        {
-        temp->z = nominalheight;
-        }
+       {
+         temp->z = nominalheight;
+       }
      else if (zoffset!=-1)
-		  {
-		  if ((zoffset&0xff00)==0xb000)
-           Set_NewZ_to_MapValue(&(temp->z),zoffset,"static",tilex,tiley);
-		  else if (IsPlatform(tilex,tiley))
-			  temp->z = PlatformHeight(tilex,tiley);
-		  else if (zoffset==11)
-			  temp->z=-65;
-		  else if (zoffset==12)
-			  temp->z=-66;
-		  else
-			  temp->z = nominalheight;
-			 // Error ("You didn't specify a valid height over the sprite at tilex=%ld tiley=%ld\n",tilex,tiley);
-		  }
-	  else if (mtype>stat_chandelier)
-		  temp->z = nominalheight;
+       {
+         if ((zoffset&0xff00)==0xb000)
+           {
+             Set_NewZ_to_MapValue(&(temp->z),zoffset,"static",tilex,tiley);
+           }
+         else if (IsPlatform(tilex,tiley))
+           {
+             temp->z = PlatformHeight(tilex,tiley);
+           }
+         else if (zoffset==11)
+           {
+             temp->z=-65;
+           }
+         else if (zoffset==12)
+           {
+             temp->z=-66;
+           }
+         else
+           {
+             temp->z = nominalheight;
+           }
+         // Error ("You didn't specify a valid height over the sprite at tilex=%ld tiley=%ld\n",tilex,tiley);
+       }
+     else if (mtype>stat_chandelier)
+       {
+         temp->z = nominalheight;
+       }
 
 	  temp->visspot = &spotvis[tilex][tiley];
 	  temp->which = SPRITE;
