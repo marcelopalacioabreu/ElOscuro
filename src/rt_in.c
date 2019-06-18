@@ -153,7 +153,7 @@ static char *ParmStrings[] = {"nojoys","nomouse",NULL};
 
 #define sdldebug printf
 
-static int sdl_mouse_button_filter(SDL_Event const *event)
+static int sdl_mouse_button_filter()//SDL_Event const *event)
 {
         /*
          * What DOS games expect:
@@ -471,7 +471,6 @@ void INL_GetJoyDelta (word joy, int *dx, int *dy)
 {
    word        x, y;
    JoystickDef *def;
-   static longword lasttime;
 
    IN_GetJoyAbs (joy, &x, &y);
    def = JoyDefs + joy;
@@ -521,8 +520,6 @@ void INL_GetJoyDelta (word joy, int *dx, int *dy)
    }
    else
       *dy = 0;
-
-   lasttime = GetTicCount();
 }
 
 
