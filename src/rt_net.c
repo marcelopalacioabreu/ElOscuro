@@ -2046,7 +2046,6 @@ void ProcessServer ( void )
    bool exit;
    int i;
    int time;
-   int quittime;
 
    if (InProcessServer==true)
       return;
@@ -2057,7 +2056,6 @@ void ProcessServer ( void )
       goto exitProcessServer;
 
    time=GetTicCount();
-   quittime=GetTicCount()+SERVERTIMEOUT;
    exit=false;
 
    while (time>=serverupdatetime)
