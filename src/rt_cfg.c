@@ -296,8 +296,6 @@ void SetSoundDefaultValues
    )
 
    {
-   int status;
-
    //
    //  no config file, so select default values
    //
