@@ -964,8 +964,6 @@ int NumberOfTeams
 
 void GameLoop (void)
 {
-   bool done   = false;
-   bool loadit = false;
    int NextLevel;
 
    wami(1);
@@ -1227,7 +1225,6 @@ void GameLoop (void)
          break;
 
          case ex_died:
-            loadit = done = false;
 //		   SetTextMode (  ); //12345678
             Died ();
             StopWind();
