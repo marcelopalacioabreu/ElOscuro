@@ -114,7 +114,6 @@ static bool turbo;
 
 static bool NoWait = true;
 static int startlevel=0;
-static int demonumber=-1;
 
 char CWD[40];                          // curent working directory
 static bool quitactive = false;
@@ -149,7 +148,6 @@ extern void RecordDemoQuery ( void );
 
 int main (int argc, char *argv[])
 {
-    char *macwd;
     extern char *BATTMAPS;
 	_argc = argc;
 	_argv = argv;
@@ -250,15 +248,12 @@ int main (int argc, char *argv[])
 //      }
    if (standalone==false)
       {
-      int status1 = 0;
       int status2 = 0;
-      int status3 = 0;
 
       if ( !NoSound && !IS8250 )
          {
          if (!quiet)
             printf( "MU_Startup: " );
-         status1 = MU_Startup(false);
          if (!quiet)
             printf( "%s\n", MUSIC_ErrorString( MUSIC_Error ) );
          }
@@ -287,7 +282,6 @@ int main (int argc, char *argv[])
             {
             if (!quiet)
                printf( "SD_Startup: " );
-            status3 = SD_Startup(false);
             if (!quiet)
                printf( "%s\n", FX_ErrorString( FX_Error ) );
             }
@@ -756,7 +750,7 @@ void SetupWads( void )
 					fread(buf,3,3,f);//is the 3 first letters RTL (RTC)
 				    if (((strstr(buf,"RTL") != 0)||strstr(buf,"RTC") != 0)) {
 						GameLevels.file = strdup(tempstr);
-						GameLevels.avail++;
+						GameLevels.avail = true;
 						buf = realloc(buf, 32 + strlen(tempstr));
 						strcpy (buf,"Adding ");
 						strcat (buf,tempstr);
@@ -795,7 +789,7 @@ NoRTL:;
 					fread(buf,3,3,f);//is the 3 first letters RTL (RTC)
 				    if (((strstr(buf,"RTL") != 0)||strstr(buf,"RTC") != 0)) {
 						BattleLevels.file = strdup(tempstr);
-						BattleLevels.avail++;
+						BattleLevels.avail = true;
 						buf = realloc(buf, 32 + strlen(tempstr));
 						strcpy (buf,"Adding ");
 						strcat (buf,tempstr);
@@ -807,7 +801,6 @@ NoRTL:;
 	   }else{printf("Missing RTC filename");}
 	   free(buf);
    }
-NoRTC:;
 
    // Check for User wads
    arg = CheckParm ("file");
@@ -1046,7 +1039,6 @@ void GameLoop (void)
                while (IN_GetMouseButtons()) {}
                while ((!LastScan) && (!IN_GetMouseButtons()))
                   {
-                  int i;
                   byte *tempbuf;
                   MenuFadeOut();
                   ClearGraphicsScreen();
@@ -1532,9 +1524,6 @@ void ShutDown ( void )
 
 void QuitGame ( void )
 {
-   byte *txtscn;
-   int k;
-
    //MU_FadeOut();//Should be a fadeout of 200
    MU_StopSong(); //Simple fix
    while (MU_FadeActive())
@@ -1547,11 +1536,6 @@ void QuitGame ( void )
    PrintTileStats();
    SetTextMode();
 
-#if (SHAREWARE==0)
-      txtscn = (byte *) W_CacheLumpNum (W_GetNumForName ("regend"), PU_CACHE, 0, 1);
-#else
-      txtscn = (byte *) W_CacheLumpNum (W_GetNumForName ("shareend"), PU_CACHE, 0, 1);
-#endif
 #if defined (ANSIESC)
       DisplayTextSplash (txtscn, 25);
 #endif
@@ -1607,7 +1591,6 @@ void InitCharacter
 void UpdateGameObjects ( void )
 {
 	int j;
-	volatile int atime;
 	objtype * ob,*temp;
    battle_status BattleStatus;
 
@@ -1764,8 +1747,6 @@ void PlayLoop
    )
 
    {
-   volatile int atime;
-
    bool canquit = true;
    int     quittime = 0;
 
