@@ -1,3 +1,3 @@
 #!/bin/sh
 
-ctags -e -R src/*.c src/*.h src/audiolib/*.c src/audiolib/*.h
+find . -type f -iname "*.[chS]" | xargs etags -a
