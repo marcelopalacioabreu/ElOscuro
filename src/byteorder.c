@@ -35,13 +35,13 @@ void cvt_##type(void* lmp, int32_t num) {     \
   }                                           \
 }
 
-DEFINE_CONVERTER (cfont_t);
-DEFINE_CONVERTER (font_t);
-DEFINE_CONVERTER (lbm_t);
-DEFINE_CONVERTER (lpic_t);
-DEFINE_CONVERTER (patch_t);
-DEFINE_CONVERTER (pic_t);
-DEFINE_CONVERTER (transpatch_t);
+DEFINE_CONVERTER (cfont_t)
+DEFINE_CONVERTER (font_t)
+DEFINE_CONVERTER (lbm_t)
+DEFINE_CONVERTER (lpic_t)
+DEFINE_CONVERTER (patch_t)
+DEFINE_CONVERTER (pic_t)
+DEFINE_CONVERTER (transpatch_t)
 
 // Returns converter for the designated type
 converter_t
