@@ -224,7 +224,6 @@ void PITCH_UnlockMemory
    )
 
    {
-   DPMI_UnlockMemoryRegion( PITCH_LockStart, PITCH_LockEnd );
    DPMI_Unlock( PitchTable );
 //   DPMI_Unlock( PITCH_Installed );
    }
@@ -244,7 +243,7 @@ int PITCH_LockMemory
    {
    int status;
 
-   status  = DPMI_LockMemoryRegion( PITCH_LockStart, PITCH_LockEnd );
+   status  = DPMI_Ok;
    status |= DPMI_Lock( PitchTable );
 //   status |= DPMI_Lock( PITCH_Installed );
 

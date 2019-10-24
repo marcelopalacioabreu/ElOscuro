@@ -64,15 +64,11 @@ void DPMI_SetRealModeVector( int num, unsigned long vector );
 int  DPMI_CallRealModeFunction( dpmi_regs *callregs );
 int  DPMI_GetDOSMemory( void **ptr, long *descriptor, unsigned length );
 int  DPMI_FreeDOSMemory( long descriptor );
-int  DPMI_LockMemory( void *address, unsigned length );
-int  DPMI_LockMemoryRegion( void *start, void *end );
-int  DPMI_UnlockMemory( void *address, unsigned length );
-int  DPMI_UnlockMemoryRegion( void *start, void *end );
 
 #define DPMI_Lock( variable ) \
-   ( DPMI_LockMemory( (void *) &( variable ), sizeof( variable ) ) )
+   ( DPMI_Ok )
 
 #define DPMI_Unlock( variable ) \
-   ( DPMI_UnlockMemory( (void *) &( variable ), sizeof( variable ) ) )
+   ( DPMI_Ok )
 
 #endif

@@ -216,11 +216,7 @@ int FX_Init
          status = FX_Error;
       }
 
-   if ( status != FX_Ok )
-      {
-      LL_UnlockMemory();
-      }
-   else
+   if ( status == FX_Ok )
       {
       FX_Installed = TRUE;
       }
@@ -273,7 +269,6 @@ int FX_Shutdown
       }
 
    FX_Installed = FALSE;
-   LL_UnlockMemory();
 
    return( status );
    }

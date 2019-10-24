@@ -2753,14 +2753,14 @@ int MV_Init
       return( MV_Error );
       }
 
-   status = DPMI_LockMemory( ptr, MV_TotalMemory );
-   if ( status != DPMI_Ok )
-      {
-      USRHOOKS_FreeMem( ptr );
-      MV_UnlockMemory();
-      MV_SetErrorCode( MV_DPMI_Error );
-      return( MV_Error );
-      }
+   status = DPMI_Ok;
+   //if ( status != DPMI_Ok )
+   //   {
+   //   USRHOOKS_FreeMem( ptr );
+   //   MV_UnlockMemory();
+   //   MV_SetErrorCode( MV_DPMI_Error );
+   //   return( MV_Error );
+   //   }
 
    MV_Voices = ( VoiceNode * )ptr;
    MV_HarshClipTable = ptr + ( MV_TotalMemory - sizeof( HARSH_CLIP_TABLE_8 ) );
@@ -2782,7 +2782,6 @@ int MV_Init
 
    if ( status )
       {
-      DPMI_UnlockMemory( MV_Voices, MV_TotalMemory );
       USRHOOKS_FreeMem( MV_Voices );
       MV_Voices      = NULL;
       MV_TotalMemory = 0;
@@ -2805,7 +2804,6 @@ int MV_Init
       {
       status = MV_ErrorCode;
 
-      DPMI_UnlockMemory( MV_Voices, MV_TotalMemory );
       USRHOOKS_FreeMem( MV_Voices );
       MV_Voices      = NULL;
       MV_TotalMemory = 0;
@@ -2906,7 +2904,6 @@ int MV_Shutdown
    DSL_Shutdown();
 
    // Free any voices we allocated
-   DPMI_UnlockMemory( MV_Voices, MV_TotalMemory );
    USRHOOKS_FreeMem( MV_Voices );
    MV_Voices      = NULL;
    MV_TotalMemory = 0;
@@ -2941,7 +2938,6 @@ void MV_UnlockMemory
    {
    PITCH_UnlockMemory();
 
-   DPMI_UnlockMemoryRegion( MV_LockStart, MV_LockEnd );
    DPMI_Unlock( MV_VolumeTable );
    DPMI_Unlock( MV_PanTable );
    DPMI_Unlock( MV_Installed );
@@ -3000,7 +2996,7 @@ int MV_LockMemory
    int status;
    int pitchstatus;
 
-   status  = DPMI_LockMemoryRegion( MV_LockStart, MV_LockEnd );
+   status  = DPMI_Ok;
    status |= DPMI_Lock( MV_VolumeTable );
    status |= DPMI_Lock( MV_PanTable );
    status |= DPMI_Lock( MV_Installed );
