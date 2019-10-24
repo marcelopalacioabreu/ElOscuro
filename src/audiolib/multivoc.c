@@ -2631,7 +2631,6 @@ int MV_Init
    int status = USRHOOKS_GetMem( ( void ** )&ptr, MV_TotalMemory );
    if ( status != USRHOOKS_Ok )
       {
-      MV_UnlockMemory();
       MV_SetErrorCode( MV_NoMem );
       return( MV_Error );
       }
@@ -2661,7 +2660,6 @@ int MV_Init
       USRHOOKS_FreeMem( MV_Voices );
       MV_Voices      = NULL;
       MV_TotalMemory = 0;
-      MV_UnlockMemory();
 
       MV_SetErrorCode( MV_NoMem );
       return( MV_Error );
@@ -2685,7 +2683,6 @@ int MV_Init
       MV_TotalMemory = 0;
 
       DPMI_FreeDOSMemory( MV_BufferDescriptor );
-      MV_UnlockMemory();
 
       MV_SetErrorCode( status );
       return( MV_Error );
