@@ -72,7 +72,6 @@ char *itoa(int value, char *string, int radix)
 			sprintf(string, "%x", value);
 			break;
 		default:
-			STUB_FUNCTION;
 			break;
 	}
 	
@@ -89,7 +88,6 @@ char *ltoa(long value, char *string, int radix)
 			sprintf(string, "%lx", value);
 			break;
 		default:
-			STUB_FUNCTION;
 			break;
 	}
 	
@@ -106,7 +104,6 @@ char *ultoa(unsigned long value, char *string, int radix)
 			sprintf(string, "%lux", value);
 			break;
 		default:
-			STUB_FUNCTION;
 			break;
 	}
 	
