@@ -7,6 +7,11 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_mixer.h>
 
+// This macro is used to hack our way around a "unused variable" warning.
+// This is used by the mixer_callback function which must have four arguments,
+// with two of them unused.
+#define UNUSED(x) (void)(x)
+
 extern volatile int MV_MixPage;
 
 static int DSL_ErrorCode = DSL_Ok;
@@ -84,8 +89,10 @@ void DSL_Shutdown( void )
 	DSL_StopPlayback();
 }
 
-static void mixer_callback(int chan, void *stream, int len, void *udata)
+static void mixer_callback(int chan, void *stream, int len, void *arg)
 {
+  UNUSED(chan);
+  UNUSED(arg);
 	Uint8 *stptr;
 	Uint8 *fxptr;
 	int copysize;
@@ -133,7 +140,6 @@ int   DSL_BeginBufferedPlayback( char *BufferStart,
       int MixMode, void ( *CallBackFunc )( void ) )
 {
 	Uint16 format;
-	Uint8 *tmp;
 	int channels;
 	int chunksize;
 		
@@ -230,6 +236,3 @@ unsigned long DisableInterrupts( void )
 	return 0;
 }
 
-void RestoreInterrupts( unsigned long flags )
-{
-}

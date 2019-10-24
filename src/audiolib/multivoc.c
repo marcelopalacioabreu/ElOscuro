@@ -338,8 +338,6 @@ void MV_PlayVoice
 
    flags = DisableInterrupts();
    LL_SortedInsertion( &VoiceList, voice, prev, next, VoiceNode, priority );
-
-   RestoreInterrupts( flags );
    }
 
 
@@ -362,8 +360,6 @@ void MV_StopVoice
    // move the voice from the play list to the free list
    LL_Remove( voice, next, prev );
    LL_Add( (VoiceNode *)&VoicePool, voice, next, prev );
-
-   RestoreInterrupts( flags );
    }
 
 
@@ -1011,8 +1007,6 @@ VoiceNode *MV_GetVoice
          }
       }
 
-   RestoreInterrupts( flags );
-
    if ( voice == &VoiceList )
       {
       MV_SetErrorCode( MV_VoiceNotFound );
@@ -1112,7 +1106,6 @@ int MV_Kill
    voice = MV_GetVoice( handle );
    if ( voice == NULL )
       {
-      RestoreInterrupts( flags );
       MV_SetErrorCode( MV_VoiceNotFound );
       return( MV_Error );
       }
@@ -1120,8 +1113,6 @@ int MV_Kill
    callbackval = voice->callbackval;
 
    MV_StopVoice( voice );
-
-   RestoreInterrupts( flags );
 
    if ( MV_CallBackFunc )
       {
@@ -1160,8 +1151,6 @@ int MV_VoicesPlaying
       {
       NumVoices++;
       }
-
-   RestoreInterrupts( flags );
 
    return( NumVoices );
    }
@@ -1214,13 +1203,11 @@ VoiceNode *MV_AllocVoice
    if ( LL_Empty( &VoicePool, next, prev ) )
       {
       // No free voices
-      RestoreInterrupts( flags );
       return( NULL );
       }
 
    voice = VoicePool.next;
    LL_Remove( voice, next, prev );
-   RestoreInterrupts( flags );
 
    // Find a free voice handle
    do
@@ -1272,8 +1259,6 @@ int MV_VoiceAvailable
          voice = node;
          }
       }
-
-   RestoreInterrupts( flags );
 
    if ( ( voice != &VoiceList ) && ( priority >= voice->priority ) )
       {
@@ -1520,8 +1505,6 @@ static void MV_SetVoiceMixMode
       default :
          voice->mix = MV_Mix8BitMono;
       }
-
-   RestoreInterrupts( flags );
    }
 
 
@@ -1590,7 +1573,6 @@ int MV_EndLooping
    voice = MV_GetVoice( handle );
    if ( voice == NULL )
       {
-      RestoreInterrupts( flags );
       MV_SetErrorCode( MV_VoiceNotFound );
       return( MV_Warning );
       }
@@ -1598,8 +1580,6 @@ int MV_EndLooping
    voice->LoopCount = 0;
    voice->LoopStart = NULL;
    voice->LoopEnd   = NULL;
-
-   RestoreInterrupts( flags );
 
    return( MV_Ok );
    }
@@ -1930,8 +1910,6 @@ void MV_StopPlayback
          MV_CallBackFunc( voice->callbackval );
          }
       }
-
-   RestoreInterrupts( flags );
    }
 
 
@@ -2926,8 +2904,6 @@ int MV_Shutdown
 
    // Shutdown the sound card
    DSL_Shutdown();
-
-   RestoreInterrupts( flags );
 
    // Free any voices we allocated
    DPMI_UnlockMemory( MV_Voices, MV_TotalMemory );
