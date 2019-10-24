@@ -238,7 +238,7 @@ void SD_UpdateRecordingSound ( char * ptr, int length )
 
 bool SD_StartRecordingSound ( void )
 {
-   int status;
+   int status = 0;
 
    if (SD_Started==false)
       return false;
@@ -254,7 +254,9 @@ bool SD_StartRecordingSound ( void )
    FeederPointer = -1;
    RecordingPointer = 0;
 
-   status=FX_StartRecording( RECORDINGSAMPLERATE, SD_UpdateRecordingSound);
+   //XXX: FX_StartRecording should be replaced by MV_StartRecording?
+   //XXX: Is it necessary to keep this function?
+   //status=FX_StartRecording( RECORDINGSAMPLERATE, SD_UpdateRecordingSound);
 
    if (status!=FX_Ok)
       {

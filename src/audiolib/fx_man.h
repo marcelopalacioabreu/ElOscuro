@@ -79,7 +79,6 @@ enum fx_BLASTER_Types
 
 char *FX_ErrorString( int ErrorNumber );
 int   FX_SetupCard( int SoundCard, fx_device *device );
-int   FX_SetupSoundBlaster( fx_blaster_config blaster, int *MaxVoices, int *MaxSampleBits, int *MaxChannels );
 int   FX_Init( int SoundCard, int numvoices, int numchannels, int samplebits, unsigned mixrate );
 int   FX_Shutdown( void );
 int   FX_SetCallBack( void ( *function )( unsigned long ) );
@@ -128,7 +127,6 @@ int FX_StopAllSounds( void );
 int FX_StartDemandFeedPlayback( void ( *function )( char **ptr, unsigned long *length ),
        int rate, int pitchoffset, int vol, int left, int right,
        int priority, unsigned long callbackval );
-int  FX_StartRecording( int MixRate, void ( *function )( char *ptr, int length ) );
 void FX_StopRecord( void );
 
 #endif

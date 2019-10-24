@@ -152,25 +152,6 @@ int FX_SetupCard
 
 
 /*---------------------------------------------------------------------
-   Function: FX_SetupSoundBlaster
-
-   Handles manual setup of the Sound Blaster information.
----------------------------------------------------------------------*/
-
-int FX_SetupSoundBlaster
-   (
-   fx_blaster_config blaster,
-   int *MaxVoices,
-   int *MaxSampleBits,
-   int *MaxChannels
-   )
-
-   {
-   return( FX_Ok );
-   }
-
-
-/*---------------------------------------------------------------------
    Function: FX_Init
 
    Selects which sound device to use.
@@ -348,8 +329,6 @@ void FX_SetVolume
    )
 
    {
-   int status;
-
    MV_SetVolume( volume );
    }
 
@@ -1013,28 +992,6 @@ int FX_StartDemandFeedPlayback
       }
 
    return( handle );
-   }
-
-
-/*---------------------------------------------------------------------
-   Function: FX_StartRecording
-
-   Starts the sound recording engine.
----------------------------------------------------------------------*/
-
-int FX_StartRecording
-   (
-   int MixRate,
-   void ( *function )( char *ptr, int length )
-   )
-
-   {
-   int status;
-
-   FX_SetErrorCode( FX_InvalidCard );
-   status = FX_Warning;
-
-   return( status );
    }
 
 
