@@ -24,7 +24,7 @@ void my_audio_callback(void *midi_player, uint8_t *stream, int32_t len);
 static uint32_t is_playing = 0;
 static int16_t buffer[4096];
 static SDL_AudioSpec spec;
-static struct ADL_MIDIPlayer* midi_player = 0;
+static struct ADL_MIDIPlayer* g_midi_player = 0;
 //static const int8_t* music_path = 0;
 static bool adl_is_playing = false;
 
@@ -132,14 +132,14 @@ int MUSIC_Init(void)
   spec.format = AUDIO_S16SYS;
   spec.channels = 2;
   spec.samples = 2048;
-  midi_player = adl_init(spec.freq);
-  if (!midi_player)
+  g_midi_player = adl_init(spec.freq);
+  if (!g_midi_player)
     {
       fprintf(stderr, "Couldn't initialize ADLMIDI: %s\n", adl_errorString());
       return MUSIC_Error;
     }
   spec.callback = my_audio_callback;
-  spec.userdata = midi_player;
+  spec.userdata = g_midi_player;
   if (SDL_OpenAudio(&spec, NULL) < 0)
     {
       fprintf(stderr, "Couldn't open audio: %s\n", SDL_GetError());
@@ -175,7 +175,7 @@ int MUSIC_Init(void)
 int MUSIC_Shutdown(void)
 {
   SDL_CloseAudio();
-  adl_close(midi_player);
+  adl_close(g_midi_player);
   return MUSIC_Ok;
   /*
     musdebug("shutting down sound subsystem.");
@@ -241,7 +241,7 @@ int MUSIC_SongPlaying(void)
       return __FX_FALSE;
 
   SDL_LockAudio();
-  adl_at_end = adl_atEnd(midi_player);
+  adl_at_end = adl_atEnd(g_midi_player);
   SDL_UnlockAudio();
 
   if (adl_at_end)
@@ -281,7 +281,7 @@ int MUSIC_StopSong(void)
 {
   adl_is_playing = false;
   SDL_LockAudio();
-  adl_panic(midi_player);
+  adl_panic(g_midi_player);
   SDL_UnlockAudio();
   return MUSIC_Ok;
   /*
@@ -352,14 +352,14 @@ int MUSIC_PlaySongROTT(unsigned char *song, int size)
   close(handle);
 
   SDL_LockAudio();
-  adl_ret = adl_openFile(midi_player, music_path);
+  adl_ret = adl_openFile(g_midi_player, music_path);
   SDL_UnlockAudio();
 
   if (adl_ret < 0)
     {
       SDL_CloseAudio();
-      fprintf(stderr, "Couldn't open music file: %s\n", adl_errorInfo(midi_player));
-      adl_close(midi_player);
+      fprintf(stderr, "Couldn't open music file: %s\n", adl_errorInfo(g_midi_player));
+      adl_close(g_midi_player);
       return 1;
     }
   adl_is_playing = true;
@@ -467,9 +467,9 @@ void MUSIC_RegisterTimbreBank(void)
     musdebug("STUB ... MUSIC_RegisterTimbreBank().\n");
 } // MUSIC_RegisterTimbreBank
 
-void my_audio_callback(void *midi_player, Uint8 *stream, int len)
+void my_audio_callback(void *a_midi_player, Uint8 *stream, int len)
 {
-    struct ADL_MIDIPlayer* p = (struct ADL_MIDIPlayer*)midi_player;
+    struct ADL_MIDIPlayer* p = (struct ADL_MIDIPlayer*)a_midi_player;
 
     /* Convert bytes length into total count of samples in all channels */
     int samples_count = len / 2;
