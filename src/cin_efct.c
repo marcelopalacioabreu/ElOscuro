@@ -54,19 +54,19 @@ void DrawClearBuffer ( void );
 
 flicevent * SpawnCinematicFlic ( char * name, bool loop, bool usefile )
 {
-   flicevent * flic;
+   flicevent * l_flic;
 
-   flic = SafeMalloc ( sizeof(flicevent) );
+   l_flic = SafeMalloc ( sizeof(flicevent) );
 
    // copy name of flic
 
-   strcpy ( flic->name, name );
+   strcpy ( l_flic->name, name );
 
-   flic->loop=loop;
+   l_flic->loop=loop;
 
-   flic->usefile=usefile;
+   l_flic->usefile=usefile;
 
-   return flic;
+   return l_flic;
 }
 
 /*
@@ -214,15 +214,15 @@ backevent * SpawnCinematicMultiBack ( char * name,
 
 paletteevent * SpawnCinematicPalette ( char * name )
 {
-   paletteevent * palette;
+   paletteevent * l_palette;
 
-   palette = SafeMalloc ( sizeof (paletteevent) );
+   l_palette = SafeMalloc ( sizeof (paletteevent) );
 
    // copy name of palette
 
-   strcpy ( palette->name, name );
+   strcpy ( l_palette->name, name );
 
-   return palette;
+   return l_palette;
 }
 
 
@@ -247,8 +247,8 @@ void ScaleFilmPost (byte * src, byte * buf)
       length=*(src++);
       topscreen = cin_sprtopoffset + (cin_invscale*offset);
       bottomscreen = topscreen + (cin_invscale*length);
-      cin_yl = (topscreen+FRACTIONUNIT-1)>>FRACTIONBITS;
-      cin_yh = (bottomscreen-FRACTIONUNIT)>>FRACTIONBITS;
+      cin_yl = (topscreen+(FRACTIONUNIT)-1)>>(FRACTIONBITS);
+      cin_yh = (bottomscreen-(FRACTIONUNIT))>>(FRACTIONBITS);
       if (cin_yh >= g_sheight)
          cin_yh = g_sheight-1;
       if (cin_yl < 0)
@@ -271,7 +271,7 @@ void ScaleFilmPost (byte * src, byte * buf)
 =
 =================
 */
-void DrawFlic ( flicevent * flic )
+void DrawFlic ( flicevent * a_flic )
 {
    byte * curpal;
    char flicname[40];
@@ -280,20 +280,20 @@ void DrawFlic ( flicevent * flic )
 
    DrawFadeout ( );
 
-   if (flic->usefile==false)
+   if (a_flic->usefile==false)
       {
-      strcpy(flicname,flic->name);
+      strcpy(flicname,a_flic->name);
       }
    else
       {
-      strcpy(flicname,flic->name);
+      strcpy(flicname,a_flic->name);
       strcat(flicname,".fli");
       }
 
 // med
 //   PlayFlic ( flicname, buf, flic->usefile, flic->loop);
 
-   if (flic->loop==true)
+   if (a_flic->loop==true)
       IN_StartAck(); // ClearCinematicAbort
 
    DrawFadeout ( );
@@ -313,11 +313,11 @@ void DrawFlic ( flicevent * flic )
 =================
 */
 
-void PrecacheFlic (flicevent * flic)
+void PrecacheFlic (flicevent * a_flic)
 {
-   if (flic->usefile==false)
+   if (a_flic->usefile==false)
       {
-      W_CacheLumpName(flic->name,PU_CACHE, 0, 1);
+      W_CacheLumpName(a_flic->name,PU_CACHE, 0, 1);
       }
 }
 

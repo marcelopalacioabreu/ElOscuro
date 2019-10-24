@@ -92,7 +92,7 @@ backevent * SpawnCinematicMultiBack ( char * name,
                                       int yoffset
                                     );
 paletteevent * SpawnCinematicPalette ( char * name );
-void DrawFlic ( flicevent * flic );
+void DrawFlic ( flicevent * a_flic );
 void DrawCinematicBackdrop ( backevent * back );
 void DrawCinematicBackground ( backevent * back );
 void DrawPalette (void);
