@@ -65,10 +65,4 @@ int  DPMI_CallRealModeFunction( dpmi_regs *callregs );
 int  DPMI_GetDOSMemory( void **ptr, long *descriptor, unsigned length );
 int  DPMI_FreeDOSMemory( long descriptor );
 
-#define DPMI_Lock( variable ) \
-   ( DPMI_Ok )
-
-#define DPMI_Unlock( variable ) \
-   ( DPMI_Ok )
-
 #endif

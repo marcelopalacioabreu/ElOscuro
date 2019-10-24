@@ -142,8 +142,8 @@ typedef struct
    unsigned char right;
    } Pan;
 
-typedef signed short MONO16;
-typedef signed char  MONO8;
+typedef short MONO16;
+typedef char  MONO8;
 
 typedef struct
    {
@@ -197,28 +197,6 @@ typedef MONO16 VOLUME16[ 256 ];
 
 typedef char HARSH_CLIP_TABLE_8[ MV_NumVoices * 256 ];
 
-static void MV_Mix( VoiceNode *voice, int buffer );
-static void MV_PlayVoice( VoiceNode *voice );
-static void MV_StopVoice( VoiceNode *voice );
-static void MV_ServiceVoc( void );
-
-static playbackstatus MV_GetNextVOCBlock( VoiceNode *voice );
-static playbackstatus MV_GetNextDemandFeedBlock( VoiceNode *voice );
-static playbackstatus MV_GetNextRawBlock( VoiceNode *voice );
-static playbackstatus MV_GetNextWAVBlock( VoiceNode *voice );
-
-static void       MV_ServiceRecord( void );
-static VoiceNode *MV_GetVoice( int handle );
-static VoiceNode *MV_AllocVoice( int priority );
-
-static short     *MV_GetVolumeTable( int vol );
-
-static void       MV_SetVoiceMixMode( VoiceNode *voice );
-
-static void       MV_SetVoicePitch( VoiceNode *voice, unsigned long rate, int pitchoffset );
-static void       MV_CalcVolume( int MaxLevel );
-static void       MV_CalcPanTable( void );
-
 void ClearBuffer_DW( void *ptr, unsigned data, int length );
 
 void MV_Mix8BitMono( unsigned long position, unsigned long rate,
@@ -247,10 +225,10 @@ void MV_Mix16BitStereo16( unsigned long position,
 
 void MV_16BitReverb( const char *src, char *dest, const VOLUME16 *volume, int count );
 
-void MV_8BitReverb( const signed char *src, signed char *dest, const VOLUME16 *volume, int count );
+void MV_8BitReverb( const char *src, char *dest, const VOLUME16 *volume, int count );
 
 void MV_16BitReverbFast( const char *src, char *dest, int count, int shift );
 
-void MV_8BitReverbFast( const signed char *src, signed char *dest, int count, int shift );
+void MV_8BitReverbFast( const char *src, char *dest, int count, int shift );
 
 #endif

@@ -231,8 +231,3 @@ unsigned DSL_GetPlaybackRate( void )
 	return _SampleRate;
 }
 
-unsigned long DisableInterrupts( void )
-{
-	return 0;
-}
-
