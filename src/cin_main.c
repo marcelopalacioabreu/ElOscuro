@@ -207,12 +207,12 @@ void GetCinematicTics ( void )
 }
 
 
-void PlayMovie ( char * name, bool uselumpy )
+void PlayMovie ( char * l_name, bool uselumpy )
 {
    int i;
 
    StartupCinematic ( );
-   GrabCinematicScript (name, uselumpy);
+   GrabCinematicScript (l_name, uselumpy);
 
    PrecacheCinematic ( );
    GetCinematicTics();
