@@ -35,53 +35,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define TRUE  ( 1 == 1 )
 #define FALSE ( !TRUE )
 
-/*---------------------------------------------------------------------
-   Function: DPMI_GetRealModeVector
-
-   Returns the vector of a real mode interrupt.
----------------------------------------------------------------------*/
-
-unsigned long DPMI_GetRealModeVector
-   (
-   int num
-   )
-
-   {
-   return 0;
-   }
-
-
-/*---------------------------------------------------------------------
-   Function: DPMI_SetRealModeVector
-
-   Sets the vector of a real mode interrupt.
----------------------------------------------------------------------*/
-
-void DPMI_SetRealModeVector
-   (
-   int num,
-   unsigned long vector
-   )
-
-   {
-   }
-
-
-/*---------------------------------------------------------------------
-   Function: DPMI_CallRealModeFunction
-
-   Performs a call to a real mode function.
----------------------------------------------------------------------*/
-
-int DPMI_CallRealModeFunction
-   (
-   dpmi_regs *callregs
-   )
-
-   {
-   return( DPMI_Ok );
-   }
-
 int DPMI_GetDOSMemory( void **ptr, long *descriptor, unsigned length )
 {
 	/* Lovely... */
