@@ -51,7 +51,7 @@ byte  *page2start;
 byte  *page3start;
 int    screensize;
 byte  *bufferofs;
-byte  *displayofs;
+uint8_t* displayofs;
 bool graphicsmode=false;
 char        *bufofsTopLimit;
 char        *bufofsBottomLimit;
@@ -367,8 +367,8 @@ void EnableScreenStretch(void)
          g_swidth, g_sheight, 8, 0, 0, 0, 0);
    }
 	
-   displayofs = unstretch_sdl_surface->pixels +
-	(displayofs - (byte *)sdl_surface->pixels);
+   displayofs = (uint8_t*)unstretch_sdl_surface->pixels +
+	(displayofs - (uint8_t*)sdl_surface->pixels);
    bufferofs  = unstretch_sdl_surface->pixels;
    page1start = unstretch_sdl_surface->pixels;
    page2start = unstretch_sdl_surface->pixels;
@@ -380,8 +380,8 @@ void DisableScreenStretch(void)
 {
    if (g_swidth <= 320 || !StretchScreen) return;
 	
-   displayofs = sdl_surface->pixels +
-	(displayofs - (byte *)unstretch_sdl_surface->pixels);
+   displayofs = (uint8_t*)sdl_surface->pixels +
+	(displayofs - (uint8_t*)unstretch_sdl_surface->pixels);
    bufferofs  = sdl_surface->pixels;
    page1start = sdl_surface->pixels;
    page2start = sdl_surface->pixels;
