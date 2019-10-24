@@ -62,10 +62,9 @@ typedef struct
 
 #define CONVERT_ENDIAN_font_t(fp)            \
     {                                        \
-        int i;                               \
         SwapIntelShort(&fp->height);         \
-        for (i = 0; i < 256; i++) {          \
-            SwapIntelShort(&fp->charofs[i]); \
+        for (int local_cefontt = 0; local_cefontt < 256; local_cefontt++) {      \
+            SwapIntelShort(&fp->charofs[local_cefontt]); \
         }                                    \
     }
 
@@ -95,14 +94,13 @@ typedef struct
 
 #define CONVERT_ENDIAN_patch_t(pp)           \
     {                                        \
-        int i;                               \
         SwapIntelShort(&pp->origsize);       \
         SwapIntelShort(&pp->width);          \
         SwapIntelShort(&pp->height);         \
         SwapIntelShort(&pp->leftoffset);     \
         SwapIntelShort(&pp->topoffset);      \
-        for (i = 0; i < pp->width; i++) {          \
-            SwapIntelShort((short*)&pp->collumnofs[i]); \
+        for (int local_cepatcht = 0; local_cepatcht < pp->width; local_cepatcht++) {\
+            SwapIntelShort((short*)&pp->collumnofs[local_cepatcht]); \
         }                                    \
     }
 
@@ -119,15 +117,14 @@ typedef struct
 
 #define CONVERT_ENDIAN_transpatch_t(pp)      \
     {                                        \
-        int i;                               \
         SwapIntelShort(&pp->origsize);       \
         SwapIntelShort(&pp->width);          \
         SwapIntelShort(&pp->height);         \
         SwapIntelShort(&pp->leftoffset);     \
         SwapIntelShort(&pp->topoffset);      \
         SwapIntelShort(&pp->translevel);     \
-        for (i = 0; i < pp->width; i++) {          \
-            SwapIntelShort((short*)&pp->collumnofs[i]); \
+        for (int local_cetranspatcht = 0; local_cetranspatcht < pp->width; local_cetranspatcht++) {\
+            SwapIntelShort((short*)&pp->collumnofs[local_cetranspatcht]); \
         }                                    \
     }
 
@@ -143,10 +140,9 @@ typedef struct
 
 #define CONVERT_ENDIAN_cfont_t(pp)           \
     {                                        \
-        int i;                               \
         SwapIntelShort(&pp->height);         \
-        for (i = 0; i < 256; i++) {          \
-            SwapIntelShort(&pp->charofs[i]); \
+        for (int local_cecfontt = 0; local_cecfontt < 256; local_cecfontt++) {      \
+            SwapIntelShort(&pp->charofs[local_cecfontt]); \
         }                                    \
     }
 
