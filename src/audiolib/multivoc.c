@@ -2617,7 +2617,6 @@ int MV_Init
 
    {
    char *ptr;
-   int  status;
    int  buffer;
    int  index;
 
@@ -2628,14 +2627,8 @@ int MV_Init
 
    MV_SetErrorCode( MV_Ok );
 
-   status = MV_LockMemory();
-   if ( status != MV_Ok )
-      {
-      return( status );
-      }
-
    MV_TotalMemory = Voices * sizeof( VoiceNode ) + sizeof( HARSH_CLIP_TABLE_8 );
-   status = USRHOOKS_GetMem( ( void ** )&ptr, MV_TotalMemory );
+   int status = USRHOOKS_GetMem( ( void ** )&ptr, MV_TotalMemory );
    if ( status != USRHOOKS_Ok )
       {
       MV_UnlockMemory();
@@ -2644,13 +2637,6 @@ int MV_Init
       }
 
    status = DPMI_Ok;
-   //if ( status != DPMI_Ok )
-   //   {
-   //   USRHOOKS_FreeMem( ptr );
-   //   MV_UnlockMemory();
-   //   MV_SetErrorCode( MV_DPMI_Error );
-   //   return( MV_Error );
-   //   }
 
    MV_Voices = ( VoiceNode * )ptr;
    MV_HarshClipTable = ptr + ( MV_TotalMemory - sizeof( HARSH_CLIP_TABLE_8 ) );
@@ -2799,51 +2785,6 @@ int MV_Shutdown
    for( buffer = 0; buffer < NumberOfBuffers; buffer++ )
       {
       MV_MixBuffer[ buffer ] = NULL;
-      }
-
-   return( MV_Ok );
-   }
-
-
-/*---------------------------------------------------------------------
-   Function: MV_UnlockMemory
-
-   Unlocks all neccessary data.
----------------------------------------------------------------------*/
-
-void MV_UnlockMemory
-   (
-   void
-   )
-
-   {
-   PITCH_UnlockMemory();
-   }
-
-
-/*---------------------------------------------------------------------
-   Function: MV_LockMemory
-
-   Locks all neccessary data.
----------------------------------------------------------------------*/
-
-int MV_LockMemory
-   (
-   void
-   )
-
-   {
-   int status;
-   int pitchstatus;
-
-   status  = DPMI_Ok;
-
-   pitchstatus = PITCH_LockMemory();
-   if ( ( pitchstatus != PITCH_Ok ) || ( status != DPMI_Ok ) )
-      {
-      MV_UnlockMemory();
-      MV_SetErrorCode( MV_DPMI_Error );
-      return( MV_Error );
       }
 
    return( MV_Ok );
