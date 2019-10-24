@@ -289,8 +289,8 @@ enum_eventtype GetEventType ( void )
 */
 void ParseBack ( eventtype * event )
 {
-   char name[10];
-   char name2[10];
+   char l_name[10];
+   char l_name2[10];
    int duration;
    int yoffset;
    int width;
@@ -298,12 +298,12 @@ void ParseBack ( eventtype * event )
    int endx;
 
    GetToken (false);
-   strcpy(&(name[0]),token);
+   strcpy(&(l_name[0]),token);
 
    if (event->effecttype==background_multi)
       {
       GetToken (false);
-      strcpy(&(name2[0]),token);
+      strcpy(&(l_name2[0]),token);
       }
 
    GetToken (false);
@@ -317,14 +317,14 @@ void ParseBack ( eventtype * event )
       {
       lpic_t * lpic;
 
-      lpic = (lpic_t *)W_CacheLumpName(name,PU_CACHE, cvt_lpic_t, 1);
+      lpic = (lpic_t *)W_CacheLumpName(l_name,PU_CACHE, cvt_lpic_t, 1);
       width = lpic->width;
       }
    else if (event->effecttype!=background_multi)
       {
       patch_t * patch;
 
-      patch = (patch_t *)W_CacheLumpName(name,PU_CACHE, cvt_lpic_t, 1);
+      patch = (patch_t *)W_CacheLumpName(l_name,PU_CACHE, cvt_lpic_t, 1);
       width = patch->width;
       }
 
@@ -343,9 +343,9 @@ void ParseBack ( eventtype * event )
       }
 
    if (event->effecttype==background_multi)
-      event->effect = SpawnCinematicMultiBack ( name, name2, duration, startx, endx, yoffset);
+      event->effect = SpawnCinematicMultiBack ( l_name, l_name2, duration, startx, endx, yoffset);
    else
-      event->effect = SpawnCinematicBack ( name, duration, width, startx, endx, yoffset);
+      event->effect = SpawnCinematicBack ( l_name, duration, width, startx, endx, yoffset);
 }
 
 /*
@@ -357,7 +357,7 @@ void ParseBack ( eventtype * event )
 */
 void ParseSprite ( eventtype * event )
 {
-   char name[10];
+   char l_name[10];
    int duration;
    int numframes;
    int framedelay;
@@ -365,7 +365,7 @@ void ParseSprite ( eventtype * event )
    int endx,endy,endscale;
 
    GetToken (false);
-   strcpy(&(name[0]),token);
+   strcpy(&(l_name[0]),token);
    GetToken (false);
    duration=ParseNum(token);
    GetToken (false);
@@ -385,7 +385,7 @@ void ParseSprite ( eventtype * event )
    GetToken (false);
    endscale=ParseNum(token);
 
-   event->effect = SpawnCinematicSprite ( name, duration, numframes,
+   event->effect = SpawnCinematicSprite ( l_name, duration, numframes,
                                           framedelay, x, y, scale,
                                           endx, endy, endscale
                                         );
@@ -400,12 +400,12 @@ void ParseSprite ( eventtype * event )
 */
 void ParseFlic ( eventtype * event )
 {
-   char name[10];
+   char l_name[10];
    bool loop;
    bool usefile;
 
    GetToken (false);
-   strcpy(&(name[0]),token);
+   strcpy(&(l_name[0]),token);
 
    GetToken (false);
    if (!strcmpi (token,"LOOP"))
@@ -431,7 +431,7 @@ void ParseFlic ( eventtype * event )
    else
       Error("ParseFlic: Illegal or missing flic use token %s\n",token);
 
-   event->effect = SpawnCinematicFlic ( name, loop, usefile );
+   event->effect = SpawnCinematicFlic ( l_name, loop, usefile );
 }
 
 /*
@@ -443,12 +443,12 @@ void ParseFlic ( eventtype * event )
 */
 void ParsePalette ( eventtype * event )
 {
-   char name[10];
+   char l_name[10];
 
    GetToken (false);
-   strcpy(&(name[0]),token);
+   strcpy(&(l_name[0]),token);
 
-   event->effect = SpawnCinematicPalette ( name );
+   event->effect = SpawnCinematicPalette ( l_name );
 }
 
 /*
