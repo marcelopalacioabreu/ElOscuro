@@ -8,6 +8,5 @@ libaudiolib_a_SOURCES = \
 	mvreverb.c \
 	nodpmi.c \
 	pitch.c \
-	user.c \
 	usrhooks.c
 libaudiolib_a_CFLAGS = @SDL2_CFLAGS@
