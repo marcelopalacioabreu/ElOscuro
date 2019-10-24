@@ -6,7 +6,7 @@
 #include "hashtable.h"
 
 #if !defined(ARRAY_SIZE)
-#define ARRAY_SIZE(x) (sizeof((x)) / sizeof((x)[0]))
+#define ARRAY_SIZE(x) ((uint32_t)sizeof((x)) / (uint32_t)sizeof((x)[0]))
 #endif
 
 void
@@ -59,7 +59,7 @@ Delete (HashTable * hashTable, int32_t key)
 void
 ClearHashTable (HashTable* hashTable)
 {
-  for (int32_t x = 0; x < ARRAY_SIZE (hashTable->table); ++x)
+  for (uint32_t x = 0; x < ARRAY_SIZE (hashTable->table); ++x)
   {
     if (hashTable->table[x])
     {
