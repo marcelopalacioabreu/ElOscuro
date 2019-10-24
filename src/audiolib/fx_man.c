@@ -152,22 +152,6 @@ int FX_SetupCard
 
 
 /*---------------------------------------------------------------------
-   Function: FX_GetBlasterSettings
-
-   Returns the current BLASTER environment variable settings.
----------------------------------------------------------------------*/
-
-int FX_GetBlasterSettings
-   (
-   fx_blaster_config *blaster
-   )
-
-   {
-   return( FX_Ok );
-   }
-
-
-/*---------------------------------------------------------------------
    Function: FX_SetupSoundBlaster
 
    Handles manual setup of the Sound Blaster information.

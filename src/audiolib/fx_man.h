@@ -79,7 +79,6 @@ enum fx_BLASTER_Types
 
 char *FX_ErrorString( int ErrorNumber );
 int   FX_SetupCard( int SoundCard, fx_device *device );
-int   FX_GetBlasterSettings( fx_blaster_config *blaster );
 int   FX_SetupSoundBlaster( fx_blaster_config blaster, int *MaxVoices, int *MaxSampleBits, int *MaxChannels );
 int   FX_Init( int SoundCard, int numvoices, int numchannels, int samplebits, unsigned mixrate );
 int   FX_Shutdown( void );
