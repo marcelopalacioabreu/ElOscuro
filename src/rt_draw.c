@@ -190,8 +190,6 @@ static visobj_t * sortedvislist[MAXVISIBLE];
 
 static const fixed mindist = 0x1000;
 
-static int walltime=0;
-
 static int weaponbobx, weaponboby;
 
 static int      pretics[3];
@@ -829,7 +827,6 @@ void DrawScaleds (void)
 
   int   i,numvisible;
   int   gx,gy;
-  unsigned short int  *tilespot;
   byte   *visspot;
   bool result;
   statobj_t *statptr;
@@ -1013,8 +1010,6 @@ void DrawScaleds (void)
 				  (visptr->shapenum >= shapestop))
 		  Error("actor shapenum %d out of range (%d-%d)",visptr->shapenum,shapestart,shapestop);
 	  visspot = &spotvis[obj->tilex][obj->tiley];
-	  tilespot = &tilemap[obj->tilex][obj->tiley];
-
 	  //
 	  // could be in any of the nine surrounding tiles
 	  //
@@ -1765,7 +1760,7 @@ bottomcheck:
 
 void   DrawWalls (void)
 {
-   char * buf;
+   byte * buf;
    int plane;
    wallcast_t * post;
 
@@ -2033,7 +2028,6 @@ void TransformPushWalls( void )
 
 void WallRefresh (void)
 {
-   volatile int dtime;
 	int mag;
    int yzangle;
 
@@ -2213,7 +2207,6 @@ void InterpolateWall (visobj_t * plane)
    int dh;
    int dx;
    int height;
-   byte * buf;
 
    whereami=17;
    dx=(plane->x2-plane->x1+1);
@@ -2227,7 +2220,6 @@ void InterpolateWall (visobj_t * plane)
    bot=d2*dx;
    botinc=d1-d2;
    height=plane->h1<<DHEIGHTFRACTION;
-   buf=(byte *)bufferofs;
    if (plane->x1>=viewwidth)
       return;
    for (i=plane->x1;i<=plane->x2;i++)
@@ -2277,7 +2269,6 @@ void InterpolateDoor (visobj_t * plane)
    byte * shape2;
    byte * buf;
    patch_t *p;
-   int pl;
 
    whereami=18;
    dx=(plane->x2-plane->x1+1);
@@ -2292,7 +2283,9 @@ void InterpolateDoor (visobj_t * plane)
    topinc=FixedMulShift(d1,plane->textureend-plane->texturestart,4);
    botinc=d1-d2;
    if (plane->x1>=viewwidth)
+     {
       return;
+     }
       {
       top=0;
       bot=(d2*dx);
@@ -2366,7 +2359,6 @@ void InterpolateMaskedWall (visobj_t * plane)
 	transpatch_t *p;
    patch_t *p2;
    patch_t *p3;
-   int pl;
    bool drawbottom,drawmiddle,drawtop;
    int topoffset;
 
@@ -2414,7 +2406,9 @@ void InterpolateMaskedWall (visobj_t * plane)
    topinc=FixedMulShift(d1,plane->textureend-plane->texturestart,4);
    botinc=d1-d2;
    if (plane->x1>=viewwidth)
+     {
       return;
+     }
       {
       top=0;
       bot=(d2*dx);
@@ -2512,7 +2506,7 @@ void DrawSkyPost (uint8_t* buf, uint8_t* src, int32_t height)
 {
 	{
 	int i = 0;
-	const byte *orig_src = src;
+	byte *orig_src = src;
 	// org code
 		while (height--) {
 			*buf = shadingtable[*src];
@@ -2852,12 +2846,6 @@ void StartupRotateBuffer ( int masked)
 	int k;////zxcv
    int a,b;
 
-//   int Xres = 320;//org
-//   int Yres = 200;//org
-   int   Xres =   g_swidth;//bna val 800
-   int   Yres = g_sheight;//bna val 600
-
-
    iG_masked = masked;
 
    if (RotateBufferStarted == true)
@@ -3028,11 +3016,6 @@ void ScaleAndRotateBuffer (int startangle, int endangle, int startscale, int end
 
 void RotateBuffer (int startangle, int endangle, int startscale, int endscale, int time)
 {
-   int savetics;
-
-   //save off fastcounter
-
-
    StartupRotateBuffer (0);
 
    ScaleAndRotateBuffer (startangle, endangle, startscale, endscale, time);
@@ -3295,7 +3278,7 @@ void ApogeeTitle (void)
    y=APOGEESTARTY<<16;
    dy=((APOGEEENDY-APOGEESTARTY)<<16)/time;
 
-   dscale=((APOGEESCALEEND-APOGEESCALESTART)<<16)/time;
+   dscale=-(abs(APOGEESCALEEND-APOGEESCALESTART)<<16)/time;
    scale=APOGEESCALESTART<<16;
 
    angle=0;
@@ -3754,8 +3737,6 @@ void WarpString (
    int dy;
    int cx;
    int cy;
-   int starttime;
-
 
    LastScan = 0;
 
@@ -3764,7 +3745,6 @@ void WarpString (
    dy=((endy-y)<<16)/time;
    cx=x<<16;
    cy=y<<16;
-   starttime=time;
 
    CalcTics();
 
