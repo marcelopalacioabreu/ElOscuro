@@ -2036,18 +2036,6 @@ void CheckRemoteRidicule ( int scancode )
 
 //******************************************************************************
 //
-// DoBossKey ()
-//
-//******************************************************************************
-
-void DoBossKey ( void )
-{
-	STUB_FUNCTION;
-}
-
-
-//******************************************************************************
-//
 // PollKeyboard ()
 //
 //******************************************************************************
@@ -2247,14 +2235,6 @@ void PollKeyboard
             StartupClientControls();
             }
          }
-
-      if ( ( Keyboard[ sc_F12 ] ) && ( !BATTLEMODE ) )
-         {
-         Keyboard[ sc_F12 ] = false;
-         LastScan = 0;
-         DoBossKey();
-         }
-
       // Gamma correction
       if ( Keyboard[ sc_F11 ] )
          {
