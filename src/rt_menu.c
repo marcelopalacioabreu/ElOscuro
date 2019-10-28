@@ -375,15 +375,15 @@ CP_MenuNames MainMenuNames[] =
 CP_iteminfo MainItems  = { MENU_X, MENU_Y + 1, 9, STARTITEM, 32, MainMenuNames, mn_largefont };
 CP_itemtype MainMenu[] =
    {
-      { CP_CursorLocation, "mm_opt1\0",  'N', (menuptr)CP_NewGame },
-      { CP_Active,         "battle\0",   'C', (menuptr)CP_BattleModes },
-      { CP_Active,         "mm_opt2\0",  'R', (void*)CP_LoadGame },
-      { CP_Inactive,       "mm_opt3\0",  'S', (void*)CP_SaveGame },
-      { CP_Active,         "mm_opt5\0",  'O', (menuptr)CP_ControlMenu },
-      { CP_Active,         "ordrinfo\0", 'O', (menuptr)CP_OrderInfo },
-      { CP_Active,         "mm_opt7\0",  'V', (menuptr)CP_ViewScores },
+    { CP_CursorLocation, "mm_opt1\0",  'N', (void (*)(int))&CP_NewGame },
+    { CP_Active,         "battle\0",   'C', (void (*)(int))&CP_BattleModes },
+    { CP_Active,         "mm_opt2\0",  'R', (void (*)(int))&CP_LoadGame },
+    { CP_Inactive,       "mm_opt3\0",  'S', (void (*)(int))&CP_SaveGame },
+    { CP_Active,         "mm_opt5\0",  'O', (void (*)(int))&CP_ControlMenu },
+    { CP_Active,         "ordrinfo\0", 'O', (void (*)(int))&CP_OrderInfo },
+    { CP_Active,         "mm_opt7\0",  'V', (void (*)(int))&CP_ViewScores },
       { CP_Active,         "mm_opt8\0",  'B', 0 },
-      { CP_Active,         "mm_opt9\0",  'Q', CP_Quit }
+      { CP_Active,         "mm_opt9\0",  'Q', &CP_Quit }
    };
 
 
@@ -3175,7 +3175,7 @@ void AdjustMenuStruct
 
    {
    MainMenu[ savegame ].active         = CP_Inactive;
-   MainMenu[ viewscores ].routine      = ( void * )CP_ViewScores;
+   MainMenu[ viewscores ].routine      = (void (*)(int))&CP_ViewScores;
    MainMenu[ viewscores ].texture[ 6 ] = '7';
    MainMenu[ viewscores ].texture[ 7 ] = '\0';
    MainMenu[ viewscores ].letter       = 'V';
@@ -5010,7 +5010,7 @@ void MenuFixup
    MainMenu[ viewscores ].texture[ 6 ] = '1';
    MainMenu[ viewscores ].texture[ 7 ] = '0';
    MainMenu[ viewscores ].texture[ 8 ] = '\0';
-   MainMenu[ viewscores ].routine      = ( void * )CP_EndGame;
+   MainMenu[ viewscores ].routine      = (void (*)(int))&CP_EndGame;
    MainMenu[ viewscores ].letter       = 'E';
    strcpy (MainMenuNames[ viewscores ] , "END GAME");
    MainMenu[ savegame ].active         = CP_Active;
