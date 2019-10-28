@@ -55,6 +55,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "rt_net.h"
 #include "rt_sc_a.h"
 
+#define UNUSED(x) (void)(x)
+
 #define MINZ                            0x2700
 #define MAXBOB                          0x9000
 
@@ -2964,7 +2966,8 @@ void ScaleAndRotateBuffer (int startangle, int endangle, int startscale, int end
  //  Xh = 259;
  //  Yh = 109;
 
-   time = time;
+   UNUSED(time);
+   //time = time;
 ////zxcv
 	DisableScreenStretch();//bna++
 
