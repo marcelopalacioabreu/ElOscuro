@@ -1493,8 +1493,7 @@ bool CheckForQuickLoad  (void )
 
 void ShutDown ( void )
 {
-   if ( ( standalone == false )
-   )
+   if (!standalone)
       {
       WriteConfig ();
       }
