@@ -389,8 +389,8 @@ void GameMemToScreen
 void DrawPlayScreen (bool bufferofsonly)
 
    {
-   pic_t *shape;
-   int    shapenum;
+   pic_t *shape=0;
+   int    shapenum=0;
    int ShowKillsYoffset = 0;//bna++
 
 //return; 
@@ -524,11 +524,10 @@ void DrawPlayScreen (bool bufferofsonly)
 
    if ( !BATTLEMODE )
    {
-      int character;
-      int width;
-      int height;
+      int width=0;
+      int height=0;
 
-      character = locplayerstate->player;
+      int character = locplayerstate->player;
       GameMemToScreen( men[ character ], MEN_X, MEN_Y,bufferofsonly );
 
       CurrentFont = tinyfont;
@@ -2363,8 +2362,8 @@ void GM_UpdateBonus
    )
 
    {
-   pic_t *shape;
-   int    shapenum;
+   pic_t *shape=0;
+   int    shapenum=0;
 
    if ( powerup )
       {
@@ -4490,7 +4489,7 @@ player->yzangle=0;
       IN_UserInput (VBLCOUNTER*60);
 
       MainMenu[savegame].active = 0;
-      MainMenu[viewscores].routine = (void *)CP_ViewScores;
+      MainMenu[viewscores].routine = (void (*)(int))&CP_ViewScores;
       MainMenu[viewscores].texture[6] = '7';
       MainMenu[viewscores].texture[7] = '\0';
       MainMenu[viewscores].letter     = 'V';
