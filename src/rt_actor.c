@@ -54,7 +54,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "rt_msg.h"
 #include "audiolib/fx_man.h"
 
-
+#define UNUSED(x) (void)(x)
 
 
 
@@ -3857,10 +3857,13 @@ void T_SpawnSoul(objtype*ob)
 
 
 void BloodDrip(objtype *ob,int tilex,int tiley)
-{int dx,dy,x,y,scale;
+{
+  int x=0;
+  int y=0;
+  int scale=0;
 
- dx = ob->tilex - tilex;
- dy = ob->tiley - tiley;
+ int dx = ob->tilex - tilex;
+ int dy = ob->tiley - tiley;
 
  if (!dy)
    {
@@ -6459,7 +6462,8 @@ movement_status CheckRegularWalls(objtype *ob,int tryx,int tryy,int tryz)
    bool ISPLAYER=false;
 
    ocl = ob->obclass;
-   tryz=tryz;
+   UNUSED(tryz);
+   //tryz=tryz;
 
 
    if (ocl != playerobj)
@@ -10300,8 +10304,15 @@ void A_Drain (objtype *ob)
 
 
 void  A_DmonkAttack(objtype*ob)
-{int angle,nobclass,nspeed,altangle1=0,altangle2=0,zoff=0,sound;
- statetype *nstate;
+{
+  int angle=0;
+  int nobclass=0;
+  int nspeed=0;
+  int altangle1=0;
+  int altangle2=0;
+  int zoff=0;
+  int sound=0;
+ statetype *nstate=0;
 
 
   if (!ob->ticcount)
@@ -11678,13 +11689,16 @@ void A_Repeat(objtype*ob)
 
 void  A_MissileWeapon(objtype *ob)
 {
- int    sound,nspeed,noffset,zoffset;
+  int    sound=0;
+  int nspeed=0;
+  int noffset=0;
+  int zoffset=0;
 
 #if (SHAREWARE == 0)
- int oldyzangle;
+ int oldyzangle=0;
 #endif
- classtype nobclass;
- statetype*nstate;
+ classtype nobclass=0;
+ statetype*nstate=0;
 
 
  if ((ob->obclass == wallopobj) || (ob->obclass == roboguardobj));
