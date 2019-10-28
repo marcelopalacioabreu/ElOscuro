@@ -633,6 +633,7 @@ void PreCacheActor( int actor, int which )
 
 			start=W_GetNumForName("TOMRH1");
 			end  =W_GetNumForName("TOHRH8");
+      break;
 		case b_robobossobj:
 
          PreCachePlayerSound();
@@ -674,6 +675,7 @@ void PreCacheActor( int actor, int which )
 
 			start = W_GetNumForName("CRFIRE11");
 			end = W_GetNumForName("CREXP5");
+      break;
 
 		case pillarobj:
 
@@ -1085,7 +1087,6 @@ void PreCache( void )
 {
    int i;
 	int total;
-   byte * dummy;
    int maxheapsize;
    int newheap;
 
@@ -1137,7 +1138,6 @@ void PreCache( void )
       ticdelay=CACHETICDELAY;
       for (i=1;i<cacheindex;i++)
 			{
-         dummy=W_CacheLumpNum(cachelist[i].lump,cachelist[i].cachelevel, cvt_for_type(cachelist[i].type), 1);
          total+=W_LumpLength(cachelist[i].lump);
          newheap=Z_UsedHeap();
 			currentmem=(newheap*MAXLEDS)/maxheapsize;
@@ -1239,7 +1239,6 @@ DisableScreenStretch();
       {
       for (i=1;i<cacheindex;i++)
          {
-			dummy=W_CacheLumpNum(cachelist[i].lump,cachelist[i].cachelevel, cvt_for_type(cachelist[i].type), 1);
          DoLoadGameAction ();
          }
       ShutdownPreCache ();
@@ -1329,7 +1328,7 @@ void CheckRTLVersion
    // Check the version number
    //
    SafeRead( filehandle, &RTLVersion, sizeof( RTLVersion ) );
-   SwapIntelLong(&RTLVersion);
+   SwapIntelLong((int *)&RTLVersion);
    if ( RTLVersion > RTL_VERSION )
       {
       Error(
@@ -3225,21 +3224,15 @@ void SetupDoorLinks (void)
    int  j,
         i,
         k;
-   word *map;
    int  clocklinked;
    int  clockx,clocky;
    int  doornumber;
 	word touchx,
-        tile,
 		  touchy;
-
-   map = mapplanes[0];
 
    for (j = 0; j < mapheight; j++)
       for (i = 0; i < mapwidth; i++)
       {
-         tile = *map++;
-
          if (MAPSPOT (i, j, 2))
          {
             if (IsDoor(i,j)==1)
@@ -5661,6 +5654,7 @@ void SetupActors(void)
 					if (gamestate.difficulty < gd_hard)
 						break;
 					tile -= 18;
+          break;
 
 				case 108:
 				case 109:
@@ -5679,6 +5673,7 @@ void SetupActors(void)
 					if (gamestate.difficulty < gd_hard)
 						break;
 					tile -= 18;
+          break;
 
 				case 112:
 				case 113:
@@ -5694,6 +5689,7 @@ void SetupActors(void)
 					if (gamestate.difficulty < gd_hard)
 						break;
 					tile -= 18;
+          break;
 
 				case 116:
 				case 117:
@@ -5706,6 +5702,7 @@ void SetupActors(void)
 					if (gamestate.difficulty < gd_hard)
 						break;
 					tile -= 18;
+          break;
 
 				case 120:
 					SpawnSneaky(i,j);
@@ -5718,6 +5715,7 @@ void SetupActors(void)
 					if (gamestate.difficulty < gd_hard)
 						break;
 					tile -= 18;
+          break;
 
 				case 144:
 				case 145:
@@ -5733,6 +5731,7 @@ void SetupActors(void)
 					if (gamestate.difficulty < gd_hard)
 						break;
 					tile -= 18;
+          break;
 
 				case 152:
 				case 153:
@@ -5750,6 +5749,7 @@ void SetupActors(void)
 					if (gamestate.difficulty < gd_hard)
 						break;
 					tile -= 18;
+          break;
 
 				case 148:
 				case 149:
@@ -5765,6 +5765,7 @@ void SetupActors(void)
 					if (gamestate.difficulty < gd_hard)
 						break;
 					tile -= 18;
+          break;
 
 				case 158:
 				case 159:
@@ -5780,6 +5781,7 @@ void SetupActors(void)
 					if (gamestate.difficulty < gd_hard)
 						break;
 					tile -= 18;
+          break;
 
 				case 194:
 				case 195:
@@ -5795,6 +5797,7 @@ void SetupActors(void)
 					if (gamestate.difficulty < gd_hard)
 						break;
 					tile -= 18;
+          break;
 
 				case 180:
 				case 181:
@@ -5810,6 +5813,7 @@ void SetupActors(void)
 					if (gamestate.difficulty < gd_hard)
 						break;
 					tile -= 18;
+          break;
 
 				case 188:
 				case 189:
@@ -5825,6 +5829,7 @@ void SetupActors(void)
 					if (gamestate.difficulty < gd_hard)
 						break;
 					tile -= 18;
+          break;
 
 				case 184:
 				case 185:
@@ -5840,6 +5845,7 @@ void SetupActors(void)
 					if (gamestate.difficulty < gd_hard)
 						break;
 					tile -= 18;
+          break;
 
 				case 216:
 				case 217:
@@ -5855,6 +5861,7 @@ void SetupActors(void)
 					if (gamestate.difficulty < gd_hard)
 						break;
 					tile -= 18;
+          break;
 
 				case 224:
 				case 225:
@@ -5870,6 +5877,7 @@ void SetupActors(void)
 					if (gamestate.difficulty < gd_hard)
 						break;
 					tile -= 18;
+          break;
 
 				case 220:
 				case 221:
@@ -5884,6 +5892,7 @@ void SetupActors(void)
 					if (gamestate.difficulty < gd_hard)
 						break;
 					tile -= 18;
+          break;
 
 				case 288:
 				case 289:
@@ -5899,6 +5908,7 @@ void SetupActors(void)
 					if (gamestate.difficulty < gd_hard)
 						break;
 					tile -= 18;
+          break;
 
 				case 296:
 				case 297:
@@ -5914,6 +5924,7 @@ void SetupActors(void)
 					if (gamestate.difficulty < gd_hard)
 						break;
 					tile -= 18;
+          break;
 
 				case 292:
 				case 293:
@@ -5929,6 +5940,7 @@ void SetupActors(void)
 					if (gamestate.difficulty < gd_hard)
 						break;
 					tile -= 18;
+          break;
 
 				case 324:
 				case 325:
@@ -5944,6 +5956,7 @@ void SetupActors(void)
 					if (gamestate.difficulty < gd_hard)
 						break;
 					tile -= 18;
+          break;
 
 				case 332:
 				case 333:
@@ -5959,6 +5972,7 @@ void SetupActors(void)
 					if (gamestate.difficulty < gd_hard)
 						break;
 					tile -= 18;
+          break;
 				case 328:
 				case 329:
 				case 330:
@@ -5973,6 +5987,7 @@ void SetupActors(void)
 					if (gamestate.difficulty < gd_hard)
 						break;
 					tile -= 18;
+          break;
 
 				case 360:
 				case 361:
@@ -5988,6 +6003,7 @@ void SetupActors(void)
 					if (gamestate.difficulty < gd_hard)
 						break;
 					tile -= 18;
+          break;
 
 				case 368:
 				case 369:
@@ -6003,6 +6019,7 @@ void SetupActors(void)
 					if (gamestate.difficulty < gd_hard)
 						break;
 					tile -= 18;
+          break;
 
 				case 364:
 				case 365:
@@ -6018,6 +6035,7 @@ void SetupActors(void)
 					if (gamestate.difficulty < gd_hard)
 						break;
 					tile -= 18;
+          break;
 
 				case 396:
 				case 397:
@@ -6035,6 +6053,7 @@ void SetupActors(void)
 					if (gamestate.difficulty < gd_hard)
 						break;
 					tile -= 18;
+          break;
 
 
 				case 404:
@@ -6051,6 +6070,7 @@ void SetupActors(void)
 					if (gamestate.difficulty < gd_hard)
 						break;
 					tile -= 18;
+          break;
 
 				case 400:
 				case 401:
@@ -6085,6 +6105,7 @@ void SetupActors(void)
 					if (gamestate.difficulty < gd_hard)
 						break;
 					tile -= 18;
+          break;
 
 				case 408:
 				case 409:
