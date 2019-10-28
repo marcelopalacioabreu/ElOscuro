@@ -90,7 +90,7 @@ static plane_t planelist[MAXPLANES],*planeptr;
 
 static int StringShade=16;
 
-extern void (*USL_MeasureString)(const char *, int *, int *, font_t *);
+//extern void (*USL_MeasureString)(const char *, int *, int *, font_t *);
 
 static char strbuf[MaxString];
 
@@ -1355,7 +1355,7 @@ void MenuBufCPrintLine (const char *s)
 {
    int w, h;
 
-   USL_MeasureString (s, &w, &h, CurrentFont);
+  VW_MeasurePropString  (s, &w, &h);
 
    if (w > WindowW)
       Error("MenuBufCPrintLine() - String exceeds width");
@@ -1418,7 +1418,7 @@ void MenuBufPrintLine (const char *s)
 {
    int w, h;
 
-   USL_MeasureString (s, &w, &h, CurrentFont);
+   VW_MeasurePropString (s, &w, &h);
 
    if (w > WindowW)
       Error("MenuBufCPrintLine() - String exceeds width");
@@ -1473,7 +1473,7 @@ void MenuTBufPrintLine (const char *s, int shade)
 {
    int w, h;
 
-   USL_MeasureString (s, &w, &h, CurrentFont);
+   VW_MeasurePropString (s, &w, &h);
 
    if (w > WindowW)
       Error("MenuBufCPrintLine() - String exceeds width");

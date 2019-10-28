@@ -83,8 +83,7 @@ void US_MeasureStr (int *width, int *height, const char * s, ...) __attribute__(
 
 void VW_DrawPropString (const char *string);
 
-void US_SetPrintRoutines (void (*measure)(const char *, int *, int *, font_t *),
-                          void (*print)(const char *));
+void US_SetPrintRoutines (void (*print)(const char *));
 void US_Print (const char *s);
 void US_BufPrint (const char *s);
 void US_PrintUnsigned (unsigned long int n);

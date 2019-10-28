@@ -56,7 +56,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define SINGLE_FRAME -1
 #define DOUBLE_FRAME -2
 
-void (*USL_MeasureString) (const char*, int32_t*, int32_t*, font_t*) = (void (*)(const char*, int32_t*, int32_t*, font_t*)) VW_MeasurePropString;
+//void (*USL_MeasureString) (const char*, int32_t*, int32_t*, font_t*) = (void (*)(const char*, int32_t*, int32_t*, font_t*)) VW_MeasurePropString;
 void (*USL_DrawString) (const char*) = VWB_DrawPropString;
 
 
@@ -403,10 +403,8 @@ void US_MeasureStr (int *width, int *height, const char * s, ...)
 //
 //******************************************************************************
 
-void US_SetPrintRoutines (void (*measure)(const char *, int *, int *, font_t *),
-                          void (*print)(const char *))
+void US_SetPrintRoutines (void (*print)(const char *))
 {
-   USL_MeasureString = measure;
    USL_DrawString    = print;
 }
 
@@ -435,7 +433,7 @@ void US_Print (const char *string)
          se++;
       *se = '\0';
 
-      USL_MeasureString (s, &w, &h, CurrentFont);
+      VW_MeasurePropString (s, &w, &h);
       px = PrintX;
       py = PrintY;
       USL_DrawString (s);
@@ -534,7 +532,7 @@ void USL_PrintInCenter (const char *s, Rect r)
    int   w,h,
          rw,rh;
 
-   USL_MeasureString (s,&w,&h, CurrentFont);
+   VW_MeasurePropString (s,&w,&h);
    rw = r.lr.x - r.ul.x;
    rh = r.lr.y - r.ul.y;
 
@@ -572,7 +570,7 @@ void US_CPrintLine (const char *s)
 {
    int w, h;
 
-   USL_MeasureString (s, &w, &h, CurrentFont);
+   VW_MeasurePropString (s, &w, &h);
 
    if (w > WindowW)
       Error("US_CPrintLine() - String exceeds width");
@@ -645,7 +643,7 @@ static void USL_XORICursor (int x, int y, const char *s, int cursor, int color)
 
    strcpy (buf,s);
    buf[cursor] = '\0';
-   USL_MeasureString (buf, &w, &h, CurrentFont);
+   VW_MeasurePropString (buf, &w, &h);
 
 
    if (status^=1)
@@ -871,7 +869,7 @@ bool US_LineInput (int x, int y, char *buf, const char *def, bool escok,
       if (lastkey)
       {
          len = strlen (s);
-         USL_MeasureString (s, &w, &h, CurrentFont);
+         VW_MeasurePropString (s, &w, &h);
 
          if
          (
@@ -1166,7 +1164,7 @@ bool US_lineinput (int x, int y, char *buf, const char *def, bool escok,
       if (lastkey)
       {
          len = strlen (s);
-         USL_MeasureString (xx, &w, &h, CurrentFont);
+         VW_MeasurePropString (xx, &w, &h);
 
          if
          (
