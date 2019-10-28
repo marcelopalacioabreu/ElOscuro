@@ -310,9 +310,6 @@ static int MenuNum = 0;
 static int handlewhich;
 static int CSTactive = 0;
 static bool INFXSETUP = false;
-static int MaxVoices;
-static int MaxBits;
-static int MaxChannels;
 
 //
 // MENU CURSOR SHAPES
@@ -380,13 +377,13 @@ CP_itemtype MainMenu[] =
    {
       { CP_CursorLocation, "mm_opt1\0",  'N', (menuptr)CP_NewGame },
       { CP_Active,         "battle\0",   'C', (menuptr)CP_BattleModes },
-      { CP_Active,         "mm_opt2\0",  'R', (menuptr)CP_LoadGame },
-      { CP_Inactive,       "mm_opt3\0",  'S', (menuptr)CP_SaveGame },
+      { CP_Active,         "mm_opt2\0",  'R', (void*)CP_LoadGame },
+      { CP_Inactive,       "mm_opt3\0",  'S', (void*)CP_SaveGame },
       { CP_Active,         "mm_opt5\0",  'O', (menuptr)CP_ControlMenu },
       { CP_Active,         "ordrinfo\0", 'O', (menuptr)CP_OrderInfo },
       { CP_Active,         "mm_opt7\0",  'V', (menuptr)CP_ViewScores },
-      { CP_Active,         "mm_opt8\0",  'B', (menuptr)NULL },
-      { CP_Active,         "mm_opt9\0",  'Q', (menuptr)CP_Quit }
+      { CP_Active,         "mm_opt8\0",  'B', 0 },
+      { CP_Active,         "mm_opt9\0",  'Q', CP_Quit }
    };
 
 
@@ -1441,6 +1438,7 @@ void ScanForSavedGames ()
 #endif
 
    if (!_dos_findfirst (filename, &f))
+     {
       do
       {
          strcpy(str,&f.name[7]);
@@ -1454,6 +1452,7 @@ void ScanForSavedGames ()
          }
 
       } while (!_dos_findnext (&f));
+     }
 
       if (found)
       {
@@ -3818,7 +3817,7 @@ void DefineKey
          buttonscan[ (unsigned int)order[ handlewhich ] ] = key;
 
          strcpy( &NormalKeyNames[ handlewhich ][ KEYNAMEINDEX ],
-            IN_GetScanName( key ) );
+                 (const char * restrict)IN_GetScanName( key ) );
 
          picked = true;
 
@@ -4776,9 +4775,9 @@ void ReadAnyControl (ControlInfo *ci)
 //
 //******************************************************************************
 
-byte * IN_GetScanName (ScanCode scan)
+char * IN_GetScanName (ScanCode scan)
 {
-   byte     **p;
+   char     **p;
    ScanCode *s;
 
    for (s = ExtScanCodes, p = ExtScanNames; *s; p++, s++)
@@ -4891,7 +4890,7 @@ void DrawCustomKeyboard (void)
    for( i = 0; i < NormalKeyItems.amount; i++ )
       {
       strcpy( &NormalKeyNames[ i ][ KEYNAMEINDEX ],
-         IN_GetScanName( buttonscan[ (unsigned int)order[ i ] ] ) );
+              (const char * restrict)IN_GetScanName( buttonscan[ (unsigned int)order[ i ] ] ) );
       }
 
    MN_GetCursorLocation( &NormalKeyItems, &NormalKeyMenu[ 0 ] );
@@ -4914,7 +4913,7 @@ void MusicVolume
    )
 
    {
-   SliderMenu( &MUvolume, 254, 0, 33, 81, 225, 8, "block3", MUSIC_SetVolume,
+   SliderMenu( &MUvolume, 254, 0, 33, 81, 225, 8, "block3", 0,
       "Music Volume", "Low", "High" );
       DrawControlMenu();
    }
@@ -4932,10 +4931,6 @@ void FXVolume
    )
 
    {
-   int oldvolume;
-
-   oldvolume = FXvolume;
-
    SliderMenu( &FXvolume, 254, 0, 33, 81, 225, 8, "block3", FX_SetVolume,
       "Sound Volume", "Low", "High" );
       DrawControlMenu();
