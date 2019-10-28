@@ -520,10 +520,6 @@ void RevivePlayerobj (int tilex, int tiley, int dir, objtype*ob)
 */
 void SpawnPlayerobj (int tilex, int tiley, int dir, int playerindex)
 {
- playertype *pstate;
-
-	pstate = &PLAYERSTATE[playerindex];
-
 	GetNewActor();
 	MakeActive(new);
 
@@ -2313,28 +2309,6 @@ void PollJoystickMove (void)
          }
       }
    }
-
-//******************************************************************************
-//
-// StartVRFeedback
-//
-//******************************************************************************
-
-void StartVRFeedback (int guntype)
-{
-	STUB_FUNCTION;
-}
-
-//******************************************************************************
-//
-// StopVRFeedback
-//
-//******************************************************************************
-
-void StopVRFeedback (void)
-{
-	STUB_FUNCTION;
-}
 
 //******************************************************************************
 //
