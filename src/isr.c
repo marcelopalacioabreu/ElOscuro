@@ -46,8 +46,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 // Global Variables
 
-static volatile bool ExtendedKeyFlag;
-
 volatile int Keyboard[MAXKEYBOARDSCAN];
 volatile int KeyboardQueue[KEYQMAX];
 volatile int Keystate[MAXKEYBOARDSCAN];
