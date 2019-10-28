@@ -1812,16 +1812,16 @@ void AnimateWalls(void)
 
 
 void CheckCriticalStatics(void)
-{respawn_t *rtemp,*ddt;
- int i,stilex,stiley;
- statobj_t*temp,*stat;
+{respawn_t *rtemp=0,*ddt=0;
+ int i=0,stilex=0,stiley=0;
+ statobj_t*temp=0,*stat=0;
 
  for(rtemp = firstrespawn;rtemp;)
 	{rtemp->ticcount --;
 	 ddt = rtemp->next;
 
 	 if (rtemp->ticcount <=0)
-		 {int stype;
+		 {int stype=0;
 
 		  stilex = rtemp->tilex;
 		  stiley = rtemp->tiley;
