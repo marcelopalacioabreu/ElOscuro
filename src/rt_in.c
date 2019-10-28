@@ -329,7 +329,7 @@ static int root_sdl_event_filter(const SDL_Event *event)
             return(sdl_mouse_motion_filter(event));
         case SDL_MOUSEBUTTONUP:
         case SDL_MOUSEBUTTONDOWN:
-            return(sdl_mouse_button_filter(event));
+          return(sdl_mouse_button_filter());//event));
         case SDL_QUIT:
             /* !!! rcg TEMP */
             fprintf(stderr, "\n\n\nSDL_QUIT!\n\n\n");
@@ -901,18 +901,14 @@ void IN_ClearKeysDown (void)
 
 void IN_ReadControl (int player, ControlInfo *info)
 {
-   bool     realdelta;
-   word        buttons;
-   int         dx,dy;
-   Motion      mx,my;
-   ControlType type;
-
-   KeyboardDef *def;
-
-   dx = dy = 0;
-   mx = my = motion_None;
-   buttons = 0;
-
+   bool     realdelta=false;
+   word        buttons=0;
+   int         dx=0;
+   int         dy=0;
+   Motion      mx=motion_None;
+   Motion      my=motion_None;
+   ControlType type=0;
+   KeyboardDef *def=0;
 
    switch (type = Controls[player])
    {
