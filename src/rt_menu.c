@@ -375,15 +375,15 @@ CP_MenuNames MainMenuNames[] =
 CP_iteminfo MainItems  = { MENU_X, MENU_Y + 1, 9, STARTITEM, 32, MainMenuNames, mn_largefont };
 CP_itemtype MainMenu[] =
    {
-    { CP_CursorLocation, "mm_opt1\0",  'N', (void (*)(int))&CP_NewGame },
-    { CP_Active,         "battle\0",   'C', (void (*)(int))&CP_BattleModes },
-    { CP_Active,         "mm_opt2\0",  'R', (void (*)(int))&CP_LoadGame },
-    { CP_Inactive,       "mm_opt3\0",  'S', (void (*)(int))&CP_SaveGame },
-    { CP_Active,         "mm_opt5\0",  'O', (void (*)(int))&CP_ControlMenu },
-    { CP_Active,         "ordrinfo\0", 'O', (void (*)(int))&CP_OrderInfo },
-    { CP_Active,         "mm_opt7\0",  'V', (void (*)(int))&CP_ViewScores },
+    { CP_CursorLocation, "mm_opt1\0",  'N', &CP_NewGame },
+    { CP_Active,         "battle\0",   'C', &CP_BattleModes },
+    { CP_Active,         "mm_opt2\0",  'R', (void*)&CP_LoadGame },
+    { CP_Inactive,       "mm_opt3\0",  'S', (void*)&CP_SaveGame },
+    { CP_Active,         "mm_opt5\0",  'O', &CP_ControlMenu },
+    { CP_Active,         "ordrinfo\0", 'O', &CP_OrderInfo },
+    { CP_Active,         "mm_opt7\0",  'V', &CP_ViewScores },
       { CP_Active,         "mm_opt8\0",  'B', 0 },
-      { CP_Active,         "mm_opt9\0",  'Q', &CP_Quit }
+    { CP_Active,         "mm_opt9\0",  'Q', (void*)&CP_Quit }
    };
 
 
@@ -425,9 +425,9 @@ CP_itemtype CtlMenu[] =
       { CP_Inactive, "ctl_jen\0", 'J', NULL },
       { CP_Inactive, "ctl_jp2\0", 'U', NULL },
       { CP_Inactive, "ctl_gpd\0", 'G', NULL },
-      { CP_Inactive, "ctl_thr\0", 'A', (menuptr)DoThreshold },
-      { CP_Inactive, "ctl_mse\0", 'M', (menuptr)MouseSensitivity },
-      { CP_Active,   "ctl_cus\0", 'C', (menuptr)CP_Custom }
+      { CP_Inactive, "ctl_thr\0", 'A', DoThreshold },
+      { CP_Inactive, "ctl_mse\0", 'M', MouseSensitivity },
+      { CP_Active,   "ctl_cus\0", 'C', CP_Custom }
    };
 
 CP_iteminfo CusItems  = { 32, CST_Y + 13 * 2, 9, -1, 0, NULL, mn_largefont };
@@ -500,9 +500,9 @@ CP_iteminfo CustomItems = {32, 64, 3, 0, 24, CustomMenuNames, mn_largefont };
 
 CP_itemtype CustomMenu[] =
 {
-  {2, "custom1\0", 'C', (menuptr)CP_Keyboard},
-  {1, "custom2\0", 'C', (menuptr)CP_Mouse},
-  {1, "custom3\0", 'C', (menuptr)CP_Joystick}
+  {2, "custom1\0", 'C', CP_Keyboard},
+  {1, "custom2\0", 'C', CP_Mouse},
+  {1, "custom3\0", 'C', CP_Joystick}
 };
 
 #define KEYNAMEINDEX 21
@@ -538,27 +538,27 @@ CP_iteminfo NormalKeyItems = { NORMALKEY_X, 17, 21, 0, 16, NormalKeyNames, mn_ti
 
 CP_itemtype NormalKeyMenu[] =
    {
-      { 2, "\0", 'L', (menuptr)DefineKey },
-      { 1, "\0", 'R', (menuptr)DefineKey },
-      { 1, "\0", 'F', (menuptr)DefineKey },
-      { 1, "\0", 'B', (menuptr)DefineKey },
-      { 1, "\0", 'R', (menuptr)DefineKey },
-      { 1, "\0", 'O', (menuptr)DefineKey },
-      { 1, "\0", 'F', (menuptr)DefineKey },
-      { 1, "\0", 'S', (menuptr)DefineKey },
-      { 1, "\0", 'S', (menuptr)DefineKey },
-      { 1, "\0", 'S', (menuptr)DefineKey },
-      { 1, "\0", 'L', (menuptr)DefineKey },
-      { 1, "\0", 'L', (menuptr)DefineKey },
-      { 1, "\0", 'A', (menuptr)DefineKey },
-      { 1, "\0", 'A', (menuptr)DefineKey },
-      { 1, "\0", 'T', (menuptr)DefineKey },
-      { 1, "\0", 'D', (menuptr)DefineKey },
-      { 1, "\0", 'V', (menuptr)DefineKey },
-      { 1, "\0", 'A', (menuptr)DefineKey },
-      { 1, "\0", 'A', (menuptr)DefineKey },
-      { 1, "\0", 'S', (menuptr)DefineKey },
-      { 1, "\0", 'D', (menuptr)DefineKey }
+      { 2, "\0", 'L', DefineKey },
+      { 1, "\0", 'R', DefineKey },
+      { 1, "\0", 'F', DefineKey },
+      { 1, "\0", 'B', DefineKey },
+      { 1, "\0", 'R', DefineKey },
+      { 1, "\0", 'O', DefineKey },
+      { 1, "\0", 'F', DefineKey },
+      { 1, "\0", 'S', DefineKey },
+      { 1, "\0", 'S', DefineKey },
+      { 1, "\0", 'S', DefineKey },
+      { 1, "\0", 'L', DefineKey },
+      { 1, "\0", 'L', DefineKey },
+      { 1, "\0", 'A', DefineKey },
+      { 1, "\0", 'A', DefineKey },
+      { 1, "\0", 'T', DefineKey },
+      { 1, "\0", 'D', DefineKey },
+      { 1, "\0", 'V', DefineKey },
+      { 1, "\0", 'A', DefineKey },
+      { 1, "\0", 'A', DefineKey },
+      { 1, "\0", 'S', DefineKey },
+      { 1, "\0", 'D', DefineKey }
    };
 
 #define NUMCONTROLNAMES 21
@@ -639,12 +639,12 @@ CP_iteminfo MouseBtnItems = { 19, 52, 6, 0, 11, MouseBtnNames, mn_8x8font };
 
 CP_itemtype MouseBtnMenu[] =
    {
-      { 2, "\0", 'B', (menuptr)DefineMouseBtn },
-      { 1, "\0", 'B', (menuptr)DefineMouseBtn },
-      { 1, "\0", 'B', (menuptr)DefineMouseBtn },
-      { 1, "\0", 'D', (menuptr)DefineMouseBtn },
-      { 1, "\0", 'D', (menuptr)DefineMouseBtn },
-      { 1, "\0", 'D', (menuptr)DefineMouseBtn }
+      { 2, "\0", 'B', DefineMouseBtn },
+      { 1, "\0", 'B', DefineMouseBtn },
+      { 1, "\0", 'B', DefineMouseBtn },
+      { 1, "\0", 'D', DefineMouseBtn },
+      { 1, "\0", 'D', DefineMouseBtn },
+      { 1, "\0", 'D', DefineMouseBtn }
    };
 
 
@@ -666,14 +666,14 @@ CP_iteminfo JoyBtnItems = { 19, 48, 8, 0, 11, JoyBtnNames, mn_8x8font };
 
 CP_itemtype JoyBtnMenu[] =
    {
-      { 2, "\0", 'B', (menuptr)DefineJoyBtn },
-      { 1, "\0", 'B', (menuptr)DefineJoyBtn },
-      { 1, "\0", 'B', (menuptr)DefineJoyBtn },
-      { 1, "\0", 'B', (menuptr)DefineJoyBtn },
-      { 1, "\0", 'D', (menuptr)DefineJoyBtn },
-      { 1, "\0", 'D', (menuptr)DefineJoyBtn },
-      { 1, "\0", 'D', (menuptr)DefineJoyBtn },
-      { 1, "\0", 'D', (menuptr)DefineJoyBtn }
+      { 2, "\0", 'B', DefineJoyBtn },
+      { 1, "\0", 'B', DefineJoyBtn },
+      { 1, "\0", 'B', DefineJoyBtn },
+      { 1, "\0", 'B', DefineJoyBtn },
+      { 1, "\0", 'D', DefineJoyBtn },
+      { 1, "\0", 'D', DefineJoyBtn },
+      { 1, "\0", 'D', DefineJoyBtn },
+      { 1, "\0", 'D', DefineJoyBtn }
    };
 
 CP_MenuNames PlayerMenuNames[] =
@@ -710,11 +710,11 @@ CP_iteminfo ControlMItems = {32, 48-8, 5, 0, 32, ControlMMenuNames, mn_largefont
 
 CP_itemtype ControlMMenu[] =
 {
-   {2, "cntl\0",     'C', (menuptr)CP_Control},
-   {1, "uopt\0",     'U', (menuptr)CP_OptionsMenu},
-   {1, "euopt\0", 'E', (menuptr)CP_ExtOptionsMenu},//bna added
-   {1, "muvolumn\0", 'M', (menuptr)MusicVolume},
-   {1, "fxvolumn\0", 'S', (menuptr)FXVolume}
+   {2, "cntl\0",     'C', CP_Control},
+   {1, "uopt\0",     'U', CP_OptionsMenu},
+   {1, "euopt\0", 'E', CP_ExtOptionsMenu},//bna added
+   {1, "muvolumn\0", 'M', MusicVolume},
+   {1, "fxvolumn\0", 'S', FXVolume}
 
 };
 
@@ -760,11 +760,11 @@ CP_itemtype OptionsMenu[] =
    {1, "lightdim\0",'L', NULL},
    {1, "bobbin\0",  'B', NULL},
    {1, "fandc\0",   'F', NULL},
-   {1, "double\0",  'D', (menuptr)CP_DoubleClickSpeed},
-   {1, "menuspd\0", 'M', (menuptr)MenuFlipSpeed},
-   {1, "detail\0",  'D', (menuptr)CP_DetailMenu},
-   {1, "vlevel\0",  'V', (menuptr)CP_ViolenceMenu},
-   {1, "\0",        'S', (menuptr)CP_ScreenSize}
+   {1, "double\0",  'D', CP_DoubleClickSpeed},
+   {1, "menuspd\0", 'M', MenuFlipSpeed},
+   {1, "detail\0",  'D', CP_DetailMenu},
+   {1, "vlevel\0",  'V', CP_ViolenceMenu},
+   {1, "\0",        'S', CP_ScreenSize}
 };
 
 CP_MenuNames DetailMenuNames[] =
@@ -794,9 +794,9 @@ CP_iteminfo BattleItems = { 32, 19, 3, 0, 24, BattleMenuNames, mn_largefont };
 
 CP_itemtype BattleMenu[] =
 {
-   {2, "bplay\0",    'P', (menuptr)BattleNoTeams},
-   {1, "playteam\0", 'P', (menuptr)BattleTeams},
-   {1, "comopt\0",   'C', (menuptr)CP_BattleOptions}
+   {2, "bplay\0",    'P', BattleNoTeams},
+   {1, "playteam\0", 'P', BattleTeams},
+   {1, "comopt\0",   'C', CP_BattleOptions}
 };
 
 CP_MenuNames ViolenceMenuNames[] =
@@ -827,8 +827,8 @@ CP_iteminfo VItems = { 32, MP_Y, 2, 0, 24, VMenuNames, mn_largefont };
 
 CP_itemtype VMenu[] =
 {
-   {2, "msetv\0",  'S',  (menuptr)CP_ViolenceLevel},
-   {1, "mepass\0", 'E', (menuptr)CP_PWMenu}
+   {2, "msetv\0",  'S',  CP_ViolenceLevel},
+   {1, "mepass\0", 'E', CP_PWMenu}
 };
 
 CP_MenuNames ModeMenuNames[] =
@@ -848,15 +848,15 @@ CP_iteminfo ModeItems = { MENU_X, MENU_Y + 1, 9, 0, 24, ModeMenuNames, mn_largef
 
 CP_itemtype ModeMenu[] =
 {
-   {CP_CursorLocation, "normal\0",   'N', (menuptr)CP_BattleMenu},
-   {CP_Active,         "scorem\0",   'S', (menuptr)CP_BattleMenu},
-   {CP_Active,         "collect\0",  'C', (menuptr)CP_BattleMenu},
-   {CP_Active,         "scaven\0",   'S', (menuptr)CP_BattleMenu},
-   {CP_Active,         "hunter\0",   'H', (menuptr)CP_BattleMenu},
-   {CP_Active,         "tag\0",      'T', (menuptr)CP_BattleMenu},
-   {CP_Active,         "eluder\0",   'E', (menuptr)CP_BattleMenu},
-   {CP_Active,         "deluder\0",  'D', (menuptr)CP_BattleMenu},
-   {CP_Active,         "captriad\0", 'C', (menuptr)CP_BattleMenu}
+   {CP_CursorLocation, "normal\0",   'N', CP_BattleMenu},
+   {CP_Active,         "scorem\0",   'S', CP_BattleMenu},
+   {CP_Active,         "collect\0",  'C', CP_BattleMenu},
+   {CP_Active,         "scaven\0",   'S', CP_BattleMenu},
+   {CP_Active,         "hunter\0",   'H', CP_BattleMenu},
+   {CP_Active,         "tag\0",      'T', CP_BattleMenu},
+   {CP_Active,         "eluder\0",   'E', CP_BattleMenu},
+   {CP_Active,         "deluder\0",  'D', CP_BattleMenu},
+   {CP_Active,         "captriad\0", 'C', CP_BattleMenu}
 };
 
 CP_MenuNames BOptNames[] =
@@ -876,15 +876,15 @@ CP_iteminfo BOptItems = { MENU_X, MENU_Y + 1, 9, 0, 24, BOptNames, mn_largefont 
 
 CP_itemtype BOptMenu[] =
 {
-   {2, "gravity\0",  'G', (menuptr)CP_GravityOptions},
-   {1, "speed\0",    'S', (menuptr)CP_SpeedOptions},
-   {1, "ammoper\0",  'A', (menuptr)CP_AmmoPerWeaponOptions},
-   {1, "hitp\0",     'H', (menuptr)CP_HitPointsOptions},
-   {1, "radical\0",  'R', (menuptr)CP_SpawnControlOptions},
-   {1, "lightl\0",   'L', (menuptr)CP_LightLevelOptions},
-   {1, "pntgoal\0",  'P', (menuptr)CP_PointGoalOptions},
-   {1, "danger\0",   'D', (menuptr)CP_DangerOptions},
-   {1, "timel\0",    'T', (menuptr)CP_TimeLimitOptions}
+   {2, "gravity\0",  'G', CP_GravityOptions},
+   {1, "speed\0",    'S', CP_SpeedOptions},
+   {1, "ammoper\0",  'A', CP_AmmoPerWeaponOptions},
+   {1, "hitp\0",     'H', CP_HitPointsOptions},
+   {1, "radical\0",  'R', CP_SpawnControlOptions},
+   {1, "lightl\0",   'L', CP_LightLevelOptions},
+   {1, "pntgoal\0",  'P', CP_PointGoalOptions},
+   {1, "danger\0",   'D', CP_DangerOptions},
+   {1, "timel\0",    'T', CP_TimeLimitOptions}
 };
 
 CP_MenuNames GravityMenuNames[] =
@@ -1565,7 +1565,7 @@ void SetUpControlPanel (void)
 
       if ( consoleplayer != 0 )
          {
-         MainMenu[battlemode].routine = ( void (*)(int) )BattleGamePlayerSetup;
+         MainMenu[battlemode].routine = BattleGamePlayerSetup;
          }
       }
    }
@@ -2312,7 +2312,7 @@ int HandleMenu (CP_iteminfo *item_i, CP_itemtype *items, void (*routine)(int w))
    {
       case 1:
          if ((items+handlewhich)->routine!=NULL)
-            (items+handlewhich)->routine(0);
+            (items+handlewhich)->routine();
          return (handlewhich);
 
       case 2:
@@ -3175,7 +3175,7 @@ void AdjustMenuStruct
 
    {
    MainMenu[ savegame ].active         = CP_Inactive;
-   MainMenu[ viewscores ].routine      = (void (*)(int))&CP_ViewScores;
+   MainMenu[ viewscores ].routine      = &CP_ViewScores;
    MainMenu[ viewscores ].texture[ 6 ] = '7';
    MainMenu[ viewscores ].texture[ 7 ] = '\0';
    MainMenu[ viewscores ].letter       = 'V';
@@ -5010,7 +5010,7 @@ void MenuFixup
    MainMenu[ viewscores ].texture[ 6 ] = '1';
    MainMenu[ viewscores ].texture[ 7 ] = '0';
    MainMenu[ viewscores ].texture[ 8 ] = '\0';
-   MainMenu[ viewscores ].routine      = (void (*)(int))&CP_EndGame;
+   MainMenu[ viewscores ].routine      = &CP_EndGame;
    MainMenu[ viewscores ].letter       = 'E';
    strcpy (MainMenuNames[ viewscores ] , "END GAME");
    MainMenu[ savegame ].active         = CP_Active;

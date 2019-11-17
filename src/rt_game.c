@@ -4489,7 +4489,7 @@ player->yzangle=0;
       IN_UserInput (VBLCOUNTER*60);
 
       MainMenu[savegame].active = 0;
-      MainMenu[viewscores].routine = (void (*)(int))&CP_ViewScores;
+      MainMenu[viewscores].routine = &CP_ViewScores;
       MainMenu[viewscores].texture[6] = '7';
       MainMenu[viewscores].texture[7] = '\0';
       MainMenu[viewscores].letter     = 'V';

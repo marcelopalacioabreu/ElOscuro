@@ -71,7 +71,7 @@ typedef struct
    int active;
    char texture[9];
    char letter;
-   void (* routine)(int temp1);
+   void (* routine)(void);
 } CP_itemtype;
 
 enum
