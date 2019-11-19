@@ -1506,7 +1506,7 @@ void DrawIntensityChar  ( char ch )
 
 int GetColor (int num)
 {
-   int returnval;
+   int returnval = 0;
 
    if ((num >= '0') && (num <= '9'))
       returnval = egacolor[num - '0'];
