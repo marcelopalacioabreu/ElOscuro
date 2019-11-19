@@ -377,13 +377,13 @@ CP_itemtype MainMenu[] =
    {
     { CP_CursorLocation, "mm_opt1\0",  'N', &CP_NewGame },
     { CP_Active,         "battle\0",   'C', &CP_BattleModes },
-    { CP_Active,         "mm_opt2\0",  'R', (void*)&CP_LoadGame },
-    { CP_Inactive,       "mm_opt3\0",  'S', (void*)&CP_SaveGame },
+    { CP_Active,         "mm_opt2\0",  'R', (void(*)(void))&CP_LoadGame },
+    { CP_Inactive,       "mm_opt3\0",  'S', (void(*)(void))&CP_SaveGame },
     { CP_Active,         "mm_opt5\0",  'O', &CP_ControlMenu },
     { CP_Active,         "ordrinfo\0", 'O', &CP_OrderInfo },
     { CP_Active,         "mm_opt7\0",  'V', &CP_ViewScores },
       { CP_Active,         "mm_opt8\0",  'B', 0 },
-    { CP_Active,         "mm_opt9\0",  'Q', (void*)&CP_Quit }
+    { CP_Active,         "mm_opt9\0",  'Q', (void(*)(void))&CP_Quit }
    };
 
 
