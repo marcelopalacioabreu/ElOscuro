@@ -1758,38 +1758,38 @@ void TextFrame
          DrawRottText( x2, y, type, foreground, background );
          }
       }
-   if ( type == SINGLE_FRAME )
+   if ( type == SINGLE_FRAME ) // XXX: On the side, are the original "Code page 437" characters
       {
-      DrawRottText( x1, y1, '⁄', foreground, background );
-      DrawRottText( x2, y1, 'ø', foreground, background );
-      DrawRottText( x1, y2, '¿', foreground, background );
-      DrawRottText( x2, y2, 'Ÿ', foreground, background );
+        DrawRottText( x1, y1, "\xda", foreground, background ); // ‚îå
+        DrawRottText( x2, y1, "\xbf", foreground, background ); // ‚îê
+        DrawRottText( x1, y2, "\xc0", foreground, background ); // ‚îî
+        DrawRottText( x2, y2, "\xd9", foreground, background ); // ‚îò
       for( x = x1 + 1; x < x2; x++ )
          {
-         DrawRottText( x, y1, 'ƒ', foreground, background );
-         DrawRottText( x, y2, 'ƒ', foreground, background );
+           DrawRottText( x, y1, "\xc4", foreground, background ); // ‚îÄ
+           DrawRottText( x, y2, "\xc4", foreground, background ); // ‚îÄ
          }
       for( y = y1 + 1; y < y2; y++ )
          {
-         DrawRottText( x1, y, '≥', foreground, background );
-         DrawRottText( x2, y, '≥', foreground, background );
+           DrawRottText( x1, y, "\xb3", foreground, background ); // ‚îÇ
+           DrawRottText( x2, y, "\xb3", foreground, background ); // ‚îÇ
          }
       }
    if ( type == DOUBLE_FRAME )
       {
-      DrawRottText( x1, y1, '…', foreground, background );
-      DrawRottText( x2, y1, 'ª', foreground, background );
-      DrawRottText( x1, y2, '»', foreground, background );
-      DrawRottText( x2, y2, 'º', foreground, background );
+        DrawRottText( x1, y1, "\xc9", foreground, background ); // ‚ïî
+        DrawRottText( x2, y1, "\xbb", foreground, background ); // ‚ïó
+        DrawRottText( x1, y2, "\xc8", foreground, background ); // ‚ïö
+        DrawRottText( x2, y2, "\xbc", foreground, background ); // ‚ïù
       for( x = x1 + 1; x < x2; x++ )
          {
-         DrawRottText( x, y1, 'Õ', foreground, background );
-         DrawRottText( x, y2, 'Õ', foreground, background );
+           DrawRottText( x, y1, "\xcd", foreground, background ); // ‚ïê
+           DrawRottText( x, y2, "\xcd", foreground, background ); // ‚ïê
          }
       for( y = y1 + 1; y < y2; y++ )
          {
-         DrawRottText( x1, y, '∫', foreground, background );
-         DrawRottText( x2, y, '∫', foreground, background );
+           DrawRottText( x1, y, "\xba", foreground, background ); // ‚ïë
+           DrawRottText( x2, y, "\xba", foreground, background ); // ‚ïë
          }
       }
    }

@@ -362,7 +362,7 @@ char *colorname[] =
 CP_MenuNames MainMenuNames[] =
    {
    "NEW GAME",
-   "COMM-BATÅ GAME",
+   "COMM-BAT\x81 GAME", // The character 0x81 corresponds to "‚Ñ¢"
    "RESTORE GAME",
    "SAVE GAME",
    "OPTIONS",
@@ -1500,7 +1500,7 @@ void SetUpControlPanel (void)
    //bna--savedscreen = SafeMalloc (16000);
    savedscreen = SafeMalloc (16000*8);
 
-   // Copy the current save game screen (Ω size) to this buffer
+   // Copy the current save game screen to this buffer
 
    if (RefreshPause==false)
       {
@@ -3553,7 +3553,7 @@ int CP_SaveGame ( void )
             if (SaveGamesAvail[which])
                DrawMenuBufPropString (PrintX, PrintY, SaveGameNames[which]);
             else
-               DrawMenuBufPropString (PrintX, PrintY, "     - Å -");
+               DrawMenuBufPropString (PrintX, PrintY, "     - \x81 -"); // The character 0x81 corresponds to a graphic reading the word "empty"
 
 //            MN_PlayMenuSnd (SD_ESCPRESSEDSND);
             continue;
@@ -4326,7 +4326,7 @@ void PrintLSEntry (int w)
    if (SaveGamesAvail[w])
       DrawMenuBufPropString (PrintX, PrintY, SaveGameNames[w]);
    else
-      DrawMenuBufPropString (PrintX, PrintY, "     - Å -");
+     DrawMenuBufPropString (PrintX, PrintY, "     - \x81 -"); // The character 0x81 corresponds to a graphic reading the word "empty"
 }
 
 

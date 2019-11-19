@@ -36,7 +36,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 static void StretchMemPicture ();
 // GLOBAL VARIABLES
 
-bool StretchScreen=0;//bn·++
+bool StretchScreen=0;//bn√ü++
 extern bool g_aimcross;
 extern bool sdl_fullscreen;
 extern int g_xcenter;

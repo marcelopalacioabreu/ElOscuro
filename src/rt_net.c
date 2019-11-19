@@ -790,7 +790,7 @@ void ProcessRemoteRidicule ( void * pkt )
       ( ( who == MSG_DIRECTED_TO_TEAM ) && ( BATTLE_Team[ from ] ==
       BATTLE_Team[ consoleplayer ] ) ) )
       {
-      strcpy( name, "(Å RR from " );
+      strcpy( name, "(\x81 RR from " ); // The character 0x81 corresponds to a special sprite
       strcat( name, PLAYERSTATE[from].codename );
       strcat( name, ")" );
       AddMessage( name, MSG_REMOTERIDICULE );

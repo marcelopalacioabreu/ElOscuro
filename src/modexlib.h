@@ -49,7 +49,7 @@ int g_sheight;//bna val 600
 //
 //***************************************************************************
 
-extern  bool StretchScreen;//bn·++
+extern  bool StretchScreen;//bn√ü++
 
 //extern  int      ylookup[MAXSCREENHEIGHT];      // Table of row offsets
 extern  int      ylookup[600];      // just set to max res
