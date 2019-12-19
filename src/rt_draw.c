@@ -1565,7 +1565,7 @@ void SetColorLightLevel (int x, int y, visobj_t * sprite, int dir, int color, in
 
 void SetWallLightLevel (wallcast_t * post)
 {
-   int la;
+   int la = 0;
    int lv;
    int i;
 
@@ -2362,7 +2362,7 @@ void InterpolateMaskedWall (visobj_t * plane)
    patch_t *p2;
    patch_t *p3;
    bool drawbottom,drawmiddle,drawtop;
-   int topoffset;
+   int topoffset = 0;
 
    whereami=19;
    dx=(plane->x2-plane->x1+1);
