@@ -1651,7 +1651,7 @@ void DrawWallPost ( wallcast_t * post, byte * buf)
    int ht;
    int topscreen;
    int bottomscreen;
-   byte * src;
+   byte * src = 0;
    byte * src2;
 
    whereami=42;
