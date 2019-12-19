@@ -7355,7 +7355,7 @@ void ActorMovement (objtype *ob)
 
 ride:
 
- if (ob->flags & FL_RIDING)
+ if (ob->flags & FL_RIDING && ob->whatever)
     {
     objtype *ride = (objtype*)(ob->whatever);
 
